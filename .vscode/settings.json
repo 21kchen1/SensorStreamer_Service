@@ -6,15 +6,15 @@
     },
     // 自动补全设置
     "python.autoComplete.extraPaths": [
-        "${workspaceFolder}\\Anaconda3\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\Scripts",
-        "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Scripts",
+        "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\Lib\\site-packages",
+        "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\Scripts",
+        "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\envs\\machineL\\Lib\\site-packages",
+        "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\envs\\machineL\\Scripts",
     ],
     "python.analysis.extraPaths": [
-        "${workspaceFolder}\\Anaconda3\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\Scripts",
-        "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Scripts",
+        "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\Lib\\site-packages",
+        "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\Scripts",
+        "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\envs\\machineL\\Lib\\site-packages",
+        "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\envs\\machineL\\Scripts",
     ],
 }
