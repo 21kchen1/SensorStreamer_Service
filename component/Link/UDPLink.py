@@ -1,8 +1,11 @@
 import socket
 import threading
+import logging
 from component.Link.Link import Link
 
 class UDPLink(Link):
+    LOG_TAG = "TCPLink"
+
     """
         @param port 端口
         @param address 地址，数据接收校准，数据发送目标
@@ -20,17 +23,29 @@ class UDPLink(Link):
         self.sendSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sendLock = threading.Lock()
 
+    """
+        @param data 数据
+        @param encode 编码方式
+        @return 发送成功
+    """
     def send(self, data: str, encode: str) -> bool:
-
         try:
             with self.sendLock:
                 self.sendSocket.sendto(data.encode(encode), (self.address, self.port))
+            return True
         except Exception as e:
-            print("UDPLink.send:", e)
+            logging.warning(str(e))
             return False
-        return True
 
-    def rece(self, bufSize: int) -> tuple[str]:
-        with self.receLock:
-            data, address = self.receSocket.recvfrom(bufSize)
-        return data, address
+    """
+        @param bufSize 设置缓冲大小
+        @return 返回数据与客户端地址
+    """
+    def rece(self, bufSize = 1024) -> tuple:
+        try:
+            with self.receLock:
+                data, address = self.receSocket.recvfrom(bufSize)
+            return data, address
+        except Exception as e:
+            logging.warning(str(e))
+            return None

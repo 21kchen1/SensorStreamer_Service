@@ -20,5 +20,5 @@ class Link:
     """
         @return rece 数据，地址
     """
-    def rece(self, bufSize: int) -> tuple[str]:
+    def rece(self, bufSize = 1024) -> tuple:
         pass
