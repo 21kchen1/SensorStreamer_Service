@@ -3,6 +3,11 @@ import threading
 import logging
 from component.Link.Link import Link
 
+"""
+    UDPLink 用于传输数据,。
+    建议一个设备单独分配一个 UDPLink, 防止缓冲区不足
+    @author chen
+"""
 class UDPLink(Link):
     LOG_TAG = "TCPLink"
 

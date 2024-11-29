@@ -6,6 +6,7 @@ import logging
 """
     TCPLink 仅处理一个 TCP 连接。
     一个 TCPLink 对应一个 client socket
+    @author chen
 """
 class TCPLink(Link):
     """

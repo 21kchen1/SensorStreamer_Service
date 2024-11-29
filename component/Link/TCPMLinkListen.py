@@ -4,10 +4,11 @@ import threading
 from component.Link.Link import Link
 
 """
-    TCPLink 处理多个 TCP 连接。
+    TCPMLinkListen 处理多个 TCP 连接。
     开启监听模式后, 如果接收到客户端连接, 则启动回调函数线程并传递对应 client socket
+    @author chen
 """
-class TCPMLink(Link):
+class TCPMLinkListen(Link):
     """
         @param port 端口
         @param address 一般为 0.0.0.0, 其余无效

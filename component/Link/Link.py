@@ -1,3 +1,7 @@
+"""
+    Link 抽象类
+    @author chen
+"""
 class Link:
     listenAddress = "0.0.0.0"
 

@@ -150,7 +150,7 @@ recvHost = "0.0.0.0"  # 监听所有可用的接口+
 udpPort = 5005  # UDP 端口
 tcpPort = 5006  # TCP 端口
 
-sendHost = "192.168.1.100"
+sendHost = "192.168.1.102"
 
 TYPE_CONTROL = "type_control"
 TYPE_SYN = "type_syn"

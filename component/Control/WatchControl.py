@@ -1,9 +1,14 @@
+import socket
 from component.Control.Control import Control
 
+"""
+    WatchControl 手表控制器
+    @author chen
+    @deprecated
+"""
 class WatchControl(Control):
-    # 用于控制和接收数据的端口
-    def __init__(self, tcpPort: int, udpPort: int) -> None:
-        super().__init__(tcpPort, udpPort)
+    def __init__(self, conn: socket, clientIP: str) -> None:
+        super().__init__(conn, clientIP)
 
     def run(self):
         print(self.tcpPort)
