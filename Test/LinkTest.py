@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../")
+
 import threading
 from component.Link.TCPMLinkListen import TCPMLinkListen
 from component.Link.UDPLink import UDPLink

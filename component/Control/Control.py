@@ -2,8 +2,10 @@ import logging
 import socket
 import threading
 import json
+import time
 
 from Model.PDU.RLink_PDU import RLink_PDU
+from Model.PDU.Remote_PDU import Remote_PDU
 from component.Link.TCPMLinkListen import TCPMLinkListen
 
 """
@@ -18,20 +20,23 @@ class Control:
     """
         @param conn client socket
         @param off 回调函数
+        @param charsets 编码
     """
-    def __init__(self, conn: socket, offCallback) -> None:
+    def __init__(self, conn: socket, offCallback, charsets: str) -> None:
         self.conn = conn
         self.offCallback = offCallback
+        self.charsets = charsets
 
-        self.__running = True
+        self.running = True
         # 启动心跳线程
         self.heartBeatThread = threading.Thread(target= self.heartBeat, name= "HeartBeatThread")
+        self.heartBeatThread.start()
 
     """
         处理客户端心跳信号
     """
     def heartBeat(self) -> None:
-        while self.__running:
+        while self.running:
             try:
                 data, _ = TCPMLinkListen.rece(self.conn)
                 assert isinstance(data, bytes)
@@ -40,10 +45,12 @@ class Control:
                 if not data_dict[RLink_PDU.REUSE_NAME] == Control.REUSE_HEARTBEAT:
                     continue
                 logging.info(f"Rece: {data}")
-                reData = RLink_PDU(Control.REUSE_HEARTBEAT, Control.HEARTBEAT)
-                assert TCPMLinkListen.send(self.conn, str(reData) + "\n", "utf-8")
+                # 返回心跳
+                reData = RLink_PDU(Control.REUSE_HEARTBEAT, Control.HEARTBEAT).__dict__
+                assert TCPMLinkListen.send(self.conn, str(reData) + "\n", self.charsets)
                 logging.info(f"Send: {reData}")
             except Exception as e:
+                logging.error(f"heartBeat: {e}")
                 self.offLink()
                 break
 
@@ -51,24 +58,39 @@ class Control:
         启动流式传输
         @param controlData 启动设备需要的控制信息
     """
-    def startStream(self, controlData) -> None:
-        pass
+    def startStream(self, controlData: list) -> None:
+        try:
+            # Switch 使用的 PDU
+            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, int(time.time() * 1000), Remote_PDU.CONTROL_SWITCHON, controlData).__dict__
+            # 发送启动命令
+            rLinkPDU = RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)).__dict__
+            assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
+        except Exception as e:
+            logging.error(f"startStream: {e}")
+            self.offLink()
 
     """
         关闭流式传输
     """
     def stopStream(self) -> None:
-        pass
+        try:
+            # Switch 使用的 PDU
+            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, int(time.time() * 1000), Remote_PDU.CONTROL_SWITCHOFF, []).__dict__
+            # 发送关闭命令
+            rLinkPDU = RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)).__dict__
+            assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
+        except Exception as e:
+            logging.error(f"stopStream: {e}")
+            self.offLink()
 
     """
         关闭连接
     """
     def offLink(self) -> None:
-        self.__running = False
+        self.running = False
         self.conn.close()
         # 激活回调函数
-        self.offCallback()
-        # 等待线程结束
-        self.heartBeatThread.join()
+        if not self.offCallback == None:
+            self.offCallback()
 
 
