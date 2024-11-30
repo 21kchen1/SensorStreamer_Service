@@ -2,13 +2,9 @@ import sys
 sys.path.append("../")
 
 from View.MainView import Ui_MainWidget
-from PyQt5 import QtWidgets
+from View.ViewActive import ViewActive
 
-app = QtWidgets.QApplication(sys.argv)
-mainWindow = QtWidgets.QWidget()
 
-server_gui = Ui_MainWidget()
-server_gui.setupUi(mainWindow)
 
-mainWindow.show()
-sys.exit(app.exec_())
+va = ViewActive(Ui_MainWidget())
+va.run()

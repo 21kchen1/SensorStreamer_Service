@@ -11,7 +11,6 @@ from component.Link.TCPMLinkListen import TCPMLinkListen
 """
     WatchControl 手表控制器
     @author chen
-    @deprecated
 """
 class WatchControl(Control):
 
