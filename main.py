@@ -17,7 +17,7 @@ viewActive = ViewActive(Ui_MainWidget())
 
 dataDgram = UDPLink(watchUDPPort, "0.0.0.0")
 # 处理数据接收
-def dealData(conn: socket):
+def dealData(conn: socket) -> None:
     while True:
         if getattr(conn, '_closed'):
             break
@@ -25,7 +25,7 @@ def dealData(conn: socket):
         print(f"Received message: {data} from {address}")
 
 # 手表监听器回调函数
-def watchListenCallback(conn: socket, addr):
+def watchListenCallback(conn: socket, addr) -> None:
     threading.Thread(target=dealData, args= {conn}).start()
     # 添加回调函数
     watchControl = WatchControl(conn, viewActive.cancelWatchControl, "utf-8")
