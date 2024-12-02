@@ -1,5 +1,6 @@
 # dir
 /vscode
+__pycache__
 
 # file
 *.pyc
