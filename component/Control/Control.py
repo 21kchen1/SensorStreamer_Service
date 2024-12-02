@@ -2,7 +2,6 @@ import logging
 import socket
 import threading
 import json
-import time
 
 from Model.PDU.RLink_PDU import RLink_PDU
 from Model.PDU.Remote_PDU import Remote_PDU
@@ -58,10 +57,10 @@ class Control:
         启动流式传输
         @param controlData 启动设备需要的控制信息
     """
-    def startStream(self, controlData: list) -> None:
+    def startStream(self, controlData: list, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, int(time.time() * 1000), Remote_PDU.CONTROL_SWITCHON, controlData).__dict__
+            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHON, controlData).__dict__
             # 发送启动命令
             rLinkPDU = RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)).__dict__
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
@@ -72,10 +71,10 @@ class Control:
     """
         关闭流式传输
     """
-    def stopStream(self) -> None:
+    def stopStream(self, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, int(time.time() * 1000), Remote_PDU.CONTROL_SWITCHOFF, []).__dict__
+            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHOFF, []).__dict__
             # 发送关闭命令
             rLinkPDU = RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)).__dict__
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)

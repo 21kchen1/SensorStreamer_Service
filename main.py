@@ -31,8 +31,6 @@ def watchListenCallback(conn: socket, addr) -> None:
     watchControl = WatchControl(conn, viewActive.cancelWatchControl, "utf-8")
     viewActive.setWatchControl(watchControl)
 
-
-
 if __name__ == "__main__":
     # 开始监听
     watchListen = TCPMLinkListen(watchTCPPort, "0.0.0.0", watchListenCallback)

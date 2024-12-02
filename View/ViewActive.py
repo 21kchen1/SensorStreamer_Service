@@ -1,3 +1,4 @@
+import time
 from View.MainView import Ui_MainWidget
 from PyQt5 import QtWidgets, QtCore
 import sys
@@ -61,19 +62,21 @@ class ViewActive:
     """
     # 开始流式传输
     def startStream(self) -> None:
+        self.ServiceTimeStamp = int(time.time() * 1000)
+
         if self.watchControl != None:
-            self.watchControl.startStream()
+            self.watchControl.startStream(self.ServiceTimeStamp)
 
         if self.phoneControl != None:
-            self.phoneControl.startStream()
+            self.phoneControl.startStream(None, self.ServiceTimeStamp)
 
     # 停止流式传输
     def stopStream(self) -> None:
         if self.watchControl != None:
-            self.watchControl.stopStream()
+            self.watchControl.stopStream(0)
 
         if self.phoneControl != None:
-            self.phoneControl.stopStream()
+            self.phoneControl.stopStream(0)
 
     # 设置槽
     def setConnect(self) -> None:
