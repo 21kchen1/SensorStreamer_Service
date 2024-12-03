@@ -5,22 +5,21 @@
 """
 
 class DataProcer:
-    """
-        @param storagePath 数据存储路径
-        @param dataCode 数据编码，用于生成存储文件
-    """
-    def __init__(self, storagePath: str) -> None:
-        self.storagePath = storagePath
-
 
     """
-        初始化中间变量，并设置锁，保证中间变量线程安全
+        初始化字典与锁
     """
-    def initProc(self) -> None:
+    def __init__(self) -> None:
         pass
 
     """
-        利用存储路径和数据编码
+        向中间变量添加数据，注意线程安全
     """
-    def saveData(self, dataCode: str) -> None:
+    def addData(self, data: dict) -> None:
+        pass
+
+    """
+        生成数据类型与 dataframe 的字典
+    """
+    def getData(self) -> None:
         pass

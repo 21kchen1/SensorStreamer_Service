@@ -45,7 +45,7 @@ class Control:
                     continue
                 logging.info(f"Rece: {data}")
                 # 返回心跳
-                reData = RLink_PDU(Control.REUSE_HEARTBEAT, Control.HEARTBEAT).__dict__
+                reData = vars(RLink_PDU(Control.REUSE_HEARTBEAT, Control.HEARTBEAT))
                 assert TCPMLinkListen.send(self.conn, str(reData) + "\n", self.charsets)
                 logging.info(f"Send: {reData}")
             except Exception as e:
@@ -60,9 +60,9 @@ class Control:
     def startStream(self, controlData: list, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHON, controlData).__dict__
+            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHON, controlData))
             # 发送启动命令
-            rLinkPDU = RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)).__dict__
+            rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
         except Exception as e:
             logging.error(f"startStream: {e}")
@@ -74,9 +74,9 @@ class Control:
     def stopStream(self, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHOFF, []).__dict__
+            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHOFF, []))
             # 发送关闭命令
-            rLinkPDU = RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)).__dict__
+            rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
         except Exception as e:
             logging.error(f"stopStream: {e}")

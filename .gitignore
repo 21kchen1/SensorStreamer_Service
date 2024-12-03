@@ -1,2 +1,5 @@
 # file
 *.pyc
+
+# folder
+__pycache__

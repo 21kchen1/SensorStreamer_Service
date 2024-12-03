@@ -12,4 +12,3 @@ class TypeData:
     def __init__(self, t_type: str, unixTimestamp: int) -> None:
         self.type = t_type
         self.unixTimestamp = unixTimestamp
-

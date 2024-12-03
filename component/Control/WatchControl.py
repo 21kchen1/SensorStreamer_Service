@@ -33,14 +33,14 @@ class WatchControl(Control):
                 continue
             self.checkSensors.append(sensor)
 
-        self.sensorControl = SensorControl(sampling, checkSensors).__dict__
+        self.sensorControl = vars(SensorControl(sampling, checkSensors))
 
     """
         设置手表的音频
         @param sampling 采样率
     """
     def setAudio(self, sampling: int) -> None:
-        self.audioControl = AudioControl(sampling).__dict__
+        self.audioControl = vars(AudioControl(sampling))
 
     """
         @Override 重写，根据 set 设置控制信息
@@ -48,9 +48,9 @@ class WatchControl(Control):
     def startStream(self, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHON, [str(self.sensorControl), str(self.audioControl)]).__dict__
+            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHON, [str(self.sensorControl), str(self.audioControl)]))
             # 发送启动命令
-            rLinkPDU = RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)).__dict__
+            rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
 
         except Exception as e:

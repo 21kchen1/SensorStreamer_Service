@@ -1,4 +1,5 @@
-from Model.Data.TyepData import TypeData
+from Model.Data.TypeData import TypeData
+
 
 """
     Audio 数据结构
