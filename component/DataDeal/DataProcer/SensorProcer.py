@@ -22,9 +22,12 @@ class SensorProcer(DataProcer):
     """
         将 sensor 类转换为更具体的类
         @return 返回处理后的数据
+        @Override
     """
-    def addData(self, data: SensorData) -> TypeData:
+    def addData(self, initDataDict: dict) -> TypeData:
         try:
+            # 解包生成类
+            data = SensorData(**initDataDict)
             # 将 sensor 转换为具体类 unixTimestamp, sensorTimestamp, values
             classData = SensorData.TYPE_CLASS_DICT[data.sensorType](data.unixTimestamp, data.sensorTimestamp, data.values)
             dataDict = vars(classData)
@@ -44,5 +47,8 @@ class SensorProcer(DataProcer):
         except Exception as e:
             logging.warning(f"addData: {e}")
 
+    """
+        @Override
+    """
     def getData(self) -> dict:
         return self.typeDataframeDict

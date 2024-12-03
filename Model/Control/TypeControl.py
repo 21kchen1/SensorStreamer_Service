@@ -10,5 +10,5 @@ class TypeControl:
         @param sampling 采样率
     """
     def __init__(self, t_type: str, sampling: int) -> None:
-        self.t_type = t_type
+        self.type = t_type
         self.sampling = sampling

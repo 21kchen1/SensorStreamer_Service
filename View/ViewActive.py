@@ -1,4 +1,5 @@
 import time
+from Model.Control.SensorControl import SensorControl
 from View.MainView import Ui_MainWidget
 from PyQt5 import QtWidgets, QtCore
 import sys
@@ -11,6 +12,19 @@ from component.Control.WatchControl import WatchControl
 """
 
 class ViewActive:
+    ACCELEROMETER_CHECK = "accelerometerCheck"
+    GYROSCOPE_CHECK = "gyroscopeCheck"
+    ROTATION_VECTOR_CHECK = "rotationVectorCheck"
+    MAGNETIC_FIELD_CHECK = "accelerometerCheck"
+
+    # 选择框与 sensor 的映射，键可能为不存在的变量，需要检查
+    CHECK_CONROL_DICT = {
+        ACCELEROMETER_CHECK: SensorControl.SENSOR_ACCELEROMETER,
+        GYROSCOPE_CHECK: SensorControl.SENSOR_GYROSCOPE,
+        ROTATION_VECTOR_CHECK: SensorControl.SENSOR_ROTATION_VECTOR,
+        MAGNETIC_FIELD_CHECK: SensorControl.SENSOR_MAGNETIC_FIELD
+    }
+
     def __init__(self, ui: Ui_MainWidget) -> None:
         self.app = QtWidgets.QApplication(sys.argv)
         self.mainWidget = QtWidgets.QWidget()
@@ -19,6 +33,7 @@ class ViewActive:
         self.ui.setupUi(self.mainWidget)
         self.mainWidget.resize(1000, 1000)
         self.mainWidget.setMinimumSize(QtCore.QSize(1000, 1000))
+
         # 控制器
         self.watchControl = None
         self.phoneControl = None
@@ -58,6 +73,28 @@ class ViewActive:
         return codeGender + "_" + codeName + "_" + codeNum
 
     """
+        获取传感器设置
+    """
+    def getSensorSetting(self) -> list:
+        sensorList = []
+        for (checkName, sensorType) in ViewActive.CHECK_CONROL_DICT.items():
+            # 尝试获取按钮
+            checkBox = getattr(self.ui, checkName, None)
+            # 按钮不存在或没有选中
+            if checkBox == None or not checkBox.isChecked():
+                continue
+            sensorList.append(sensorType)
+        return sensorList
+
+    """
+        获取音频设置
+    """
+    def getAudioSetting(self) -> int:
+        if not self.ui.audioCheck.isChecked():
+            return 0
+        return self.ui.audioSpinBox.value()
+
+    """
         槽函数
     """
     # 开始流式传输
@@ -65,6 +102,10 @@ class ViewActive:
         self.ServiceTimeStamp = int(time.time() * 1000)
 
         if self.watchControl != None:
+            # 设置音频采样率
+            self.watchControl.setAudio(self.getAudioSetting())
+            # 设置 Sensor 启动
+            self.watchControl.setSensor(self.getSensorSetting())
             self.watchControl.startStream(self.ServiceTimeStamp)
 
         if self.phoneControl != None:

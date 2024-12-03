@@ -25,13 +25,13 @@ class WatchControl(Control):
         @param sampling 采样率
         @param sensors 列表
     """
-    def setSensor(self, sampling: int, sensors: list) -> None:
+    def setSensor(self, sensors: list, sampling = 0) -> None:
         checkSensors = []
         # 检查是否为有效传感器
         for sensor in sensors:
             if not sensor in SensorControl.TEST_LIST:
                 continue
-            self.checkSensors.append(sensor)
+            checkSensors.append(sensor)
 
         self.sensorControl = vars(SensorControl(sampling, checkSensors))
 
@@ -39,7 +39,7 @@ class WatchControl(Control):
         设置手表的音频
         @param sampling 采样率
     """
-    def setAudio(self, sampling: int) -> None:
+    def setAudio(self, sampling = 16000) -> None:
         self.audioControl = vars(AudioControl(sampling))
 
     """
