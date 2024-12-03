@@ -25,5 +25,5 @@ class Remote_PDU:
         self.control = control
         self.data = data
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Remote_PDU(type= {self.type}, time= {self.time}, control= {self.control}, data= {self.data})"

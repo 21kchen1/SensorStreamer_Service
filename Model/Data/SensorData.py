@@ -1,8 +1,4 @@
 from Model.Data.TypeData import TypeData
-from Model.Data.SensorSubData.AccelerometerData import AccelerometerData
-from Model.Data.SensorSubData.GyroscopeData import GyroscopeData
-from Model.Data.SensorSubData.MagneticFieldData import MagneticFieldData
-from Model.Data.SensorSubData.RotationVectorData import RotationVectorData
 
 """
     Sensor 数据结构
@@ -10,14 +6,7 @@ from Model.Data.SensorSubData.RotationVectorData import RotationVectorData
 """
 
 class SensorData(TypeData):
-    TYPE = "SensorData"
-
-    TYPE_CLASS_DICT = {
-        AccelerometerData.TYPE: AccelerometerData,
-        GyroscopeData.TYPE: GyroscopeData,
-        MagneticFieldData.TYPE: MagneticFieldData,
-        RotationVectorData.TYPE: RotationVectorData,
-    }
+    TYPE = "SENSOR"
 
     """
         @param unixTimestamp 系统时间戳

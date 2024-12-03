@@ -13,5 +13,5 @@ class RLink_PDU:
         self.reuseName = reuseName
         self.data = data
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"RLink_PDU(reuseName= {self.reuseName}, data= {self.data})"

@@ -7,7 +7,7 @@ from Model.Data.TypeData import TypeData
 """
 
 class AudioData(TypeData):
-    TYPE = "AudioData"
+    TYPE = "AUDIO"
 
     """
         @param unixTimestamp 系统时间戳

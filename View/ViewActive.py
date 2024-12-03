@@ -6,6 +6,7 @@ import sys
 
 from component.Control.PhoneControl import PhoneControl
 from component.Control.WatchControl import WatchControl
+from component.DataDeal.DataRecver import DataRecver
 
 """
     界面活动, 用于处理UI产生的各种事件
@@ -15,9 +16,9 @@ class ViewActive:
     ACCELEROMETER_CHECK = "accelerometerCheck"
     GYROSCOPE_CHECK = "gyroscopeCheck"
     ROTATION_VECTOR_CHECK = "rotationVectorCheck"
-    MAGNETIC_FIELD_CHECK = "accelerometerCheck"
+    MAGNETIC_FIELD_CHECK = "magneticFieldCheck"
 
-    # 选择框与 sensor 的映射，键可能为不存在的变量，需要检查
+    # 选择框与 control 的映射，键可能为不存在的变量，需要检查
     CHECK_CONROL_DICT = {
         ACCELEROMETER_CHECK: SensorControl.SENSOR_ACCELEROMETER,
         GYROSCOPE_CHECK: SensorControl.SENSOR_GYROSCOPE,
@@ -34,10 +35,19 @@ class ViewActive:
         self.mainWidget.resize(1000, 1000)
         self.mainWidget.setMinimumSize(QtCore.QSize(1000, 1000))
 
+        # 接收器
+        self.dataRecver = None
+
         # 控制器
         self.watchControl = None
         self.phoneControl = None
         self.setConnect()
+
+    """
+        接收器函数
+    """
+    def setDataRecver(self, dataRecver: DataRecver) -> None:
+        self.dataRecver = dataRecver
 
     """
         控制器函数
@@ -100,6 +110,7 @@ class ViewActive:
     # 开始流式传输
     def startStream(self) -> None:
         self.ServiceTimeStamp = int(time.time() * 1000)
+        self.dataRecver.startAccept(self.getDataCode(), self.ServiceTimeStamp)
 
         if self.watchControl != None:
             # 设置音频采样率
@@ -118,6 +129,9 @@ class ViewActive:
 
         if self.phoneControl != None:
             self.phoneControl.stopStream(0)
+
+        self.dataRecver.stopAccept()
+        self.dataRecver.saveData("./DatasetTest")
 
     # 设置槽
     def setConnect(self) -> None:

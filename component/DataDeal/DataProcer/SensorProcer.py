@@ -8,6 +8,7 @@ import pandas as pd
 
 """
     Sensor 数据处理
+    @deprecated 弃用
     @author: chen
 """
 
