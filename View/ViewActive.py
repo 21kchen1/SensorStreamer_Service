@@ -110,7 +110,7 @@ class ViewActive:
     # 开始流式传输
     def startStream(self) -> None:
         self.ServiceTimeStamp = int(time.time() * 1000)
-        self.dataRecver.startAccept(self.getDataCode(), self.ServiceTimeStamp)
+        self.dataRecver.startAccept("./DatasetTest", self.getDataCode(), self.ServiceTimeStamp)
 
         if self.watchControl != None:
             # 设置音频采样率
@@ -131,7 +131,7 @@ class ViewActive:
             self.phoneControl.stopStream(0)
 
         self.dataRecver.stopAccept()
-        self.dataRecver.saveData("./DatasetTest")
+        self.dataRecver.saveData()
 
     # 设置槽
     def setConnect(self) -> None:

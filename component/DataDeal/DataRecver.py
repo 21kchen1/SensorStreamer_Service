@@ -2,7 +2,7 @@ import json
 import logging
 import threading
 from Model.Data.AccelerometerData import AccelerometerData
-from component.DataDeal.DataProcer.AccelerometerProcer import AccelerometerProcer
+from component.DataDeal.DataProcer.SensorProcer import SensorProcer
 from component.Link.UDPLink import UDPLink
 
 """
@@ -24,7 +24,7 @@ class DataRecver:
 
         # 类型处理类字典
         self.typeProcerDict = {
-            AccelerometerData.TYPE: AccelerometerProcer()
+            AccelerometerData.TYPE: SensorProcer(AccelerometerData)
         }
 
         # 开启循环接收线程
@@ -41,18 +41,18 @@ class DataRecver:
 
     """
         开始处理数据
+        @param storagePath 存储路径
         @param dataCode 数据编号
         @param timeStamp 时间戳
     """
-    def startAccept(self, dataCode: str, timeStamp: int) -> None:
+    def startAccept(self, storagePath: str, dataCode: str, timeStamp: int) -> None:
         if not self.checkDataCode(dataCode):
             logging.warning(f"startAccept: DataCode duplicate")
             return
-        self.dataCode = dataCode
         self.timeStamp = timeStamp
         # 重置数据处理类
         for procer in self.typeProcerDict.values():
-            procer.resetDataSet()
+            procer.create(storagePath, dataCode)
 
         # 开始处理数据
         self.running = True
@@ -64,19 +64,17 @@ class DataRecver:
         self.running = False
 
     """
-        获取并存储各组数据
-        @param storagePath 数据存储路径
+        获取路径并存储到数据库
         @return 保存是否成功
         @develop
     """
-    def saveData(self, storagePath: str) -> bool:
+    def saveData(self) -> bool:
         # 一个dao，用于在数据库存储路径
         try:
             # 数据字典 type dataframe
             for (dataType, procer) in self.typeProcerDict.items():
-                dataframe = procer.getDataSet()
-                print(dataframe)
-                dataframe.to_csv(f"{storagePath}/{dataType}/{self.dataCode}_{dataType}.csv", index= False)
+                path = procer.getPath()
+                print(path)
             return True
         except Exception as e:
             logging.error(f"saveData: {e}")

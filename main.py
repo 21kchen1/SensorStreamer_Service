@@ -1,4 +1,3 @@
-import threading
 from View.MainView import Ui_MainWidget
 from View.ViewActive import ViewActive
 from component.Control.WatchControl import WatchControl

@@ -1,55 +1,72 @@
+import csv
 import logging
-import threading
-
-from Model.Data.SensorData import SensorData
-from Model.Data.TypeData import TypeData
+import os
 from component.DataDeal.DataProcer.DataProcer import DataProcer
 import pandas as pd
 
 """
     Sensor 数据处理
-    @deprecated 弃用
     @author: chen
 """
 
 class SensorProcer(DataProcer):
-
-    def __init__(self) -> None:
-        # 类型数据字典
-        self.typeDataframeDict = {}
-        # 数据锁
-        self.typeLockDict = {}
+    def __init__(self, TypeData) -> None:
+        super().__init__(TypeData)
+        # 存储的文件指针
+        self.file = None
+        self.writer = None
 
     """
-        将 sensor 类转换为更具体的类
-        @return 返回处理后的数据
-        @Override
+        创建 csv 文件夹，并做对应的校验
     """
-    def addData(self, initDataDict: dict) -> TypeData:
+    def create(self, storagePath: str, dataCode: str) -> bool:
+        if self.running:
+            return False
+
+        # 生成存储路径
+        path = f"{storagePath}/{self.TypeData.TYPE}"
+        fileName = f"{dataCode}_{self.TypeData.TYPE}.csv"
+        self.pathFileName = f"{path}/{fileName}"
+        # 检查是否已经存在文件
+        self.fileExists = os.path.isfile(self.pathFileName)
+        if self.fileExists:
+            return False
+        # 创建文件路径
+        if not os.path.exists(path):
+            os.makedirs(path)
+        # 开启文件
+        self.file = open(self.pathFileName, "w", newline= "")
+        self.writer = csv.writer(self.file)
+        self.running = True
+
+    """
+        处理数据并向 csv 文件添加数据
+    """
+    def addData(self, data: dict) -> None:
+        if not self.running:
+            return
         try:
-            # 解包生成类
-            data = SensorData(**initDataDict)
-            # 将 sensor 转换为具体类 unixTimestamp, sensorTimestamp, values
-            classData = SensorData.TYPE_CLASS_DICT[data.sensorType](data.unixTimestamp, data.sensorTimestamp, data.values)
-            dataDict = vars(classData)
-
-            # 先检查是否存在锁
-            if self.typeLockDict.get(classData.type) == None:
-                self.typeLockDict[classData.type] = threading.Lock()
-
-            # 获取锁之后才能对对应数据操作
-            with self.typeLockDict[classData.type]:
-                # 检查是否已经存在 dataframe
-                if self.typeDataframeDict.get(classData.type) == None:
-                    self.typeDataframeDict[classData.type] = pd.DataFrame([dataDict], index= False)
-                else:
-                    self.typeDataframeDict[classData.type] = self.typeDataframeDict[classData.type].append(dataDict, ignore_index= True)
-            return classData
+            # 解包生成类字典
+            dataDict = [vars(self.TypeData(**data))]
+            dataFrame = pd.DataFrame.from_dict(dataDict)
+            with self.lock:
+                # 第一次添加，额外写入头部
+                if not self.fileExists:
+                    self.writer.writerow(dataFrame.columns.to_list())
+                    self.fileExists = True
+                self.writer.writerow(dataFrame.values.tolist()[0])
         except Exception as e:
             logging.warning(f"addData: {e}")
 
     """
-        @Override
+        关闭存储并返回 csv 文件路径
     """
-    def getData(self) -> dict:
-        return self.typeDataframeDict
+    def getPath(self) -> str:
+        if not self.running:
+            return None
+        # 关闭存储
+        self.running = False
+        self.writer = None
+        self.file.close()
+
+        return self.pathFileName
