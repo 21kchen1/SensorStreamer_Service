@@ -10,8 +10,13 @@ import pandas as pd
 """
 
 class SensorProcer(DataProcer):
-    def __init__(self, TypeData) -> None:
+    """
+        @TypeData: 数据构造函数
+        @bufRowSize: 缓冲区行数
+    """
+    def __init__(self, TypeData, bufRowSize= 500) -> None:
         super().__init__(TypeData)
+        self.bufRowSize = bufRowSize
         # 存储的文件指针
         self.file = None
         self.writer = None
@@ -37,6 +42,8 @@ class SensorProcer(DataProcer):
         # 开启文件
         self.file = open(self.pathFileName, "w", newline= "")
         self.writer = csv.writer(self.file)
+        # 记录缓存区的数据行数
+        self.writerIndex = 0
         self.running = True
 
     """
@@ -55,6 +62,11 @@ class SensorProcer(DataProcer):
                     self.writer.writerow(dataFrame.columns.to_list())
                     self.fileExists = True
                 self.writer.writerow(dataFrame.values.tolist()[0])
+            self.writerIndex += 1
+            # 当缓存满，直接写入文件
+            if self.writerIndex >= self.bufRowSize:
+                self.file.flush()
+                self.writerIndex = 0
         except Exception as e:
             logging.warning(f"addData: {e}")
 

@@ -2,6 +2,10 @@ import json
 import logging
 import threading
 from Model.Data.AccelerometerData import AccelerometerData
+from Model.Data.AudioData import AudioData
+from Model.Data.GyroscopeData import GyroscopeData
+from Model.Data.MagneticFieldData import MagneticFieldData
+from Model.Data.RotationVectorData import RotationVectorData
 from component.DataDeal.DataProcer.SensorProcer import SensorProcer
 from component.Link.UDPLink import UDPLink
 
@@ -24,7 +28,11 @@ class DataRecver:
 
         # 类型处理类字典
         self.typeProcerDict = {
-            AccelerometerData.TYPE: SensorProcer(AccelerometerData)
+            AccelerometerData.TYPE: SensorProcer(AccelerometerData),
+            GyroscopeData.TYPE: SensorProcer(GyroscopeData),
+            MagneticFieldData.TYPE: SensorProcer(MagneticFieldData),
+            RotationVectorData.TYPE: SensorProcer(RotationVectorData),
+            AudioData.TYPE: SensorProcer(AudioData)
         }
 
         # 开启循环接收线程
@@ -90,7 +98,8 @@ class DataRecver:
             initData, _ = udpLink.rece(bufSize)
             if not self.running:
                 continue
-            threading.Thread(target= self.__acceptData, args= (initData, )).start()
+            # threading.Thread(target= self.__acceptData, args= (initData, )).start()
+            self.__acceptData(initData)
 
     """
         对 recvDataLoop 接收到的数据进行处理，并利用字典进行类型转换和时间戳化简
