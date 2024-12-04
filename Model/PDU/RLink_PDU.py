@@ -1,6 +1,7 @@
 
 """
     通信数据单元
+    @author chen
 """
 class RLink_PDU:
     REUSE_NAME = "reuseName"

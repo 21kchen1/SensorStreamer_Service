@@ -2,6 +2,7 @@ from Model.Control.TypeControl import TypeControl
 
 """
     Sensor 控制数据结构
+    @author chen
 """
 
 class SensorControl(TypeControl):

@@ -1,6 +1,7 @@
 
 """
     通用控制数据结构
+    @author chen
 """
 
 class TypeControl:

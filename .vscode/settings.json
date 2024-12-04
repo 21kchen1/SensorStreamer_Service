@@ -8,21 +8,28 @@
     "python.autoComplete.extraPaths": [
         "${workspaceFolder}\\Anaconda3\\Lib\\site-packages",
         "${workspaceFolder}\\Anaconda3\\Scripts",
-        "${workspaceFolder}\\Anaconda3\\envs\\claw\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\envs\\claw\\Scripts",
-        "${workspaceFolder}\\Anaconda3\\envs\\math\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\envs\\math\\Scripts",
         "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Lib\\site-packages",
         "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Scripts",
     ],
     "python.analysis.extraPaths": [
         "${workspaceFolder}\\Anaconda3\\Lib\\site-packages",
         "${workspaceFolder}\\Anaconda3\\Scripts",
-        "${workspaceFolder}\\Anaconda3\\envs\\claw\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\envs\\claw\\Scripts",
-        "${workspaceFolder}\\Anaconda3\\envs\\math\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\envs\\math\\Scripts",
         "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Lib\\site-packages",
         "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Scripts",
+    ],
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "badminton",
+            "database": "badminton",
+            "username": "root"
+        }
     ],
 }

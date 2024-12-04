@@ -10,6 +10,7 @@ from component.DataDeal.DataRecver import DataRecver
 
 """
     界面活动, 用于处理UI产生的各种事件
+    @author chen
 """
 
 class ViewActive:

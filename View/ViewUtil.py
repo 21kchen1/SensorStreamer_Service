@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets
 
 """
     视图工具函数
+    @author chen
 """
 class ViewUtil:
     @staticmethod

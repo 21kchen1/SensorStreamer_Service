@@ -98,7 +98,7 @@ class DataRecver:
             initData, _ = udpLink.rece(bufSize)
             if not self.running:
                 continue
-            # threading.Thread(target= self.__acceptData, args= (initData, )).start()
+            print(initData)
             self.__acceptData(initData)
 
     """

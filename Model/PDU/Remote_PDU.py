@@ -1,6 +1,7 @@
 
 """
     协议数据单元
+    @author chen
 """
 
 class Remote_PDU:

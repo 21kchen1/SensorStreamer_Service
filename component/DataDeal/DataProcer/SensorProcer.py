@@ -1,6 +1,7 @@
 import csv
 import logging
 import os
+from Model.Data.TypeData import TypeData
 from component.DataDeal.DataProcer.DataProcer import DataProcer
 import pandas as pd
 
@@ -49,7 +50,7 @@ class SensorProcer(DataProcer):
     """
         处理数据并向 csv 文件添加数据
     """
-    def addData(self, data: dict) -> None:
+    def addData(self, data: dict) -> TypeData:
         if not self.running:
             return
         try:

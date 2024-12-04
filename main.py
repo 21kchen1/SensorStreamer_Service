@@ -4,8 +4,14 @@ from component.Control.WatchControl import WatchControl
 from component.DataDeal.DataRecver import DataRecver
 from component.Link.TCPMLinkListen import TCPMLinkListen
 from component.Link.UDPLink import UDPLink
+from Dao import MySql
 import socket
 import logging
+
+"""
+    main
+    @author chen
+"""
 
 WATCH_TCP_PORT = 5006
 WATCH_UDP_PORT = 5005
@@ -17,27 +23,23 @@ logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(leve
                     level=logging.DEBUG)
 # 视图活动
 viewActive = ViewActive(Ui_MainWidget())
-# 启动 UDP
-watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
-phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
-viewActive.setDataRecver(DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET))
 
-# 处理数据接收
-def dealData(conn: socket) -> None:
-    while True:
-        if getattr(conn, '_closed'):
-            break
-        data, address = watchUDPLink.rece(10240)
-        print(f"Received message: {data} from {address}")
 
 # 手表监听器回调函数
 def watchListenCallback(conn: socket, addr) -> None:
-    # threading.Thread(target= dealData, args= {conn}).start()
     # 添加回调函数
     watchControl = WatchControl(conn, viewActive.cancelWatchControl, CHARSET)
     viewActive.setWatchControl(watchControl)
 
 if __name__ == "__main__":
+    # 数据库初始化
+    if not MySql.sqlInit():
+        exit(1)
+    # 启动 UDP
+    watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
+    phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
+    # 注册成员
+    viewActive.setDataRecver(DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET))
     # 开始监听
     watchListen = TCPMLinkListen(WATCH_TCP_PORT, "0.0.0.0", watchListenCallback)
     watchListen.startListen()
