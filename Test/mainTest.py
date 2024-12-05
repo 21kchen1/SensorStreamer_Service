@@ -1,17 +1,19 @@
-from Model.SQLModel.BaseModel import BaseModel
+import sys
+sys.path.append("../")
+
+from Controller.DataDealController import DataDealController
+from View.View import View
+from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
 from View.MainView import Ui_MainWidget
-from Controller.Controller import Controller
-from component.Control.WatchControl import WatchControl
 from component.DataDeal.DataRecver import DataRecver
 from component.Link.TCPMLinkListen import TCPMLinkListen
 from component.Link.UDPLink import UDPLink
 from Dao import MySql
-import socket
 import logging
 
 """
-    main
+    mainTest
     @author chen
 """
 
@@ -24,29 +26,27 @@ CHARSET = "utf-8"
 logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(funcName)s . %(message)s',
                     level=logging.DEBUG)
 
-# 手表监听器回调函数
-def watchListenCallback(conn: socket, addr) -> None:
-    # 添加回调函数
-    watchControl = WatchControl(conn, controller.cancelWatchControl, CHARSET)
-    controller.setWatchControl(watchControl)
-
 if __name__ == "__main__":
     # 创建表
     MySql.DB.create_tables([RecordItem], safe= True)
 
+    # 视图
+    view = View(Ui_MainWidget())
+
     # 启动 UDP
     watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
     phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
+    # 数据控制器
+    dataDealController = DataDealController(view, DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET))
 
-    # 控制器
-    controller = Controller(
-        ui= Ui_MainWidget(),
-        dataRecver= DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET)
-    )
-
-    # 开始监听
-    watchListen = TCPMLinkListen(WATCH_TCP_PORT, "0.0.0.0", watchListenCallback)
+    # 控制控制器
+    controlController = ControlController(view, CHARSET)
+    # 开始监听，并生成控制
+    watchListen = TCPMLinkListen(WATCH_TCP_PORT, "0.0.0.0", controlController.setWatchControl)
     watchListen.startListen()
+    phoneListen = TCPMLinkListen(PHONE_TCP_PORT, "0.0.0.0", controlController.setPhoneControl)
+    phoneListen.startListen()
+
     # 开启视图
-    controller.run()
+    view.run()
 

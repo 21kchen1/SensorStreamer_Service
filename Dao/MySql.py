@@ -25,7 +25,8 @@ def sqlInit() -> bool:
         global DB
         DB = MySQLDatabase(**config)
         DB.connect()
-        return True
+
+        return DB
     except Exception as e:
         logging.error(f"sqlInit: {e}")
         return False

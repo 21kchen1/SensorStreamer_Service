@@ -2,9 +2,9 @@ import sys
 sys.path.append("../")
 
 from View.MainView import Ui_MainWidget
-from View.ViewActive import ViewActive
+from Controller.Controller import Controller
 
 
 
-va = ViewActive(Ui_MainWidget())
+va = Controller(Ui_MainWidget())
 va.run()

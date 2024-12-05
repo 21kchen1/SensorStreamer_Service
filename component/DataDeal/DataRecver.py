@@ -51,13 +51,11 @@ class DataRecver:
         开始处理数据
         @param storagePath 存储路径
         @param dataCode 数据编号
-        @param timeStamp 时间戳
     """
-    def startAccept(self, storagePath: str, dataCode: str, timeStamp: int) -> None:
+    def startAccept(self, storagePath: str, dataCode: str) -> None:
         if not self.checkDataCode(dataCode):
             logging.warning(f"startAccept: DataCode duplicate")
             return
-        self.timeStamp = timeStamp
         # 重置数据处理类
         for procer in self.typeProcerDict.values():
             procer.create(storagePath, dataCode)
@@ -112,7 +110,6 @@ class DataRecver:
             # 检查是否为有效类型
             if procer == None:
                 return
-            initDataDict["unixTimestamp"] = initDataDict["unixTimestamp"] - self.timeStamp
             # 添加数据
             procer.addData(initDataDict)
         except Exception as e:

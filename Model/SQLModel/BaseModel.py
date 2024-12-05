@@ -8,6 +8,5 @@ from Dao import MySql
 """
 
 class BaseModel(Model):
-    # 指定数据库连接
     class Meta:
-        database = MySql.DB
+        database = MySql.sqlInit()

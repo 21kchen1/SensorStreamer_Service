@@ -9,11 +9,11 @@ from component.Control.WatchControl import WatchControl
 from component.DataDeal.DataRecver import DataRecver
 
 """
-    界面活动, 用于处理UI产生的各种事件
+    控制器, 用于处理UI产生的各种事件
     @author chen
 """
 
-class ViewActive:
+class Controller:
     ACCELEROMETER_CHECK = "accelerometerCheck"
     GYROSCOPE_CHECK = "gyroscopeCheck"
     ROTATION_VECTOR_CHECK = "rotationVectorCheck"
@@ -27,28 +27,22 @@ class ViewActive:
         MAGNETIC_FIELD_CHECK: SensorControl.SENSOR_MAGNETIC_FIELD
     }
 
-    def __init__(self, ui: Ui_MainWidget) -> None:
+    def __init__(self, ui: Ui_MainWidget, dataRecver: DataRecver) -> None:
         self.app = QtWidgets.QApplication(sys.argv)
         self.mainWidget = QtWidgets.QWidget()
         self.ui = ui
         # 初始化
         self.ui.setupUi(self.mainWidget)
-        self.mainWidget.resize(1000, 1000)
-        self.mainWidget.setMinimumSize(QtCore.QSize(1000, 1000))
+        self.mainWidget.resize(1500, 1000)
+        self.mainWidget.setMinimumSize(QtCore.QSize(500, 500))
 
         # 接收器
-        self.dataRecver = None
+        self.dataRecver = dataRecver
 
         # 控制器
         self.watchControl = None
         self.phoneControl = None
         self.setConnect()
-
-    """
-        接收器函数
-    """
-    def setDataRecver(self, dataRecver: DataRecver) -> None:
-        self.dataRecver = dataRecver
 
     """
         控制器函数
@@ -76,7 +70,7 @@ class ViewActive:
     """
     def getDataCode(self) -> str:
         # 性别
-        codeGender = self.ui.codeGenderBox.currentText()
+        codeGender = self.ui.codeGenderComboBox.currentText()
         # 命名
         codeName = self.ui.codeNameEdit.text()
         # 次数
@@ -88,7 +82,7 @@ class ViewActive:
     """
     def getSensorSetting(self) -> list:
         sensorList = []
-        for (checkName, sensorType) in ViewActive.CHECK_CONROL_DICT.items():
+        for (checkName, sensorType) in Controller.CHECK_CONROL_DICT.items():
             # 尝试获取按钮
             checkBox = getattr(self.ui, checkName, None)
             # 按钮不存在或没有选中
