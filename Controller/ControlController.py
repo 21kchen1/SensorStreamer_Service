@@ -60,6 +60,7 @@ class ControlController:
         获取传感器设置
     """
     def getSensorSetting(self) -> list:
+        # 获取选中
         sensorList = []
         for (checkName, sensorType) in ControlController.CHECK_CONROL_DICT.items():
             # 尝试获取按钮

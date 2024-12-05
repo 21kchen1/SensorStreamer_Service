@@ -16,8 +16,18 @@ class View:
     ROTATION_VECTOR_CHECK = "rotationVectorCheck"
     MAGNETIC_FIELD_CHECK = "magneticFieldCheck"
 
+    CHECK_LIST = [
+        VIDEO_CHECK,
+        AUDIO_CHECK,
+        HEART_RATE_CHECK,
+        ACCELEROMETER_CHECK,
+        GYROSCOPE_CHECK,
+        ROTATION_VECTOR_CHECK,
+        MAGNETIC_FIELD_CHECK,
+    ]
+
     """
-        初始化 ui
+        初始化 ui，并实现信息获取
         @param ui qt 产生的 ui 类
     """
     def __init__(self, ui: Ui_MainWidget) -> None:
@@ -28,6 +38,33 @@ class View:
         self.ui.setupUi(self.mainWidget)
         self.mainWidget.resize(1500, 1000)
         self.mainWidget.setMinimumSize(QtCore.QSize(500, 500))
+
+        self.dataCodeList = [
+            self.getCodeGender,
+            self.getCodeExp,
+            self.getCodeAction,
+            self.getCodeName,
+            self.getCodeTime,
+            self.getCodeOther
+        ]
+
+    def getCodeGender(self) -> str:
+        return self.ui.codeGenderComboBox.currentText()
+
+    def getCodeExp(self) -> str:
+        return self.ui.codeExpComboBox.currentText()
+
+    def getCodeAction(self) -> str:
+        return self.ui.codeActionComboBox.currentText()
+
+    def getCodeName(self) -> str:
+        return self.ui.codeNameEdit.text()
+
+    def getCodeTime(self) -> str:
+        return self.ui.codeTimeSpinBox.text()
+
+    def getCodeOther(self) -> str:
+        return self.ui.codeOtherLineEdit()
 
     def run(self) -> None:
         self.mainWidget.show()

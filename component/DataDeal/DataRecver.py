@@ -6,6 +6,7 @@ from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
 from Model.Data.MagneticFieldData import MagneticFieldData
 from Model.Data.RotationVectorData import RotationVectorData
+from Model.SQLModel.RecordItem import RecordItemBaseInfo
 from component.DataDeal.DataProcer.SensorProcer import SensorProcer
 from component.Link.UDPLink import UDPLink
 
@@ -28,11 +29,11 @@ class DataRecver:
 
         # 类型处理类字典
         self.typeProcerDict = {
+            AudioData.TYPE: SensorProcer(AudioData),
             AccelerometerData.TYPE: SensorProcer(AccelerometerData),
             GyroscopeData.TYPE: SensorProcer(GyroscopeData),
             MagneticFieldData.TYPE: SensorProcer(MagneticFieldData),
-            RotationVectorData.TYPE: SensorProcer(RotationVectorData),
-            AudioData.TYPE: SensorProcer(AudioData)
+            RotationVectorData.TYPE: SensorProcer(RotationVectorData)
         }
 
         # 开启循环接收线程
@@ -45,19 +46,25 @@ class DataRecver:
         @develop
     """
     def checkDataCode(self, dataCode: str) -> bool:
+
         return True
 
     """
         开始处理数据
+        @param typeSetting 设置列表
         @param storagePath 存储路径
         @param dataCode 数据编号
     """
-    def startAccept(self, storagePath: str, dataCode: str) -> None:
+    def startAccept(self, typeSetting: list, storagePath: str, dataCode: str) -> None:
         if not self.checkDataCode(dataCode):
             logging.warning(f"startAccept: DataCode duplicate")
             return
-        # 重置数据处理类
-        for procer in self.typeProcerDict.values():
+
+        # 重置选择的数据处理类
+        for t_type in typeSetting:
+            procer = self.typeProcerDict.get(t_type)
+            if procer == None:
+                continue
             procer.create(storagePath, dataCode)
 
         # 开始处理数据
@@ -71,11 +78,11 @@ class DataRecver:
 
     """
         获取路径并存储到数据库
+        @param baseInfo
         @return 保存是否成功
         @develop
     """
-    def saveData(self) -> bool:
-        # 一个dao，用于在数据库存储路径
+    def saveData(self, baseInfo: RecordItemBaseInfo) -> bool:
         try:
             # 数据字典 type dataframe
             for (dataType, procer) in self.typeProcerDict.items():

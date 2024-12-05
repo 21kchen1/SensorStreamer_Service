@@ -4,6 +4,7 @@ from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
 from Model.Data.MagneticFieldData import MagneticFieldData
 from Model.Data.RotationVectorData import RotationVectorData
+from Model.SQLModel.RecordItem import RecordItemBaseInfo
 from View.View import View
 from component.DataDeal.DataRecver import DataRecver
 
@@ -39,13 +40,10 @@ class DataDealController:
         获取数据标签
     """
     def getDataCode(self) -> str:
-        # 性别
-        codeGender = self.view.ui.codeGenderComboBox.currentText()
-        # 命名
-        codeName = self.view.ui.codeNameEdit.text()
-        # 次数
-        codeNum = self.view.ui.codeNumSpinBox.text()
-        return codeGender + "_" + codeName + "_" + codeNum
+        dataCode = ""
+        for func in self.view.dataCodeList:
+            dataCode += func() + "_"
+        return dataCode[0 : -1]
 
     """
         获取存储路径
@@ -54,16 +52,44 @@ class DataDealController:
         return self.view.ui.dataPathLineEdit.text()
 
     """
+        获取传感器设置
+    """
+    def getTypeSetting(self) -> list:
+        # 获取选中
+        typeList = []
+        for (checkName, sensorType) in DataDealController.CHECK_DATA_DICT.items():
+            # 尝试获取按钮
+            checkBox = getattr(self.view.ui, checkName, None)
+            # 按钮不存在或没有选中
+            if checkBox == None or not checkBox.isChecked():
+                continue
+            typeList.append(sensorType)
+        return typeList
+
+    """
+        获取 dataCode 基本信息
+    """
+    def  getBaseInfo(self) -> RecordItemBaseInfo:
+        return RecordItemBaseInfo(
+            recordName= self.getDataCode()
+            self.
+        )
+
+    """
         槽函数
     """
     # 开始流式传输
     def startStream(self) -> None:
-        self.dataRecver.startAccept(self.getDataPath(), self.getDataCode())
+        self.dataRecver.startAccept(self.getTypeSetting(), self.getDataPath(), self.getDataCode())
 
     # 停止流式传输
     def stopStream(self) -> None:
         self.dataRecver.stopAccept()
+
+    # 保存数据
+    def saveData(self) -> None:
         self.dataRecver.saveData()
+
 
     # 设置槽
     def setSlotFunc(self) -> None:

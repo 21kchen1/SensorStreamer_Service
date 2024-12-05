@@ -32,3 +32,21 @@ class RecordItem(BaseModel):
     gyroscopePath = CharField()
     rotationVectorPath = CharField()
     magneticFieldPath = CharField()
+
+"""
+    用于记录基础信息
+"""
+class RecordItemBaseInfo:
+    def __init__(self, recordName: str, gender: str, exp: str, action: str, time: str, other: str) -> None:
+        # 记录名称，即 dataCode
+        self.recordName = recordName
+        # 性别
+        self.gender = gender
+        # 经验
+        self.exp = exp
+        # 动作
+        self.action = action
+        # 实验次数
+        self.time = time
+        # 其他
+        self.other = other

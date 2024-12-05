@@ -183,6 +183,7 @@ class Ui_MainWidget(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.codeTimeSpinBox.sizePolicy().hasHeightForWidth())
         self.codeTimeSpinBox.setSizePolicy(sizePolicy)
+        self.codeTimeSpinBox.setMinimum(1)
         self.codeTimeSpinBox.setObjectName("codeTimeSpinBox")
         self.gridLayout_6.addWidget(self.codeTimeSpinBox, 4, 1, 1, 1)
         self.codeActionLable = QtWidgets.QLabel(self.codeSettingWidget)
