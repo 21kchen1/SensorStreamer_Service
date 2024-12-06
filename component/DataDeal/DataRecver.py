@@ -1,12 +1,13 @@
 import json
 import logging
+import os
 import threading
 from Model.Data.AccelerometerData import AccelerometerData
 from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
 from Model.Data.MagneticFieldData import MagneticFieldData
 from Model.Data.RotationVectorData import RotationVectorData
-from Model.SQLModel.RecordItem import RecordItemBaseInfo
+from Model.SQLModel.RecordItem import RecordItem, RecordItemBaseInfo
 from component.DataDeal.DataProcer.SensorProcer import SensorProcer
 from component.Link.UDPLink import UDPLink
 
@@ -27,13 +28,19 @@ class DataRecver:
         # 是否处理数据
         self.running = False
 
+        self.audioProcer = SensorProcer(AudioData)
+        self.accelerometerProcer = SensorProcer(AccelerometerData)
+        self.gyroscopeProcer = SensorProcer(GyroscopeData)
+        self.magneticFieldProcer = SensorProcer(MagneticFieldData)
+        self.rotationVectorProcer = SensorProcer(RotationVectorData)
+
         # 类型处理类字典
         self.typeProcerDict = {
-            AudioData.TYPE: SensorProcer(AudioData),
-            AccelerometerData.TYPE: SensorProcer(AccelerometerData),
-            GyroscopeData.TYPE: SensorProcer(GyroscopeData),
-            MagneticFieldData.TYPE: SensorProcer(MagneticFieldData),
-            RotationVectorData.TYPE: SensorProcer(RotationVectorData)
+            AudioData.TYPE: self.audioProcer,
+            AccelerometerData.TYPE: self.accelerometerProcer,
+            GyroscopeData.TYPE: self.gyroscopeProcer,
+            MagneticFieldData.TYPE: self.magneticFieldProcer,
+            RotationVectorData.TYPE: self.rotationVectorProcer
         }
 
         # 开启循环接收线程
@@ -43,10 +50,11 @@ class DataRecver:
     """
         从数据库中检查数据编号是否重复
         @param dataCode 数据编号
-        @develop
     """
     def checkDataCode(self, dataCode: str) -> bool:
-
+        res = RecordItem.get_or_none(RecordItem.recordName == dataCode)
+        if not res == None:
+            return False
         return True
 
     """
@@ -80,17 +88,45 @@ class DataRecver:
         获取路径并存储到数据库
         @param baseInfo
         @return 保存是否成功
-        @develop
     """
     def saveData(self, baseInfo: RecordItemBaseInfo) -> bool:
         try:
-            # 数据字典 type dataframe
-            for (dataType, procer) in self.typeProcerDict.items():
-                path = procer.getPath()
-                print(path)
-            return True
+            recordItem = RecordItem.create(
+                recordName = baseInfo.recordName,
+                gender = baseInfo.gender,
+                exp = baseInfo.exp,
+                action = baseInfo.action,
+                time = baseInfo.time,
+                other = baseInfo.other,
+                picturePath = None,
+                videoPath = None,
+                audioPath = self.audioProcer.getPath(),
+                accelerometerPath = self.accelerometerProcer.getPath(),
+                gyroscopePath = self.gyroscopeProcer.getPath(),
+                rotationVectorPath = self.rotationVectorProcer.getPath(),
+                magneticFieldPath = self.magneticFieldProcer.getPath(),
+            )
+            recordItem.save()
         except Exception as e:
             logging.error(f"saveData: {e}")
+            return False
+
+    """
+        取消保存数据，删除生成的数据
+        @return 是否删除成功
+    """
+    def cancelSaveData(self) -> bool:
+        try:
+            for procer in self.typeProcerDict.values():
+                dataPath = procer.getPath()
+                if dataPath == None:
+                    continue
+                # 检测是否存在文件
+                if os.path.exists(dataPath):
+                    os.remove(dataPath)
+            return True
+        except Exception as e:
+            logging.error(f"cancelSaveData: {e}")
             return False
 
     """

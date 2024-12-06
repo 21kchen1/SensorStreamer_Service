@@ -5,7 +5,6 @@ from Controller.DataDealController import DataDealController
 from View.View import View
 from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
-from View.MainView import Ui_MainWidget
 from component.DataDeal.DataRecver import DataRecver
 from component.Link.TCPMLinkListen import TCPMLinkListen
 from component.Link.UDPLink import UDPLink
@@ -29,9 +28,10 @@ logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(leve
 if __name__ == "__main__":
     # 创建表
     MySql.DB.create_tables([RecordItem], safe= True)
+    # MySql.DB.drop_tables([RecordItem])
 
     # 视图
-    view = View(Ui_MainWidget())
+    view = View()
 
     # 启动 UDP
     watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
@@ -49,4 +49,5 @@ if __name__ == "__main__":
 
     # 开启视图
     view.run()
+
 

@@ -1,4 +1,3 @@
-from Model.Control.SensorControl import SensorControl
 from Model.Data.AccelerometerData import AccelerometerData
 from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
@@ -7,6 +6,7 @@ from Model.Data.RotationVectorData import RotationVectorData
 from Model.SQLModel.RecordItem import RecordItemBaseInfo
 from View.View import View
 from component.DataDeal.DataRecver import DataRecver
+from PyQt5 import QtWidgets
 
 """
     DataDeal 控制器, 用于处理UI 与 DataDeal 之间的任务
@@ -33,6 +33,10 @@ class DataDealController:
         self.view = view
         # 接收器
         self.dataRecver = dataRecver
+        # 数据编号
+        self.dataCode = None
+        # 数据基本信息
+        self.dataBaseInfo = None
         # 设置槽函数
         self.setSlotFunc()
 
@@ -69,30 +73,64 @@ class DataDealController:
     """
         获取 dataCode 基本信息
     """
-    def  getBaseInfo(self) -> RecordItemBaseInfo:
+    def getBaseInfo(self) -> RecordItemBaseInfo:
         return RecordItemBaseInfo(
-            recordName= self.getDataCode()
-            self.
+            recordName= self.getDataCode(),
+            gender= self.view.getCodeGender(),
+            exp= self.view.getCodeExp(),
+            action= self.view.getCodeAction(),
+            time= int(self.view.getCodeTime()),
+            other= self.view.getCodeOther()
         )
 
     """
         槽函数
     """
+
+    # 检验当前的数据标签是否重复
+    def checkDataCode(self) -> None:
+        # 如果验证正确，则允许开始执行
+        self.dataCode = self.getDataCode()
+        if self.dataRecver.checkDataCode(self.dataCode):
+            self.dataBaseInfo = self.getBaseInfo()
+            self.view.ui.startStream.setEnabled(True)
+            self.view.ui.stopStream.setEnabled(False)
+            return
+        # 如果验证错误，则弹出提示框
+        self.dataCode = None
+        self.dataBaseInfo = None
+        self.view.ui.startStream.setEnabled(False)
+        self.view.ui.stopStream.setEnabled(False)
+        self.view.showDataCodeWarning()
+
     # 开始流式传输
     def startStream(self) -> None:
-        self.dataRecver.startAccept(self.getTypeSetting(), self.getDataPath(), self.getDataCode())
+        self.dataRecver.startAccept(self.getTypeSetting(), self.getDataPath(), self.dataCode)
+        # 停止校验功能
+        self.view.ui.dataSetCheckButton.setEnabled(False)
+        # 可以停止
+        self.view.ui.startStream.setEnabled(False)
+        self.view.ui.stopStream.setEnabled(True)
 
     # 停止流式传输
     def stopStream(self) -> None:
         self.dataRecver.stopAccept()
-
-    # 保存数据
-    def saveData(self) -> None:
-        self.dataRecver.saveData()
-
+        # 询问是否保存
+        result = self.view.showSaveData(self.dataCode)
+        if result == QtWidgets.QMessageBox.Yes:
+            self.dataRecver.saveData(self.dataBaseInfo)
+        # 如果不保存则删除文件
+        else:
+            self.dataRecver.cancelSaveData()
+        # 重置校验
+        self.view.ui.startStream.setEnabled(False)
+        self.view.ui.stopStream.setEnabled(False)
+        self.view.ui.dataSetCheckButton.setEnabled(True)
 
     # 设置槽
     def setSlotFunc(self) -> None:
         # 设置开始和结束按钮的事件
         self.view.ui.startStream.clicked.connect(self.startStream)
         self.view.ui.stopStream.clicked.connect(self.stopStream)
+        # 设置校验按钮事件
+        self.view.ui.dataSetCheckButton.clicked.connect(self.checkDataCode)

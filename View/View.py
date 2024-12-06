@@ -2,6 +2,8 @@ from View.MainView import Ui_MainWidget
 from PyQt5 import QtWidgets, QtCore
 import sys
 
+from View.SaveView import Ui_SaveDialog
+
 """
     视图, 用于设置 UI
     @author chen
@@ -28,16 +30,16 @@ class View:
 
     """
         初始化 ui，并实现信息获取
-        @param ui qt 产生的 ui 类
     """
-    def __init__(self, ui: Ui_MainWidget) -> None:
+    def __init__(self) -> None:
         self.app = QtWidgets.QApplication(sys.argv)
         self.mainWidget = QtWidgets.QWidget()
-        self.ui = ui
+        # 主界面
+        self.ui = Ui_MainWidget()
+        # 保存弹窗
+        self.saveUi = Ui_SaveDialog()
         # 初始化
-        self.ui.setupUi(self.mainWidget)
-        self.mainWidget.resize(1500, 1000)
-        self.mainWidget.setMinimumSize(QtCore.QSize(500, 500))
+        self.uiInit()
 
         self.dataCodeList = [
             self.getCodeGender,
@@ -47,6 +49,34 @@ class View:
             self.getCodeTime,
             self.getCodeOther
         ]
+
+    def uiInit(self) -> None:
+        # 大小设置
+        self.ui.setupUi(self.mainWidget)
+        self.mainWidget.resize(1500, 1000)
+        self.mainWidget.setMinimumSize(QtCore.QSize(500, 500))
+
+        # 设置按钮禁用
+        self.ui.startStream.setEnabled(False)
+        self.ui.stopStream.setEnabled(False)
+
+    # 存储校验警告
+    def showDataCodeWarning(self):
+        return QtWidgets.QMessageBox.warning(
+            self.mainWidget,
+            "DataCodeWarning",
+            "Duplicate Data Code"
+        )
+
+    # 数据存储确认
+    def showSaveData(self, dataName: str):
+        return QtWidgets.QMessageBox.question(
+            self.mainWidget,
+            f"Confirm Save",
+            f"Confirm save {dataName}",
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+            QtWidgets.QMessageBox.No
+        )
 
     def getCodeGender(self) -> str:
         return self.ui.codeGenderComboBox.currentText()
@@ -64,7 +94,7 @@ class View:
         return self.ui.codeTimeSpinBox.text()
 
     def getCodeOther(self) -> str:
-        return self.ui.codeOtherLineEdit()
+        return self.ui.codeOtherLineEdit.text()
 
     def run(self) -> None:
         self.mainWidget.show()
