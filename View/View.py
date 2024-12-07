@@ -2,8 +2,6 @@ from View.MainView import Ui_MainWidget
 from PyQt5 import QtWidgets, QtCore
 import sys
 
-from View.SaveView import Ui_SaveDialog
-
 """
     视图, 用于设置 UI
     @author chen
@@ -36,8 +34,6 @@ class View:
         self.mainWidget = QtWidgets.QWidget()
         # 主界面
         self.ui = Ui_MainWidget()
-        # 保存弹窗
-        self.saveUi = Ui_SaveDialog()
         # 初始化
         self.uiInit()
 

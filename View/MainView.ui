@@ -611,6 +611,9 @@ p, li { white-space: pre-wrap; }
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
                     <property name="minimum">
                      <number>4000</number>
                     </property>

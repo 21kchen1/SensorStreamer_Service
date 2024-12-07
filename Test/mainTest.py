@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../")
 
-from Controller.DataDealController import DataDealController
+from Controller.DataSaveController import DataSaveController
 from View.View import View
 from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
     phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
     # 数据控制器
-    dataDealController = DataDealController(view, DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET))
+    dataDealController = DataSaveController(view, DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET))
 
     # 控制控制器
     controlController = ControlController(view, CHARSET)

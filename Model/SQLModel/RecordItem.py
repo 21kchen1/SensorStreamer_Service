@@ -16,6 +16,8 @@ class RecordItem(BaseModel):
     exp = CharField()
     # 动作
     action = CharField()
+    # 名字
+    name = CharField()
     # 实验次数
     time = IntegerField()
     # 其他
@@ -37,7 +39,17 @@ class RecordItem(BaseModel):
     用于记录基础信息
 """
 class RecordItemBaseInfo:
-    def __init__(self, recordName: str, gender: str, exp: str, action: str, time: int, other: str) -> None:
+    # 设置基本信息
+    def __init__(
+        self,
+        recordName: str,
+        gender: str,
+        exp: str,
+        action: str,
+        name: str,
+        time: int,
+        other: str
+    ) -> None:
         # 记录名称，即 dataCode
         self.recordName = recordName
         # 性别
@@ -46,7 +58,31 @@ class RecordItemBaseInfo:
         self.exp = exp
         # 动作
         self.action = action
+        # 名字
+        self.name = name
         # 实验次数
         self.time = time
         # 其他
         self.other = other
+
+    def setPathInfo(
+        self,
+        picturePath: str,
+        videoPath: str,
+        audioPath: str,
+        accelerometerPath: str,
+        gyroscopePath: str,
+        rotationVectorPath: str,
+        magneticFieldPath: str
+    ) -> None:
+        # 图片路径
+        self.picturePath = picturePath
+        # 视频路径
+        self.videoPath = videoPath
+        # 音频路径
+        self.audioPath = audioPath
+        # 传感器路径
+        self.accelerometerPath = accelerometerPath
+        self.gyroscopePath = gyroscopePath
+        self.rotationVectorPath = rotationVectorPath
+        self.magneticFieldPath = magneticFieldPath

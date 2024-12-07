@@ -91,13 +91,7 @@ class DataRecver:
     """
     def saveData(self, baseInfo: RecordItemBaseInfo) -> bool:
         try:
-            recordItem = RecordItem.create(
-                recordName = baseInfo.recordName,
-                gender = baseInfo.gender,
-                exp = baseInfo.exp,
-                action = baseInfo.action,
-                time = baseInfo.time,
-                other = baseInfo.other,
+            baseInfo.setPathInfo(
                 picturePath = None,
                 videoPath = None,
                 audioPath = self.audioProcer.getPath(),
@@ -106,6 +100,7 @@ class DataRecver:
                 rotationVectorPath = self.rotationVectorProcer.getPath(),
                 magneticFieldPath = self.magneticFieldProcer.getPath(),
             )
+            recordItem = RecordItem.create(**vars(baseInfo))
             recordItem.save()
         except Exception as e:
             logging.error(f"saveData: {e}")
@@ -139,7 +134,6 @@ class DataRecver:
             initData, _ = udpLink.rece(bufSize)
             if not self.running:
                 continue
-            print(initData)
             self.__acceptData(initData)
 
     """

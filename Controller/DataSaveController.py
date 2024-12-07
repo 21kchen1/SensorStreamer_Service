@@ -9,11 +9,11 @@ from component.DataDeal.DataRecver import DataRecver
 from PyQt5 import QtWidgets
 
 """
-    DataDeal 控制器, 用于处理UI 与 DataDeal 之间的任务
+    DataDeal 控制器, 用于处理UI 与 DataDeal 之间的数据存储任务
     @author chen
 """
 
-class DataDealController:
+class DataSaveController:
 
     # 选择框与 data 的映射，键可能为不存在的变量，需要检查
     CHECK_DATA_DICT = {
@@ -61,7 +61,7 @@ class DataDealController:
     def getTypeSetting(self) -> list:
         # 获取选中
         typeList = []
-        for (checkName, sensorType) in DataDealController.CHECK_DATA_DICT.items():
+        for (checkName, sensorType) in DataSaveController.CHECK_DATA_DICT.items():
             # 尝试获取按钮
             checkBox = getattr(self.view.ui, checkName, None)
             # 按钮不存在或没有选中
@@ -79,6 +79,7 @@ class DataDealController:
             gender= self.view.getCodeGender(),
             exp= self.view.getCodeExp(),
             action= self.view.getCodeAction(),
+            name= self.view.getCodeName(),
             time= int(self.view.getCodeTime()),
             other= self.view.getCodeOther()
         )

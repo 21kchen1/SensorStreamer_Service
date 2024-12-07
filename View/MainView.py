@@ -331,6 +331,7 @@ class Ui_MainWidget(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.audioSpinBox.sizePolicy().hasHeightForWidth())
         self.audioSpinBox.setSizePolicy(sizePolicy)
+        self.audioSpinBox.setReadOnly(True)
         self.audioSpinBox.setMinimum(4000)
         self.audioSpinBox.setMaximum(64000)
         self.audioSpinBox.setSingleStep(1000)
