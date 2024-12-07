@@ -2,7 +2,9 @@ from Model.Data.AccelerometerData import AccelerometerData
 from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
 from Model.Data.MagneticFieldData import MagneticFieldData
+from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
+from Model.Data.VideoData import VideoData
 from Model.SQLModel.RecordItem import RecordItemBaseInfo
 from View.View import View
 from component.DataDeal.DataRecver import DataRecver
@@ -17,6 +19,8 @@ class DataSaveController:
 
     # 选择框与 data 的映射，键可能为不存在的变量，需要检查
     CHECK_DATA_DICT = {
+        View.VIDEO_CHECK: VideoData.TYPE,
+        View.PICTURE_CHECK: PictureData.TYPE,
         View.AUDIO_CHECK: AudioData.TYPE,
         View.ACCELEROMETER_CHECK: AccelerometerData.TYPE,
         View.GYROSCOPE_CHECK: GyroscopeData.TYPE,

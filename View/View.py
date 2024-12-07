@@ -9,6 +9,7 @@ import sys
 
 class View:
     VIDEO_CHECK = "videoCheck"
+    PICTURE_CHECK = "pictureCheck"
     AUDIO_CHECK = "audioCheck"
     HEART_RATE_CHECK = "heartRateCheck"
     ACCELEROMETER_CHECK = "accelerometerCheck"
@@ -18,6 +19,7 @@ class View:
 
     CHECK_LIST = [
         VIDEO_CHECK,
+        PICTURE_CHECK,
         AUDIO_CHECK,
         HEART_RATE_CHECK,
         ACCELEROMETER_CHECK,

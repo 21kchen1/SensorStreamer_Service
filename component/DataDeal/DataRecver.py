@@ -1,13 +1,18 @@
+from genericpath import isdir
 import json
 import logging
 import os
+import shutil
 import threading
 from Model.Data.AccelerometerData import AccelerometerData
 from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
 from Model.Data.MagneticFieldData import MagneticFieldData
+from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
+from Model.Data.VideoData import VideoData
 from Model.SQLModel.RecordItem import RecordItem, RecordItemBaseInfo
+from component.DataDeal.DataProcer.PictureProcer import PictureProcer
 from component.DataDeal.DataProcer.SensorProcer import SensorProcer
 from component.Link.UDPLink import UDPLink
 
@@ -28,14 +33,21 @@ class DataRecver:
         # 是否处理数据
         self.running = False
 
+        # 由于音频和视频的数据存储特别，先使用此类处理，后续收集到数据后再做处理
+        self.videoProcer = SensorProcer(VideoData)
         self.audioProcer = SensorProcer(AudioData)
+        # 图片需要专门的处理
+        self.pictureProcer = PictureProcer()
+        # 传感器数据处理
         self.accelerometerProcer = SensorProcer(AccelerometerData)
         self.gyroscopeProcer = SensorProcer(GyroscopeData)
         self.magneticFieldProcer = SensorProcer(MagneticFieldData)
         self.rotationVectorProcer = SensorProcer(RotationVectorData)
 
-        # 类型处理类字典
+        # 根据数据类型选择数据处理
         self.typeProcerDict = {
+            VideoData.TYPE: self.videoProcer,
+            PictureData.TYPE: self.pictureProcer,
             AudioData.TYPE: self.audioProcer,
             AccelerometerData.TYPE: self.accelerometerProcer,
             GyroscopeData.TYPE: self.gyroscopeProcer,
@@ -92,8 +104,8 @@ class DataRecver:
     def saveData(self, baseInfo: RecordItemBaseInfo) -> bool:
         try:
             baseInfo.setPathInfo(
-                picturePath = None,
-                videoPath = None,
+                picturePath = self.pictureProcer.getPath(),
+                videoPath = self.videoProcer.getPath(),
                 audioPath = self.audioProcer.getPath(),
                 accelerometerPath = self.accelerometerProcer.getPath(),
                 gyroscopePath = self.gyroscopeProcer.getPath(),
@@ -111,18 +123,23 @@ class DataRecver:
         @return 是否删除成功
     """
     def cancelSaveData(self) -> bool:
-        try:
-            for procer in self.typeProcerDict.values():
+        returnFlag = True
+        for procer in self.typeProcerDict.values():
+            try:
                 dataPath = procer.getPath()
                 if dataPath == None:
                     continue
-                # 检测是否存在文件
-                if os.path.exists(dataPath):
+                # 是文件
+                if os.path.isfile(dataPath):
                     os.remove(dataPath)
-            return True
-        except Exception as e:
-            logging.error(f"cancelSaveData: {e}")
-            return False
+                # 是文件夹
+                elif os.path.isdir(dataPath):
+                    shutil.rmtree(dataPath)
+            except Exception as e:
+                logging.error(f"cancelSaveData: {e}")
+                returnFlag = False
+        return returnFlag
+
 
     """
         init 后开启的持续性接收线程, 只考虑接收数据
