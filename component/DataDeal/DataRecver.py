@@ -79,13 +79,13 @@ class DataRecver:
         if not self.checkDataCode(dataCode):
             logging.warning(f"startAccept: DataCode duplicate")
             return
-
+        self.storagePath = f"{storagePath}/{dataCode}"
         # 重置选择的数据处理类
         for t_type in typeSetting:
             procer = self.typeProcerDict.get(t_type)
             if procer == None:
                 continue
-            procer.create(storagePath, dataCode)
+            procer.create(self.storagePath, dataCode)
 
         # 开始处理数据
         self.running = True
@@ -123,22 +123,16 @@ class DataRecver:
         @return 是否删除成功
     """
     def cancelSaveData(self) -> bool:
-        returnFlag = True
+        # 关闭
         for procer in self.typeProcerDict.values():
-            try:
-                dataPath = procer.getPath()
-                if dataPath == None:
-                    continue
-                # 是文件
-                if os.path.isfile(dataPath):
-                    os.remove(dataPath)
-                # 是文件夹
-                elif os.path.isdir(dataPath):
-                    shutil.rmtree(dataPath)
-            except Exception as e:
-                logging.error(f"cancelSaveData: {e}")
-                returnFlag = False
-        return returnFlag
+            procer.getPath()
+        try:
+            if os.path.exists(self.storagePath):
+                shutil.rmtree(self.storagePath)
+            return True
+        except Exception as e:
+            logging.error(f"cancelSaveData: {e}")
+            return False
 
 
     """

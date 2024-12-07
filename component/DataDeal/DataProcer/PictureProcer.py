@@ -25,19 +25,18 @@ class PictureProcer(DataProcer):
             return False
 
         # 生成存储路径
-        path = f"{storagePath}/{self.TypeData.TYPE}"
-        # 这里创建的是文件夹
-        dirName = f"{dataCode}_{self.TypeData.TYPE}"
-        self.pathDirName = f"{path}/{dirName}"
+        self.pathDirName = f"{storagePath}/{self.TypeData.TYPE}"
+        # # 这里创建的是文件夹
+        # dirName = f"{dataCode}_{self.TypeData.TYPE}"
+        # self.pathDirName = f"{path}/{dirName}"
         # 检查是否已经存在文件夹
         self.fileExists = os.path.isdir(self.pathDirName)
         if self.fileExists:
             return False
         # 创建文件路径
-        if not os.path.exists(path):
-            os.makedirs(path)
+        if not os.path.exists(self.pathDirName):
+            os.makedirs(self.pathDirName)
         # 创建图片存储路径
-        os.mkdir(self.pathDirName)
         self.running = True
 
         # 开启摄像机线程
