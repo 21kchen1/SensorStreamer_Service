@@ -12,6 +12,12 @@ import logging
 # 有服务器发送记录信息，再让客户端发送回来的时候带上自己的标识信息和服务端发送的记录信息
 # 直接用端口来区分设备，先把单组做完再说
 
+"""
+    控制测试，测试设备是否可以正常控制
+    @version 1.0
+    @author chen
+"""
+
 watchTCPPort = 5006
 watchUDPPort = 5005
 
@@ -32,9 +38,9 @@ def dealControl(control: WatchControl):
         try:
             ch = input("o or f")
             if ch == 'o':
-                control.startStream()
+                control.startStream(0)
             elif ch == 'f':
-                control.stopStream()
+                control.stopStream(0)
         except Exception as e:
             control.offLink()
             break

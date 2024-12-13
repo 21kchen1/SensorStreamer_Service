@@ -174,7 +174,6 @@ class Ui_MainWidget(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.codeNameEdit.sizePolicy().hasHeightForWidth())
         self.codeNameEdit.setSizePolicy(sizePolicy)
-        self.codeNameEdit.setText("")
         self.codeNameEdit.setObjectName("codeNameEdit")
         self.gridLayout_6.addWidget(self.codeNameEdit, 3, 1, 1, 1)
         self.codeTimeSpinBox = QtWidgets.QSpinBox(self.codeSettingWidget)
@@ -439,18 +438,19 @@ class Ui_MainWidget(object):
     def retranslateUi(self, MainWidget):
         _translate = QtCore.QCoreApplication.translate
         MainWidget.setWindowTitle(_translate("MainWidget", "Device Controller"))
-        self.dataInfoLabel.setText(_translate("MainWidget", "UDPLink Recv Data:"))
+        self.dataInfoLabel.setText(_translate("MainWidget", "Data State Infomation:"))
         self.dataInfoText.setHtml(_translate("MainWidget", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Times New Roman\'; font-size:9pt; font-weight:72; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">waitting for data...</p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Data processing has not started...</p></body></html>"))
         self.phoneStatus.setText(_translate("MainWidget", "Off"))
         self.watchStatus.setText(_translate("MainWidget", "Off"))
         self.phoneLabel.setText(_translate("MainWidget", "Phone Status:"))
         self.watchLabel.setText(_translate("MainWidget", "Watch Status:"))
         self.dataPathLabel.setText(_translate("MainWidget", "Setting Data Path:"))
         self.dataPathLineEdit.setText(_translate("MainWidget", "./DataBase"))
+        self.codeNameEdit.setText(_translate("MainWidget", "ZERO"))
         self.codeNameEdit.setPlaceholderText(_translate("MainWidget", "Staff Name"))
         self.codeActionLable.setText(_translate("MainWidget", "Action:"))
         self.codeGenderLabel.setText(_translate("MainWidget", "Gender:"))

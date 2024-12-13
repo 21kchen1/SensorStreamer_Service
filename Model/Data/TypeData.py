@@ -5,6 +5,9 @@
 """
 
 class TypeData:
+    ATTR_UNIX_TIMESTANP = "unixTimestamp"
+    ATTR_TYPE = "type"
+
     """
         @param t_type 数据类型
         @param unixTimestamp 时间戳

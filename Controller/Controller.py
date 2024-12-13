@@ -10,6 +10,7 @@ from component.DataDeal.DataRecver import DataRecver
 
 """
     控制器, 用于处理UI产生的各种事件
+    @deprecated 仅在测试时使用
     @author chen
 """
 

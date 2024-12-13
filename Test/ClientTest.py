@@ -6,6 +6,11 @@ import socket
 import time
 from threading import Thread
 
+"""
+    客户端测试，测试客户端数据传输与控制效果
+    @version 1.0
+    @author chen
+"""
 
 def udp_server_recv(host, port):
     # 创建一个UDP socket

@@ -10,6 +10,7 @@ from Model.Data.GyroscopeData import GyroscopeData
 from Model.Data.MagneticFieldData import MagneticFieldData
 from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
+from Model.Data.TypeData import TypeData
 from Model.Data.VideoData import VideoData
 from Model.SQLModel.RecordItem import RecordItem, RecordItemBaseInfo
 from component.DataDeal.DataProcer.PictureProcer import PictureProcer
@@ -74,11 +75,13 @@ class DataRecver:
         @param typeSetting 设置列表
         @param storagePath 存储路径
         @param dataCode 数据编号
+        @param timestamp 统一时间戳
     """
-    def startAccept(self, typeSetting: list, storagePath: str, dataCode: str) -> None:
+    def startAccept(self, typeSetting: list, storagePath: str, dataCode: str, timestamp: int) -> None:
         if not self.checkDataCode(dataCode):
             logging.warning(f"startAccept: DataCode duplicate")
             return
+        self.timestamp = timestamp
         self.storagePath = f"{storagePath}/{dataCode}"
         # 重置选择的数据处理类
         for t_type in typeSetting:
@@ -154,7 +157,13 @@ class DataRecver:
     def __acceptData(self, initData: bytes) -> None:
         try:
             initDataDict = json.loads(initData.decode(self.charset))
-            procer = self.typeProcerDict.get(initDataDict.pop("type", None))
+
+            # 检查数据是否存在时间戳
+            if initDataDict.get(TypeData.ATTR_UNIX_TIMESTANP, None) == None:
+                return
+            initDataDict[TypeData.ATTR_UNIX_TIMESTANP] -= self.timestamp
+
+            procer = self.typeProcerDict.get(initDataDict.pop(TypeData.ATTR_TYPE, None))
             # 检查是否为有效类型
             if procer == None:
                 return

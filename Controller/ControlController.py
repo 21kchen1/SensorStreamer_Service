@@ -5,6 +5,7 @@ from Model.Control.SensorControl import SensorControl
 from View.View import View
 from component.Control.PhoneControl import PhoneControl
 from component.Control.WatchControl import WatchControl
+from component.Time.TimeLine import TimeLine
 
 """
     Control 控制器, 用于处理 UI 和 Control 之间的任务
@@ -39,11 +40,11 @@ class ControlController:
         控制器函数
     """
     # 设置控制器
-    def setWatchControl(self, conn: socket) -> None:
+    def setWatchControl(self, conn: socket, address) -> None:
         self.watchControl = WatchControl(conn, self.cancelWatchControl, self.charset)
         self.view.ui.watchStatus.setText("On")
 
-    def setPhoneControl(self, conn: socket) -> None:
+    def setPhoneControl(self, conn: socket, address) -> None:
         self.phoneControl = PhoneControl(conn, self.cancelPhoneControl, self.charset)
         self.view.ui.phoneStatus.setText("On")
 
@@ -84,7 +85,8 @@ class ControlController:
     """
     # 开始流式传输
     def startStream(self) -> None:
-        serviceTimeStamp = int(time.time() * 1000)
+        # serviceTimeStamp = int(time.time() * 1000)
+        serviceTimeStamp = TimeLine.getBaseTime()
 
         if self.watchControl != None:
             # 设置音频采样率
@@ -103,6 +105,8 @@ class ControlController:
 
         if self.phoneControl != None:
             self.phoneControl.stopStream(0)
+
+        TimeLine.resetBaseTime()
 
     # 设置槽函数
     def setSlotFunc(self) -> None:

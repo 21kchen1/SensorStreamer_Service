@@ -1,3 +1,4 @@
+from pymysql import Time
 from Model.Data.AccelerometerData import AccelerometerData
 from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
@@ -9,6 +10,8 @@ from Model.SQLModel.RecordItem import RecordItemBaseInfo
 from View.View import View
 from component.DataDeal.DataRecver import DataRecver
 from PyQt5 import QtWidgets
+
+from component.Time.TimeLine import TimeLine
 
 """
     DataDeal 控制器, 用于处理UI 与 DataDeal 之间的数据存储任务
@@ -110,7 +113,12 @@ class DataSaveController:
 
     # 开始流式传输
     def startStream(self) -> None:
-        self.dataRecver.startAccept(self.getTypeSetting(), self.getDataPath(), self.dataCode)
+        self.dataRecver.startAccept(
+            self.getTypeSetting(),
+            self.getDataPath(),
+            self.dataCode,
+            TimeLine.getBaseTime()
+        )
         # 停止校验功能
         self.view.ui.dataSetCheckButton.setEnabled(False)
         # 可以停止
@@ -131,6 +139,7 @@ class DataSaveController:
         self.view.ui.startStream.setEnabled(False)
         self.view.ui.stopStream.setEnabled(False)
         self.view.ui.dataSetCheckButton.setEnabled(True)
+        TimeLine.resetBaseTime()
 
     # 设置槽
     def setSlotFunc(self) -> None:

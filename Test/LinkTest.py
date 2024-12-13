@@ -11,6 +11,12 @@ import logging
 # 有服务器发送记录信息，再让客户端发送回来的时候带上自己的标识信息和服务端发送的记录信息
 # 直接用端口来区分设备，先把单组做完再说
 
+"""
+    连接测试，测试底层连接协议，同时检查设备数据传输是否正常
+    @version 1.0
+    @author chen
+"""
+
 tcpPort = 5006
 udpPort = 5005
 HEARTBEAT = "heartbeat"
