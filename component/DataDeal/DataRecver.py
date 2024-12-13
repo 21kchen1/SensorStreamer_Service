@@ -12,7 +12,7 @@ from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.TypeData import TypeData
 from Model.Data.VideoData import VideoData
-from Model.SQLModel.RecordItem import RecordItem, RecordItemBaseInfo
+from Model.SQLModel.RecordItem import RecordItem, RecordItemEnable
 from component.DataDeal.DataProcer.PictureProcer import PictureProcer
 from component.DataDeal.DataProcer.SensorProcer import SensorProcer
 from component.Link.UDPLink import UDPLink
@@ -38,7 +38,7 @@ class DataRecver:
         self.videoProcer = SensorProcer(VideoData)
         self.audioProcer = SensorProcer(AudioData)
         # 图片需要专门的处理
-        self.pictureProcer = PictureProcer()
+        self.pictureProcer = PictureProcer(self.typeDataCount)
         # 传感器数据处理
         self.accelerometerProcer = SensorProcer(AccelerometerData)
         self.gyroscopeProcer = SensorProcer(GyroscopeData)
@@ -55,6 +55,9 @@ class DataRecver:
             MagneticFieldData.TYPE: self.magneticFieldProcer,
             RotationVectorData.TYPE: self.rotationVectorProcer
         }
+
+        # 根据数据类型记录数量 自适应
+        self.typeNumDict = {}
 
         # 开启循环接收线程
         for udpLink in self.udpLinks:
@@ -89,7 +92,8 @@ class DataRecver:
             if procer == None:
                 continue
             procer.create(self.storagePath, dataCode)
-
+        # 重置字典
+        self.typeNumDict = {}
         # 开始处理数据
         self.running = True
 
@@ -101,12 +105,12 @@ class DataRecver:
 
     """
         获取路径并存储到数据库
-        @param baseInfo
+        @param recordItem 数据模型
         @return 保存是否成功
     """
-    def saveData(self, baseInfo: RecordItemBaseInfo) -> bool:
+    def saveData(self, recordItem: RecordItemEnable) -> bool:
         try:
-            baseInfo.setPathInfo(
+            recordItem.setPathInfo(
                 picturePath = self.pictureProcer.getPath(),
                 videoPath = self.videoProcer.getPath(),
                 audioPath = self.audioProcer.getPath(),
@@ -115,11 +119,22 @@ class DataRecver:
                 rotationVectorPath = self.rotationVectorProcer.getPath(),
                 magneticFieldPath = self.magneticFieldProcer.getPath(),
             )
-            recordItem = RecordItem.create(**vars(baseInfo))
-            recordItem.save()
+            RecordItemEnable.save(vars(recordItem))
+            # recordItem = RecordItem.create(**vars(baseInfo))
+            # recordItem.save()
         except Exception as e:
             logging.error(f"saveData: {e}")
             return False
+
+    """
+        统计数据
+        @param dataType 数据类型
+    """
+    def typeDataCount(self, dataType: str) -> None:
+        # 添加数量
+        if self.typeNumDict.get(dataType) == None:
+            self.typeNumDict[dataType] = 0
+        self.typeNumDict[dataType] += 1
 
     """
         取消保存数据，删除生成的数据
@@ -136,7 +151,6 @@ class DataRecver:
         except Exception as e:
             logging.error(f"cancelSaveData: {e}")
             return False
-
 
     """
         init 后开启的持续性接收线程, 只考虑接收数据
@@ -158,18 +172,21 @@ class DataRecver:
         try:
             initDataDict = json.loads(initData.decode(self.charset))
 
+            # 获取数据处理
+            dataType = initDataDict.pop(TypeData.ATTR_TYPE, None)
+            procer = self.typeProcerDict.get(dataType)
+            # 检查是否为有效类型
+            if procer == None:
+                return
+
             # 检查数据是否存在时间戳
             if initDataDict.get(TypeData.ATTR_UNIX_TIMESTANP, None) == None:
                 return
             initDataDict[TypeData.ATTR_UNIX_TIMESTANP] -= self.timestamp
 
-            procer = self.typeProcerDict.get(initDataDict.pop(TypeData.ATTR_TYPE, None))
-            # 检查是否为有效类型
-            if procer == None:
-                return
+            # 数据类型计数
+            self.typeDataCount(dataType)
             # 添加数据
             procer.addData(initDataDict)
         except Exception as e:
             logging.error(f"__acceptData: {e}")
-
-

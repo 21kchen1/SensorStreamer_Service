@@ -36,6 +36,15 @@ class TimeLine(Time):
             return TimeLine.__BASE_TIME
 
     """
+        从基准时间开始计时到现在的时间
+    """
+    @staticmethod
+    def getBaseToNow() -> int:
+        if TimeLine.__BASE_TIME == 0:
+            return 0
+        return TimeLine.getSystemTime() - TimeLine.__BASE_TIME
+
+    """
         重置基准时间
     """
     @staticmethod

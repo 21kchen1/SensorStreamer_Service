@@ -1,4 +1,5 @@
 from Controller.DataSaveController import DataSaveController
+from Controller.DataShowController import DataShowController
 from View.View import View
 from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
@@ -7,12 +8,19 @@ from component.Link.TCPMLinkListen import TCPMLinkListen
 from component.Link.UDPLink import UDPLink
 from Dao import MySql
 import logging
+import os
+import ctypes
 
 """
     main
     @version 2.0
     @author chen
 """
+
+# 测试模式
+TEST = True
+# 清理数据库
+CLEAN = False
 
 WATCH_TCP_PORT = 5006
 WATCH_UDP_PORT = 5005
@@ -23,19 +31,36 @@ CHARSET = "utf-8"
 logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(funcName)s . %(message)s',
                     level=logging.DEBUG)
 
+"""
+    关闭控制台的快速编辑模式
+"""
+def disableQEMode():
+    if not os.name == 'nt':
+        return
+
+    # 获取标准输入的句柄
+    stdinHandle = ctypes.windll.kernel32.GetStdHandle(-10)
+    # 获取控制台模式
+    mode = ctypes.c_ulong()
+    ctypes.windll.kernel32.GetConsoleMode(stdinHandle, ctypes.byref(mode))
+    # 禁用快速编辑模式
+    mode.value &= ~0x0040
+    # 设置控制台模式
+    ctypes.windll.kernel32.SetConsoleMode(stdinHandle, mode)
+
 if __name__ == "__main__":
+    if not TEST:
+        disableQEMode()
+
+    if CLEAN:
+        MySql.DB.drop_tables([RecordItem])
+        exit(0)
+
     # 创建表
     MySql.DB.create_tables([RecordItem], safe= True)
-    # MySql.DB.drop_tables([RecordItem])
 
     # 视图
     view = View()
-
-    # 启动 UDP
-    watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
-    phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
-    # 数据控制器
-    dataDealController = DataSaveController(view, DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET))
 
     # 控制控制器
     controlController = ControlController(view, CHARSET)
@@ -44,6 +69,17 @@ if __name__ == "__main__":
     watchListen.startListen()
     phoneListen = TCPMLinkListen(PHONE_TCP_PORT, "0.0.0.0", controlController.setPhoneControl)
     phoneListen.startListen()
+
+    # 启动 UDP
+    watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
+    phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
+    # 数据接收器
+    dataRecver = DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET)
+
+    # 数据处理控制器
+    dataDealController = DataSaveController(view, dataRecver)
+    # 数据展示控制器
+    dataShowController = DataShowController(view, dataRecver)
 
     # 开启视图
     view.run()

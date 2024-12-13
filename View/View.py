@@ -1,5 +1,6 @@
 from View.MainView import Ui_MainWidget
 from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtGui import QFont
 import sys
 
 """
@@ -17,6 +18,7 @@ class View:
     ROTATION_VECTOR_CHECK = "rotationVectorCheck"
     MAGNETIC_FIELD_CHECK = "magneticFieldCheck"
 
+
     CHECK_LIST = [
         VIDEO_CHECK,
         PICTURE_CHECK,
@@ -27,6 +29,15 @@ class View:
         ROTATION_VECTOR_CHECK,
         MAGNETIC_FIELD_CHECK,
     ]
+
+    """
+        常用的视图信息字符串
+    """
+    # 设备状态
+    STATUS_ON = "ON"
+    STATUS_OFF = "OFF"
+    # 数据状态信息
+    DATA_STATUS_INFO_STOP = "Streaming has not started..."
 
     """
         初始化 ui，并实现信息获取
@@ -75,6 +86,18 @@ class View:
             QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
             QtWidgets.QMessageBox.No
         )
+
+    # 设置手表状态
+    def setWatchStatus(self, status: str) -> None:
+        self.ui.watchStatus.setText(status)
+
+    # 设置手机
+    def setPhoneStatus(self, status: str) -> None:
+        self.ui.phoneStatus.setText(status)
+
+    # 设置数据状态信息
+    def setDataStatusInfo(self, info: str) -> None:
+        self.ui.dataInfoText.setText(info)
 
     def getCodeGender(self) -> str:
         return self.ui.codeGenderComboBox.currentText()

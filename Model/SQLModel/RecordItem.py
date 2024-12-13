@@ -36,9 +36,10 @@ class RecordItem(BaseModel):
     magneticFieldPath = CharField(null= True)
 
 """
-    用于记录基础信息
+    实际使用的模型
+    @author chen
 """
-class RecordItemBaseInfo:
+class RecordItemEnable:
     # 设置基本信息
     def __init__(
         self,
@@ -86,3 +87,14 @@ class RecordItemBaseInfo:
         self.gyroscopePath = gyroscopePath
         self.rotationVectorPath = rotationVectorPath
         self.magneticFieldPath = magneticFieldPath
+
+    """
+        存储信息
+    """
+    @staticmethod
+    def save(dataDict: dict) -> None:
+        try:
+            recordItem = RecordItem.create(**dataDict)
+            recordItem.save()
+        except Exception as e:
+            raise e

@@ -14,8 +14,9 @@ import pandas as pd
 """
 
 class PictureProcer(DataProcer):
-    def __init__(self) -> None:
+    def __init__(self, callBack= None) -> None:
         super().__init__(PictureData)
+        self.callBack = callBack
 
     """
         创建图片存储文件夹，并做对应的校验
@@ -26,9 +27,6 @@ class PictureProcer(DataProcer):
 
         # 生成存储路径
         self.pathDirName = f"{storagePath}/{self.TypeData.TYPE}"
-        # # 这里创建的是文件夹
-        # dirName = f"{dataCode}_{self.TypeData.TYPE}"
-        # self.pathDirName = f"{path}/{dirName}"
         # 检查是否已经存在文件夹
         self.fileExists = os.path.isdir(self.pathDirName)
         if self.fileExists:
@@ -71,6 +69,9 @@ class PictureProcer(DataProcer):
                 pictureNum += 1
                 # 保存图片
                 cv2.imwrite(f"{self.pathDirName}/{pictureNum}.jpg", frame)
+                if self.callBack == None:
+                    continue
+                self.callBack(PictureData.TYPE)
             # 释放摄像头
             cap.release()
             cv2.destroyAllWindows()

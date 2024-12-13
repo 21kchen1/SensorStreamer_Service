@@ -21,9 +21,14 @@ class Ui_MainWidget(object):
         sizePolicy.setHeightForWidth(MainWidget.sizePolicy().hasHeightForWidth())
         MainWidget.setSizePolicy(sizePolicy)
         MainWidget.setMinimumSize(QtCore.QSize(700, 500))
+        font = QtGui.QFont()
+        font.setFamily("Consolas")
+        font.setBold(False)
+        font.setWeight(50)
+        MainWidget.setFont(font)
         MainWidget.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         MainWidget.setWindowOpacity(1.0)
-        MainWidget.setStyleSheet("font: 75 9pt \"Times New Roman\";")
+        MainWidget.setStyleSheet("")
         self.gridLayout = QtWidgets.QGridLayout(MainWidget)
         self.gridLayout.setSpacing(3)
         self.gridLayout.setObjectName("gridLayout")
@@ -442,10 +447,10 @@ class Ui_MainWidget(object):
         self.dataInfoText.setHtml(_translate("MainWidget", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Times New Roman\'; font-size:9pt; font-weight:72; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Data processing has not started...</p></body></html>"))
-        self.phoneStatus.setText(_translate("MainWidget", "Off"))
-        self.watchStatus.setText(_translate("MainWidget", "Off"))
+"</style></head><body style=\" font-family:\'Consolas\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:72;\">Streaming has not started...</span></p></body></html>"))
+        self.phoneStatus.setText(_translate("MainWidget", "OFF"))
+        self.watchStatus.setText(_translate("MainWidget", "OFF"))
         self.phoneLabel.setText(_translate("MainWidget", "Phone Status:"))
         self.watchLabel.setText(_translate("MainWidget", "Watch Status:"))
         self.dataPathLabel.setText(_translate("MainWidget", "Setting Data Path:"))

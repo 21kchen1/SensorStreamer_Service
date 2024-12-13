@@ -42,20 +42,20 @@ class ControlController:
     # 设置控制器
     def setWatchControl(self, conn: socket, address) -> None:
         self.watchControl = WatchControl(conn, self.cancelWatchControl, self.charset)
-        self.view.ui.watchStatus.setText("On")
+        self.view.setWatchStatus(View.STATUS_ON)
 
     def setPhoneControl(self, conn: socket, address) -> None:
         self.phoneControl = PhoneControl(conn, self.cancelPhoneControl, self.charset)
-        self.view.ui.phoneStatus.setText("On")
+        self.view.setPhoneStatus(View.STATUS_ON)
 
     # 取消控制器
     def cancelWatchControl(self) -> None:
         self.watchControl = None
-        self.view.ui.watchStatus.setText("Off")
+        self.view.setWatchStatus(View.STATUS_OFF)
 
     def cancelPhoneControl(self) -> None:
         self.watchControl = None
-        self.view.ui.phoneStatus.setText("Off")
+        self.view.setPhoneStatus(View.STATUS_OFF)
 
     """
         获取传感器设置
@@ -100,11 +100,13 @@ class ControlController:
 
     # 停止流式传输
     def stopStream(self) -> None:
+        serviceTimeStamp = TimeLine.getSystemTime()
+
         if self.watchControl != None:
-            self.watchControl.stopStream(0)
+            self.watchControl.stopStream(serviceTimeStamp)
 
         if self.phoneControl != None:
-            self.phoneControl.stopStream(0)
+            self.phoneControl.stopStream(serviceTimeStamp)
 
         TimeLine.resetBaseTime()
 

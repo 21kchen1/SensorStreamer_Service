@@ -56,6 +56,7 @@ class Control:
     """
         启动流式传输
         @param controlData 启动设备需要的控制信息
+        @param timeStamp 服务器时间戳
     """
     def startStream(self, controlData: list, timeStamp: int) -> None:
         try:
@@ -70,6 +71,7 @@ class Control:
 
     """
         关闭流式传输
+        @param timeStamp 服务器时间戳
     """
     def stopStream(self, timeStamp: int) -> None:
         try:

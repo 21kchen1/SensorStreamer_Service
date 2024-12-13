@@ -1,4 +1,3 @@
-from pymysql import Time
 from Model.Data.AccelerometerData import AccelerometerData
 from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
@@ -6,15 +5,14 @@ from Model.Data.MagneticFieldData import MagneticFieldData
 from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.VideoData import VideoData
-from Model.SQLModel.RecordItem import RecordItemBaseInfo
+from Model.SQLModel.RecordItem import RecordItemEnable
 from View.View import View
 from component.DataDeal.DataRecver import DataRecver
 from PyQt5 import QtWidgets
-
 from component.Time.TimeLine import TimeLine
 
 """
-    DataDeal 控制器, 用于处理UI 与 DataDeal 之间的数据存储任务
+    DataDeal 控制器, 用于处理 UI 与 DataDeal 之间的数据存储任务
     @author chen
 """
 
@@ -80,8 +78,8 @@ class DataSaveController:
     """
         获取 dataCode 基本信息
     """
-    def getBaseInfo(self) -> RecordItemBaseInfo:
-        return RecordItemBaseInfo(
+    def getRecordItemBaseInfo(self) -> RecordItemEnable:
+        return RecordItemEnable(
             recordName= self.getDataCode(),
             gender= self.view.getCodeGender(),
             exp= self.view.getCodeExp(),
@@ -100,7 +98,7 @@ class DataSaveController:
         # 如果验证正确，则允许开始执行
         self.dataCode = self.getDataCode()
         if self.dataRecver.checkDataCode(self.dataCode):
-            self.dataBaseInfo = self.getBaseInfo()
+            self.dataBaseInfo = self.getRecordItemBaseInfo()
             self.view.ui.startStream.setEnabled(True)
             self.view.ui.stopStream.setEnabled(False)
             return
