@@ -19,6 +19,8 @@ class WatchControl(Control):
         self.sensorControl = None
         # 音频控制信息
         self.audioControl = None
+        # 控制信息列表
+        self.controlList = []
 
     """
         设置手表的传感器

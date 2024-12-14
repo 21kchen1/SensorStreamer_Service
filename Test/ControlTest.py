@@ -14,6 +14,7 @@ import logging
 
 """
     控制测试，测试设备是否可以正常控制
+    有效测试
     @version 1.0
     @author chen
 """

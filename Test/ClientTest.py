@@ -8,6 +8,7 @@ from threading import Thread
 
 """
     客户端测试，测试客户端数据传输与控制效果
+    有效测试程序
     @version 1.0
     @author chen
 """

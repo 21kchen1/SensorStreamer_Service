@@ -13,6 +13,7 @@ import logging
 
 """
     连接测试，测试底层连接协议，同时检查设备数据传输是否正常
+    有效测试程序
     @version 1.0
     @author chen
 """
