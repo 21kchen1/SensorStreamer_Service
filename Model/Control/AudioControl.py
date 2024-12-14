@@ -6,7 +6,7 @@ from Model.Control.TypeControl import TypeControl
 """
 
 class AudioControl(TypeControl):
-    TYPE = "AudioControl"
+    TYPE = "AUDIO"
 
     """
         @param sampling 采样率

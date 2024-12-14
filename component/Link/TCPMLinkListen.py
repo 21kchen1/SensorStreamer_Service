@@ -1,7 +1,7 @@
 import socket
 import logging
 import threading
-from component.Link.Link import Link
+from Component.Link.Link import Link
 
 """
     TCPMLinkListen 处理多个 TCP 连接。

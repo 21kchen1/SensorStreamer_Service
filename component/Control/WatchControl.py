@@ -4,8 +4,8 @@ from Model.Control.AudioControl import AudioControl
 from Model.Control.SensorControl import SensorControl
 from Model.PDU.RLink_PDU import RLink_PDU
 from Model.PDU.Remote_PDU import Remote_PDU
-from component.Control.Control import Control
-from component.Link.TCPMLinkListen import TCPMLinkListen
+from Component.Control.Control import Control
+from Component.Link.TCPMLinkListen import TCPMLinkListen
 
 """
     WatchControl 手表控制器
@@ -50,7 +50,7 @@ class WatchControl(Control):
     def startStream(self, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHON, [str(self.sensorControl), str(self.audioControl)]))
+            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCH_ON, [str(self.sensorControl), str(self.audioControl)]))
             # 发送启动命令
             rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)

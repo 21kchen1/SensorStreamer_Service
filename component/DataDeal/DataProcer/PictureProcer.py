@@ -5,7 +5,7 @@ import threading
 import cv2
 from Model.Data.PictureData import PictureData
 from Model.Data.TypeData import TypeData
-from component.DataDeal.DataProcer.DataProcer import DataProcer
+from Component.DataDeal.DataProcer.DataProcer import DataProcer
 import pandas as pd
 
 """

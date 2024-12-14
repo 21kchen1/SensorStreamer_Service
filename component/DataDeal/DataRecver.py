@@ -13,9 +13,9 @@ from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.TypeData import TypeData
 from Model.Data.VideoData import VideoData
 from Model.SQLModel.RecordItem import RecordItem, RecordItemEnable
-from component.DataDeal.DataProcer.PictureProcer import PictureProcer
-from component.DataDeal.DataProcer.SensorProcer import SensorProcer
-from component.Link.UDPLink import UDPLink
+from Component.DataDeal.DataProcer.PictureProcer import PictureProcer
+from Component.DataDeal.DataProcer.SensorProcer import SensorProcer
+from Component.Link.UDPLink import UDPLink
 
 """
     利用 UDPLink 接收数据，并将数据处理与存储任务分配给 DataProcer

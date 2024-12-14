@@ -4,9 +4,9 @@ from View.MainView import Ui_MainWidget
 from PyQt5 import QtWidgets, QtCore
 import sys
 
-from component.Control.PhoneControl import PhoneControl
-from component.Control.WatchControl import WatchControl
-from component.DataDeal.DataRecver import DataRecver
+from Component.Control.PhoneControl import PhoneControl
+from Component.Control.WatchControl import WatchControl
+from Component.DataDeal.DataRecver import DataRecver
 
 """
     控制器, 用于处理UI产生的各种事件

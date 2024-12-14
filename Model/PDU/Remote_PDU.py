@@ -7,12 +7,19 @@
 class Remote_PDU:
     REUSE_NAME = "RemoteSwitch"
 
-    TYPE_CONTROL = "type_control"
-    TYPE_SYN = "type_syn"
-    TYPE_MSG = "type_msg"
+    # TYPE_CONTROL = "type_control"
+    # TYPE_SYN = "type_syn"
+    # TYPE_MSG = "type_msg"
 
-    CONTROL_SWITCHON = "control_switchOn"
-    CONTROL_SWITCHOFF = "control_switchOff"
+    # CONTROL_SWITCH_ON = "control_switchOn"
+    # CONTROL_SWITCH_OFF = "control_switchOff"
+
+    TYPE_CONTROL = "TYPE_CONTROL"
+    TYPE_SYN = "TYPE_SYN"
+    TYPE_MSG = "TYPE_MSG"
+
+    CONTROL_SWITCH_ON = "CONTROL_SWITCH_ON"
+    CONTROL_SWITCH_OFF = "CONTROL_SWITCH_OFF"
 
     """
         @param t_type 数据类型

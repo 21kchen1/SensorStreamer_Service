@@ -5,7 +5,7 @@ import json
 
 from Model.PDU.RLink_PDU import RLink_PDU
 from Model.PDU.Remote_PDU import Remote_PDU
-from component.Link.TCPMLinkListen import TCPMLinkListen
+from Component.Link.TCPMLinkListen import TCPMLinkListen
 
 """
     Control 通用控制类
@@ -61,7 +61,7 @@ class Control:
     def startStream(self, controlData: list, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHON, controlData))
+            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCH_ON, controlData))
             # 发送启动命令
             rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
@@ -76,7 +76,7 @@ class Control:
     def stopStream(self, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCHOFF, []))
+            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCH_OFF, []))
             # 发送关闭命令
             rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)

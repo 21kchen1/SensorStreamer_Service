@@ -1,6 +1,6 @@
 import socket
 import threading
-from component.Link.Link import Link
+from Component.Link.Link import Link
 import logging
 
 """

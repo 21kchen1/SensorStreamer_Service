@@ -1,5 +1,5 @@
 import threading
-from component.Time.Time import Time
+from Component.Time.Time import Time
 
 """
     统一时间轴静态类

@@ -3,9 +3,9 @@ from Controller.DataShowController import DataShowController
 from View.View import View
 from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
-from component.DataDeal.DataRecver import DataRecver
-from component.Link.TCPMLinkListen import TCPMLinkListen
-from component.Link.UDPLink import UDPLink
+from Component.DataDeal.DataRecver import DataRecver
+from Component.Link.TCPMLinkListen import TCPMLinkListen
+from Component.Link.UDPLink import UDPLink
 from Dao import MySql
 import logging
 import os

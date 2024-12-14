@@ -6,7 +6,7 @@ from Model.Control.TypeControl import TypeControl
 """
 
 class SensorControl(TypeControl):
-    TYPE = "SensorControl"
+    TYPE = "SENSOR"
 
     SENSOR_ACCELEROMETER = 1
     SENSOR_GYROSCOPE = 4

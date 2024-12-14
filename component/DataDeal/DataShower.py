@@ -1,7 +1,7 @@
 from time import sleep
 from PyQt5.QtCore import QThread, pyqtSignal
-from component.DataDeal.DataRecver import DataRecver
-from component.Time.TimeLine import TimeLine
+from Component.DataDeal.DataRecver import DataRecver
+from Component.Time.TimeLine import TimeLine
 
 """
     基于 DataRecver 的线程类，专门用于生成展示数据

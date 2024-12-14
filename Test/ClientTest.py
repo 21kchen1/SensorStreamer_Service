@@ -180,7 +180,7 @@ RTCP_PDU = {
 }
 
 SensorControl = {
-    "type": "SensorControl",
+    "type": "SENSOR",
     "sampling": 0,
     "sensors": [
         TYPE_ACCELEROMETER
@@ -188,7 +188,7 @@ SensorControl = {
 }
 
 AudioControl = {
-    "type": "AudioControl",
+    "type": "AUDIO",
     "sampling": 16000
 }
 

@@ -1,7 +1,7 @@
 import socket
 import threading
 import logging
-from component.Link.Link import Link
+from Component.Link.Link import Link
 
 """
     UDPLink 用于传输数据,。

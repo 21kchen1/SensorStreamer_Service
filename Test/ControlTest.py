@@ -2,9 +2,9 @@ import sys
 sys.path.append("../")
 
 import threading
-from component.Control.WatchControl import WatchControl
-from component.Link.TCPMLinkListen import TCPMLinkListen
-from component.Link.UDPLink import UDPLink
+from Component.Control.WatchControl import WatchControl
+from Component.Link.TCPMLinkListen import TCPMLinkListen
+from Component.Link.UDPLink import UDPLink
 import time
 import socket
 import logging

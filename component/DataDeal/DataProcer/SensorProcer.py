@@ -2,7 +2,7 @@ import csv
 import logging
 import os
 from Model.Data.TypeData import TypeData
-from component.DataDeal.DataProcer.DataProcer import DataProcer
+from Component.DataDeal.DataProcer.DataProcer import DataProcer
 import pandas as pd
 
 """
