@@ -31,9 +31,12 @@ class RecordItem(BaseModel):
     audioPath = CharField(null= True)
     # 传感器路径
     accelerometerPath = CharField(null= True)
+    accelerometerUPath = CharField(null= True)
     gyroscopePath = CharField(null= True)
-    rotationVectorPath = CharField(null= True)
+    gyroscopeUPath = CharField(null= True)
     magneticFieldPath = CharField(null= True)
+    magneticFieldUPath = CharField(null= True)
+    rotationVectorPath = CharField(null= True)
 
 """
     实际使用的模型
@@ -72,9 +75,12 @@ class RecordItemEnable:
         videoPath: str,
         audioPath: str,
         accelerometerPath: str,
+        accelerometerUPath: str,
         gyroscopePath: str,
-        rotationVectorPath: str,
-        magneticFieldPath: str
+        gyroscopeUPath: str,
+        magneticFieldPath: str,
+        magneticFieldUPath: str,
+        rotationVectorPath: str
     ) -> None:
         # 图片路径
         self.picturePath = picturePath
@@ -84,9 +90,12 @@ class RecordItemEnable:
         self.audioPath = audioPath
         # 传感器路径
         self.accelerometerPath = accelerometerPath
+        self.accelerometerUPath = accelerometerUPath
         self.gyroscopePath = gyroscopePath
-        self.rotationVectorPath = rotationVectorPath
+        self.gyroscopeUPath = gyroscopeUPath
         self.magneticFieldPath = magneticFieldPath
+        self.magneticFieldUPath = magneticFieldUPath
+        self.rotationVectorPath = rotationVectorPath
 
     """
         存储信息

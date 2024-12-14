@@ -7,7 +7,6 @@ from Resource.String.DataString import DataString
 """
 
 class GyroscopeData(TypeData):
-    # TYPE = "GYROSCOPE"
     TYPE = DataString.TYPE_GYROSCOPE
     VALUE_LEN = 3
 

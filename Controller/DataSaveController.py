@@ -1,7 +1,10 @@
 from Model.Data.AccelerometerData import AccelerometerData
+from Model.Data.AccelerometerUData import AccelerometerUData
 from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
+from Model.Data.GyroscopeUData import GyroscopeUData
 from Model.Data.MagneticFieldData import MagneticFieldData
+from Model.Data.MagneticFieldUData import MagneticFieldUData
 from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.VideoData import VideoData
@@ -20,13 +23,13 @@ class DataSaveController:
 
     # 选择框与 data 的映射，键可能为不存在的变量，需要检查
     CHECK_DATA_DICT = {
-        View.VIDEO_CHECK: VideoData.TYPE,
-        View.PICTURE_CHECK: PictureData.TYPE,
-        View.AUDIO_CHECK: AudioData.TYPE,
-        View.ACCELEROMETER_CHECK: AccelerometerData.TYPE,
-        View.GYROSCOPE_CHECK: GyroscopeData.TYPE,
-        View.ROTATION_VECTOR_CHECK: RotationVectorData.TYPE,
-        View.MAGNETIC_FIELD_CHECK: MagneticFieldData.TYPE
+        View.VIDEO_CHECK: [VideoData.TYPE],
+        View.PICTURE_CHECK: [PictureData.TYPE],
+        View.AUDIO_CHECK: [AudioData.TYPE],
+        View.ACCELEROMETER_CHECK: [AccelerometerData.TYPE, AccelerometerUData.TYPE],
+        View.GYROSCOPE_CHECK: [GyroscopeData.TYPE, GyroscopeUData.TYPE],
+        View.ROTATION_VECTOR_CHECK: [RotationVectorData.TYPE],
+        View.MAGNETIC_FIELD_CHECK: [MagneticFieldData.TYPE, MagneticFieldUData.TYPE]
     }
 
     """
@@ -66,13 +69,13 @@ class DataSaveController:
     def getTypeSetting(self) -> list:
         # 获取选中
         typeList = []
-        for (checkName, sensorType) in DataSaveController.CHECK_DATA_DICT.items():
+        for (checkName, sensorTypes) in DataSaveController.CHECK_DATA_DICT.items():
             # 尝试获取按钮
             checkBox = getattr(self.view.ui, checkName, None)
             # 按钮不存在或没有选中
             if checkBox == None or not checkBox.isChecked():
                 continue
-            typeList.append(sensorType)
+            typeList.extend(sensorTypes)
         return typeList
 
     """

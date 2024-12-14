@@ -7,7 +7,6 @@ from Resource.String.DataString import DataString
 """
 
 class MagneticFieldData(TypeData):
-    # TYPE = "MAGNETIC_FIELD"
     TYPE = DataString.TYPE_MAGNETIC_FIELD
     VALUE_LEN = 3
 

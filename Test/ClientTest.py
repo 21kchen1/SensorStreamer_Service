@@ -185,7 +185,8 @@ SensorControl = {
     "type": "SENSOR",
     "sampling": 0,
     "sensors": [
-        TYPE_ACCELEROMETER
+        TYPE_GYROSCOPE,
+        TYPE_MAGNETIC_FIELD
     ]
 }
 

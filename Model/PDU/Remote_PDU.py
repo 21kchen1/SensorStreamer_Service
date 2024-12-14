@@ -9,15 +9,7 @@ from Resource.String.SwitchString import SwitchString
 
 
 class Remote_PDU:
-    # REUSE_NAME = "RemoteSwitch"
     REUSE_NAME = NetString.REUSE_NAME_REMOTE_SWITCH
-
-    # TYPE_CONTROL = "type_control"
-    # TYPE_SYN = "type_syn"
-    # TYPE_MSG = "type_msg"
-
-    # CONTROL_SWITCH_ON = "control_switchOn"
-    # CONTROL_SWITCH_OFF = "control_switchOff"
 
     TYPE_CONTROL = SwitchString.TYPE_CONTROL
     TYPE_SYN = SwitchString.TYPE_SYN

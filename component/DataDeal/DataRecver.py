@@ -5,9 +5,12 @@ import os
 import shutil
 import threading
 from Model.Data.AccelerometerData import AccelerometerData
+from Model.Data.AccelerometerUData import AccelerometerUData
 from Model.Data.AudioData import AudioData
 from Model.Data.GyroscopeData import GyroscopeData
+from Model.Data.GyroscopeUData import GyroscopeUData
 from Model.Data.MagneticFieldData import MagneticFieldData
+from Model.Data.MagneticFieldUData import MagneticFieldUData
 from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.TypeData import TypeData
@@ -41,8 +44,11 @@ class DataRecver:
         self.pictureProcer = PictureProcer(self.typeDataCount)
         # 传感器数据处理
         self.accelerometerProcer = SensorProcer(AccelerometerData)
+        self.accelerometerUProcer = SensorProcer(AccelerometerUData)
         self.gyroscopeProcer = SensorProcer(GyroscopeData)
+        self.gyroscopeUProcer = SensorProcer(GyroscopeUData)
         self.magneticFieldProcer = SensorProcer(MagneticFieldData)
+        self.magneticFieldUProcer = SensorProcer(MagneticFieldUData)
         self.rotationVectorProcer = SensorProcer(RotationVectorData)
 
         # 根据数据类型选择数据处理
@@ -51,8 +57,11 @@ class DataRecver:
             PictureData.TYPE: self.pictureProcer,
             AudioData.TYPE: self.audioProcer,
             AccelerometerData.TYPE: self.accelerometerProcer,
+            AccelerometerUData.TYPE: self.accelerometerUProcer,
             GyroscopeData.TYPE: self.gyroscopeProcer,
+            GyroscopeUData.TYPE: self.gyroscopeUProcer,
             MagneticFieldData.TYPE: self.magneticFieldProcer,
+            MagneticFieldUData.TYPE: self.magneticFieldUProcer,
             RotationVectorData.TYPE: self.rotationVectorProcer
         }
 
@@ -115,13 +124,14 @@ class DataRecver:
                 videoPath = self.videoProcer.getPath(),
                 audioPath = self.audioProcer.getPath(),
                 accelerometerPath = self.accelerometerProcer.getPath(),
+                accelerometerUPath = self.accelerometerUProcer.getPath(),
                 gyroscopePath = self.gyroscopeProcer.getPath(),
-                rotationVectorPath = self.rotationVectorProcer.getPath(),
+                gyroscopeUPath = self.gyroscopeUProcer.getPath(),
                 magneticFieldPath = self.magneticFieldProcer.getPath(),
+                magneticFieldUPath = self.magneticFieldUProcer.getPath(),
+                rotationVectorPath = self.rotationVectorProcer.getPath(),
             )
             RecordItemEnable.save(vars(recordItem))
-            # recordItem = RecordItem.create(**vars(baseInfo))
-            # recordItem.save()
         except Exception as e:
             logging.error(f"saveData: {e}")
             return False

@@ -7,7 +7,6 @@ from Resource.String.DataString import DataString
 """
 
 class SensorData(TypeData):
-    # TYPE = "SENSOR"
     TYPE = DataString.TYPE_SENSOR
 
     """

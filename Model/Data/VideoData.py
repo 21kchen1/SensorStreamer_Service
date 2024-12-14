@@ -7,7 +7,6 @@ from Resource.String.DataString import DataString
 """
 
 class VideoData(TypeData):
-    # TYPE = "VIDEO"
     TYPE = DataString.TYPE_VIDEO
 
     """

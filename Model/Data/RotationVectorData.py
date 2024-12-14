@@ -7,7 +7,6 @@ from Resource.String.DataString import DataString
 """
 
 class RotationVectorData(TypeData):
-    # TYPE = "ROTATION_VECTOR"
     TYPE = DataString.TYPE_ROTATION_VECTOR
     VALUE_LEN = 5
 
