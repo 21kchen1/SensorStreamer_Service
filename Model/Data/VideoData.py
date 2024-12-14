@@ -1,4 +1,5 @@
 from Model.Data.TypeData import TypeData
+from Resource.String.DataString import DataString
 
 """
     Video 数据结构
@@ -6,7 +7,8 @@ from Model.Data.TypeData import TypeData
 """
 
 class VideoData(TypeData):
-    TYPE = "VIDEO"
+    # TYPE = "VIDEO"
+    TYPE = DataString.TYPE_VIDEO
 
     """
         @param unixTimestamp 系统时间戳

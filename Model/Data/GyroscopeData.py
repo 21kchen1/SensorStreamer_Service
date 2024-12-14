@@ -1,4 +1,5 @@
 from Model.Data.TypeData import TypeData
+from Resource.String.DataString import DataString
 
 """
     Gyroscope 数据结构
@@ -6,7 +7,8 @@ from Model.Data.TypeData import TypeData
 """
 
 class GyroscopeData(TypeData):
-    TYPE = "GYROSCOPE"
+    # TYPE = "GYROSCOPE"
+    TYPE = DataString.TYPE_GYROSCOPE
     VALUE_LEN = 3
 
     def __init__(self, unixTimestamp: int, sensorTimestamp: int, values: list) -> None:

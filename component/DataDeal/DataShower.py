@@ -46,6 +46,7 @@ class DataShower(QThread):
                 self.runSign.emit(showStr)
                 continue
             maxLen = max(max(len(str(key)), len(str(value))) for key, value in dataNumDict.items())
+            maxLen = max(maxLen, 10)
             # 表头
             dataHead = f"Data Recv Table\n{'-' * (maxLen * 2) }\n{'DataType': <{ maxLen }}\t{'Count': <{ maxLen }}\n"
             # 数据

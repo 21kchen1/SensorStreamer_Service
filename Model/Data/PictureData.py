@@ -1,4 +1,5 @@
 from Model.Data.TypeData import TypeData
+from Resource.String.DataString import DataString
 
 """
     图片数据结构
@@ -6,7 +7,7 @@ from Model.Data.TypeData import TypeData
 """
 
 class PictureData(TypeData):
-    TYPE = "PICTURE"
+    TYPE = DataString.TYPE_PICTURE
 
     def __init__(self, value):
         super().__init__(PictureData.TYPE, 0)

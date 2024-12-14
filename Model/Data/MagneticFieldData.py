@@ -1,4 +1,5 @@
 from Model.Data.TypeData import TypeData
+from Resource.String.DataString import DataString
 
 """
     MagneticField 数据结构
@@ -6,7 +7,8 @@ from Model.Data.TypeData import TypeData
 """
 
 class MagneticFieldData(TypeData):
-    TYPE = "MAGNETIC_FIELD"
+    # TYPE = "MAGNETIC_FIELD"
+    TYPE = DataString.TYPE_MAGNETIC_FIELD
     VALUE_LEN = 3
 
     def __init__(self, unixTimestamp: int, sensorTimestamp: int, values: list) -> None:

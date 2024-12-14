@@ -1,4 +1,5 @@
 from Model.Data.TypeData import TypeData
+from Resource.String.DataString import DataString
 
 """
     Accelerometer 数据结构
@@ -6,7 +7,7 @@ from Model.Data.TypeData import TypeData
 """
 
 class AccelerometerData(TypeData):
-    TYPE = "ACCELEROMETER"
+    TYPE = DataString.TYPE_ACCELEROMETER
     VALUE_LEN = 3
 
     def __init__(self, unixTimestamp: int, sensorTimestamp: int, values: list) -> None:

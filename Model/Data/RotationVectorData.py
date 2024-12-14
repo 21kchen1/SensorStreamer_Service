@@ -1,4 +1,5 @@
 from Model.Data.TypeData import TypeData
+from Resource.String.DataString import DataString
 
 """
     RotationVector 数据结构
@@ -6,7 +7,8 @@ from Model.Data.TypeData import TypeData
 """
 
 class RotationVectorData(TypeData):
-    TYPE = "ROTATION_VECTOR"
+    # TYPE = "ROTATION_VECTOR"
+    TYPE = DataString.TYPE_ROTATION_VECTOR
     VALUE_LEN = 5
 
     def __init__(self, unixTimestamp: int, sensorTimestamp: int, values: list) -> None:

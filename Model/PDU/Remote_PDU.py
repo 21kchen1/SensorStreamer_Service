@@ -4,8 +4,13 @@
     @author chen
 """
 
+from Resource.String.NetString import NetString
+from Resource.String.SwitchString import SwitchString
+
+
 class Remote_PDU:
-    REUSE_NAME = "RemoteSwitch"
+    # REUSE_NAME = "RemoteSwitch"
+    REUSE_NAME = NetString.REUSE_NAME_REMOTE_SWITCH
 
     # TYPE_CONTROL = "type_control"
     # TYPE_SYN = "type_syn"
@@ -14,12 +19,12 @@ class Remote_PDU:
     # CONTROL_SWITCH_ON = "control_switchOn"
     # CONTROL_SWITCH_OFF = "control_switchOff"
 
-    TYPE_CONTROL = "TYPE_CONTROL"
-    TYPE_SYN = "TYPE_SYN"
-    TYPE_MSG = "TYPE_MSG"
+    TYPE_CONTROL = SwitchString.TYPE_CONTROL
+    TYPE_SYN = SwitchString.TYPE_SYN
+    TYPE_MSG = SwitchString.TYPE_MSG
 
-    CONTROL_SWITCH_ON = "CONTROL_SWITCH_ON"
-    CONTROL_SWITCH_OFF = "CONTROL_SWITCH_OFF"
+    CONTROL_SWITCH_ON = SwitchString.CONTROL_SWITCH_ON
+    CONTROL_SWITCH_OFF = SwitchString.CONTROL_SWITCH_OFF
 
     """
         @param t_type 数据类型

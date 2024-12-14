@@ -6,6 +6,7 @@ import json
 from Model.PDU.RLink_PDU import RLink_PDU
 from Model.PDU.Remote_PDU import Remote_PDU
 from Component.Link.TCPMLinkListen import TCPMLinkListen
+from Resource.String.NetString import NetString
 
 """
     Control 通用控制类
@@ -13,8 +14,11 @@ from Component.Link.TCPMLinkListen import TCPMLinkListen
 """
 class Control:
     listenAddress = "0.0.0.0"
-    REUSE_HEARTBEAT = "HeartBeat"
-    HEARTBEAT = "heartbeat"
+    # REUSE_HEARTBEAT = "HeartBeat"
+    # HEARTBEAT = "heartbeat"
+
+    REUSE_HEARTBEAT = NetString.REUSE_NAME_HEART_BEAT
+    HEARTBEAT = NetString.VALUE_HEART_BEAT
 
     """
         @param conn client socket

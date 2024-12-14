@@ -1,4 +1,5 @@
 from Model.Control.TypeControl import TypeControl
+from Resource.String.DataString import DataString
 
 """
     Sensor 控制数据结构
@@ -6,7 +7,7 @@ from Model.Control.TypeControl import TypeControl
 """
 
 class SensorControl(TypeControl):
-    TYPE = "SENSOR"
+    TYPE = DataString.TYPE_SENSOR
 
     SENSOR_ACCELEROMETER = 1
     SENSOR_GYROSCOPE = 4

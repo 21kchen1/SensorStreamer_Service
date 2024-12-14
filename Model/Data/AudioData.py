@@ -1,4 +1,5 @@
 from Model.Data.TypeData import TypeData
+from Resource.String.DataString import DataString
 
 
 """
@@ -7,7 +8,7 @@ from Model.Data.TypeData import TypeData
 """
 
 class AudioData(TypeData):
-    TYPE = "AUDIO"
+    TYPE = DataString.TYPE_AUDIO
 
     """
         @param unixTimestamp 系统时间戳

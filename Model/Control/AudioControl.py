@@ -1,4 +1,5 @@
 from Model.Control.TypeControl import TypeControl
+from Resource.String.DataString import DataString
 
 """
     Audio 控制数据结构
@@ -6,7 +7,7 @@ from Model.Control.TypeControl import TypeControl
 """
 
 class AudioControl(TypeControl):
-    TYPE = "AUDIO"
+    TYPE = DataString.TYPE_AUDIO
 
     """
         @param sampling 采样率

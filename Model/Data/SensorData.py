@@ -1,4 +1,5 @@
 from Model.Data.TypeData import TypeData
+from Resource.String.DataString import DataString
 
 """
     Sensor 数据结构
@@ -6,7 +7,8 @@ from Model.Data.TypeData import TypeData
 """
 
 class SensorData(TypeData):
-    TYPE = "SENSOR"
+    # TYPE = "SENSOR"
+    TYPE = DataString.TYPE_SENSOR
 
     """
         @param unixTimestamp 系统时间戳
