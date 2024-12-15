@@ -31,40 +31,13 @@ class DataRecver:
         @param bufSize 缓冲大小
         @param charset 编码
     """
-    def __init__(self, udpLinks: list, bufSize: int, charset: str, typeProcerDict: dict) -> None:
+    def __init__(self, udpLinks: list, bufSize: int, charset: str, stringTypeDataDict: dict) -> None:
         self.udpLinks = udpLinks
         self.charset = charset
         # 是否处理数据
         self.running = False
 
-        # 由于音频和视频的数据存储特别，先使用此类处理，后续收集到数据后再做处理
-        self.videoProcer = ListenProcer(VideoData)
-        self.audioProcer = ListenProcer(AudioData)
-        # 图片需要专门的处理
-        self.pictureProcer = PictureProcer(PictureData)
-        # 传感器数据处理
-        self.accelerometerProcer = ListenProcer(AccelerometerData)
-        self.accelerometerUProcer = ListenProcer(AccelerometerUData)
-        self.gyroscopeProcer = ListenProcer(GyroscopeData)
-        self.gyroscopeUProcer = ListenProcer(GyroscopeUData)
-        self.magneticFieldProcer = ListenProcer(MagneticFieldData)
-        self.magneticFieldUProcer = ListenProcer(MagneticFieldUData)
-        self.rotationVectorProcer = ListenProcer(RotationVectorData)
-
-        # 根据数据类型选择数据处理
-        self.typeProcerDict = {
-            VideoData.TYPE: self.videoProcer,
-            PictureData.TYPE: self.pictureProcer,
-            AudioData.TYPE: self.audioProcer,
-            AccelerometerData.TYPE: self.accelerometerProcer,
-            AccelerometerUData.TYPE: self.accelerometerUProcer,
-            GyroscopeData.TYPE: self.gyroscopeProcer,
-            GyroscopeUData.TYPE: self.gyroscopeUProcer,
-            MagneticFieldData.TYPE: self.magneticFieldProcer,
-            MagneticFieldUData.TYPE: self.magneticFieldUProcer,
-            RotationVectorData.TYPE: self.rotationVectorProcer
-        }
-        self.typeProcerDict = typeProcerDict
+        self.stringTypeDataDict = stringTypeDataDict
 
         # 根据数据类型记录数量 自适应
         self.typeNumDict = {}
@@ -98,7 +71,7 @@ class DataRecver:
         self.storagePath = f"{storagePath}/{dataCode}"
         # 重置选择的数据处理类
         for t_type in typeSetting:
-            typeData = self.typeProcerDict.get(t_type)
+            typeData = self.stringTypeDataDict.get(t_type)
             if typeData == None:
                 continue
             typeData.DATA_PROCER.create(self.storagePath, dataCode, self.typeDataCount)
@@ -131,22 +104,15 @@ class DataRecver:
     def saveData(self, recordItem: RecordItemEnable) -> bool:
         try:
             # 关闭
-            for typeData in self.typeProcerDict.values():
+            for typeData in self.stringTypeDataDict.values():
                 typeData.DATA_PROCER.getPath()
-            recordItem.setPathInfo(
-                path= self.storagePath
-                # picturePath = self.pictureProcer.getPath(),
-                # videoPath = self.videoProcer.getPath(),
-                # audioPath = self.audioProcer.getPath(),
-                # accelerometerPath = self.accelerometerProcer.getPath(),
-                # accelerometerUPath = self.accelerometerUProcer.getPath(),
-                # gyroscopePath = self.gyroscopeProcer.getPath(),
-                # gyroscopeUPath = self.gyroscopeUProcer.getPath(),
-                # magneticFieldPath = self.magneticFieldProcer.getPath(),
-                # magneticFieldUPath = self.magneticFieldUProcer.getPath(),
-                # rotationVectorPath = self.rotationVectorProcer.getPath(),
-            )
+            # 保存
+            recordItem.setPathInfo(path= self.storagePath)
             RecordItemEnable.save(vars(recordItem))
+
+            # 生成 note json
+            with open(f"{ self.storagePath }/note.json", "w") as file:
+                json.dump(vars(recordItem), file, indent= 4)
         except Exception as e:
             logging.error(f"saveData: {e}")
             return False
@@ -157,7 +123,7 @@ class DataRecver:
     """
     def cancelSaveData(self) -> bool:
         # 关闭
-        for typeData in self.typeProcerDict.values():
+        for typeData in self.stringTypeDataDict.values():
             typeData.DATA_PROCER.getPath()
         try:
             if os.path.exists(self.storagePath):
@@ -192,7 +158,7 @@ class DataRecver:
             """
             # 获取数据处理
             dataType = initDataDict.pop(TypeData.ATTR_TYPE, None)
-            typeData = self.typeProcerDict.get(dataType)
+            typeData = self.stringTypeDataDict.get(dataType)
             # 检查是否为有效类型
             if typeData == None:
                 return
