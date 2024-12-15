@@ -1,5 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.DataString import DataString
+from Service.DataProcer.ListenProcer import ListenProcer
 
 """
     Sensor 数据结构
@@ -20,3 +21,5 @@ class SensorData(TypeData):
         self.sensorTimestamp = sensorTimestamp
         self.sensorType = sensorType
         self.values = values
+
+SensorData.DATA_PROCER = ListenProcer(SensorData)

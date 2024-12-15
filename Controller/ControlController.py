@@ -3,9 +3,9 @@ import time
 from socket import socket
 from Model.Control.SensorControl import SensorControl
 from View.View import View
-from Component.Control.PhoneControl import PhoneControl
-from Component.Control.WatchControl import WatchControl
-from Component.Time.TimeLine import TimeLine
+from Service.Control.PhoneControl import PhoneControl
+from Service.Control.WatchControl import WatchControl
+from Service.Time.TimeLine import TimeLine
 
 """
     Control 控制器, 用于处理 UI 和 Control 之间的任务

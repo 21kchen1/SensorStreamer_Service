@@ -4,9 +4,16 @@
     @author chen
 """
 
+from Service.DataProcer.DataProcer import DataProcer
+
 class TypeData:
     ATTR_UNIX_TIMESTANP = "unixTimestamp"
     ATTR_TYPE = "type"
+
+    """
+        与模型相绑定的服务
+    """
+    DATA_PROCER = None
 
     """
         @param t_type 数据类型
@@ -15,3 +22,5 @@ class TypeData:
     def __init__(self, t_type: str, unixTimestamp: int) -> None:
         self.type = t_type
         self.unixTimestamp = unixTimestamp
+
+TypeData.DATA_PROCER = DataProcer(TypeData)

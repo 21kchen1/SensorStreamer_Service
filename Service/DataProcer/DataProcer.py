@@ -20,9 +20,10 @@ class DataProcer:
         创建存储结构
         @param storagePath 存储父路径
         @param dataCode 数据编号
+        @param callback 回调函数
         @return 是否创建成功
     """
-    def create(self, storagePath: str, dataCode: str) -> bool:
+    def create(self, storagePath: str, dataCode: str, callback) -> bool:
         pass
 
 

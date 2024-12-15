@@ -1,5 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.DataString import DataString
+from Service.DataProcer.ListenProcer import ListenProcer
 
 """
     MagneticField 数据结构
@@ -16,3 +17,5 @@ class MagneticFieldData(TypeData):
         self.magneticFieldX = values[0]
         self.magneticFieldY = values[1]
         self.magneticFieldZ = values[2]
+
+MagneticFieldData.DATA_PROCER = ListenProcer(MagneticFieldData)

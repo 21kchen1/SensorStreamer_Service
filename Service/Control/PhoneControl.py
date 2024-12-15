@@ -1,5 +1,5 @@
 import socket
-from Component.Control.Control import Control
+from Service.Control.Control import Control
 
 """
     PhoneControl 手机控制器

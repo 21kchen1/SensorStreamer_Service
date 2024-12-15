@@ -1,7 +1,7 @@
 from time import sleep
 from View.View import View
-from Component.DataDeal.DataRecver import DataRecver
-from Component.DataDeal.DataShower import DataShower
+from Service.DataDeal.DataRecver import DataRecver
+from Service.DataDeal.DataShower import DataShower
 
 """
     DataShow 控制器, 用于处理 UI 与 DataDeal 之间的数据显示任务

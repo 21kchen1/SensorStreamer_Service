@@ -10,9 +10,9 @@ from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.VideoData import VideoData
 from Model.SQLModel.RecordItem import RecordItemEnable
 from View.View import View
-from Component.DataDeal.DataRecver import DataRecver
+from Service.DataDeal.DataRecver import DataRecver
 from PyQt5 import QtWidgets
-from Component.Time.TimeLine import TimeLine
+from Service.Time.TimeLine import TimeLine
 
 """
     DataDeal 控制器, 用于处理 UI 与 DataDeal 之间的数据存储任务

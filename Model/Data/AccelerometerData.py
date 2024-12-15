@@ -1,5 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.DataString import DataString
+from Service.DataProcer.ListenProcer import ListenProcer
 
 """
     Accelerometer 数据结构
@@ -16,3 +17,5 @@ class AccelerometerData(TypeData):
         self.Gx = values[0]
         self.Gy = values[1]
         self.Gz = values[2]
+
+AccelerometerData.DATA_PROCER = ListenProcer(AccelerometerData)

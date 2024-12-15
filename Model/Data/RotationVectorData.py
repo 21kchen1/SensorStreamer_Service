@@ -1,5 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.DataString import DataString
+from Service.DataProcer.ListenProcer import ListenProcer
 
 """
     RotationVector 数据结构
@@ -18,3 +19,5 @@ class RotationVectorData(TypeData):
         self.vectorZ = values[2]
         self.cosDelta = values[3]
         self.headingAccuracy = values[4]
+
+RotationVectorData.DATA_PROCER = ListenProcer(RotationVectorData)

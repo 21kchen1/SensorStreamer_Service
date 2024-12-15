@@ -3,9 +3,7 @@ import os
 import threading
 
 import cv2
-from Model.Data.PictureData import PictureData
-from Model.Data.TypeData import TypeData
-from Component.DataDeal.DataProcer.DataProcer import DataProcer
+from Service.DataProcer.DataProcer import DataProcer
 import pandas as pd
 
 """
@@ -14,14 +12,13 @@ import pandas as pd
 """
 
 class PictureProcer(DataProcer):
-    def __init__(self, callBack= None) -> None:
-        super().__init__(PictureData)
-        self.callBack = callBack
+    def __init__(self, TypeData) -> None:
+        super().__init__(TypeData)
 
     """
         创建图片存储文件夹，并做对应的校验
     """
-    def create(self, storagePath: str, dataCode: str) -> bool:
+    def create(self, storagePath: str, dataCode: str, callBack= None) -> bool:
         if self.running:
             return False
 
@@ -34,6 +31,8 @@ class PictureProcer(DataProcer):
         # 创建文件路径
         if not os.path.exists(self.pathDirName):
             os.makedirs(self.pathDirName)
+
+        self.callBack = callBack
         # 创建图片存储路径
         self.running = True
 
@@ -71,7 +70,7 @@ class PictureProcer(DataProcer):
                 cv2.imwrite(f"{self.pathDirName}/{pictureNum}.jpg", frame)
                 if self.callBack == None:
                     continue
-                self.callBack(PictureData.TYPE)
+                self.callBack(self.TypeData.TYPE)
             # 释放摄像头
             cap.release()
             cv2.destroyAllWindows()

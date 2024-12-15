@@ -4,8 +4,8 @@ from Model.Control.AudioControl import AudioControl
 from Model.Control.SensorControl import SensorControl
 from Model.PDU.RLink_PDU import RLink_PDU
 from Model.PDU.Remote_PDU import Remote_PDU
-from Component.Control.Control import Control
-from Component.Link.TCPMLinkListen import TCPMLinkListen
+from Service.Control.Control import Control
+from Service.Link.TCPMLinkListen import TCPMLinkListen
 
 """
     WatchControl 手表控制器

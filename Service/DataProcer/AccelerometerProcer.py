@@ -1,7 +1,7 @@
 import logging
 import pandas as pd
 from Model.Data.AccelerometerData import AccelerometerData
-from Component.DataDeal.DataProcer.DataProcer import DataProcer
+from Service.DataProcer.DataProcer import DataProcer
 
 """
     通用数据处理

@@ -1,11 +1,21 @@
 from Controller.DataSaveController import DataSaveController
 from Controller.DataShowController import DataShowController
+from Model.Data.AccelerometerData import AccelerometerData
+from Model.Data.AccelerometerUData import AccelerometerUData
+from Model.Data.AudioData import AudioData
+from Model.Data.GyroscopeData import GyroscopeData
+from Model.Data.GyroscopeUData import GyroscopeUData
+from Model.Data.MagneticFieldData import MagneticFieldData
+from Model.Data.MagneticFieldUData import MagneticFieldUData
+from Model.Data.PictureData import PictureData
+from Model.Data.RotationVectorData import RotationVectorData
+from Model.Data.VideoData import VideoData
 from View.View import View
 from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
-from Component.DataDeal.DataRecver import DataRecver
-from Component.Link.TCPMLinkListen import TCPMLinkListen
-from Component.Link.UDPLink import UDPLink
+from Service.DataDeal.DataRecver import DataRecver
+from Service.Link.TCPMLinkListen import TCPMLinkListen
+from Service.Link.UDPLink import UDPLink
 from Dao import MySql
 import logging
 import os
@@ -30,6 +40,22 @@ CHARSET = "utf-8"
 
 logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(funcName)s . %(message)s',
                     level=logging.DEBUG)
+
+"""
+    统一字符串与数据模型的映射
+"""
+STRING_TYPEDATA_DICT = {
+    VideoData.TYPE: VideoData,
+    PictureData.TYPE: PictureData,
+    AudioData.TYPE: AudioData,
+    AccelerometerData.TYPE: AccelerometerData,
+    AccelerometerUData.TYPE: AccelerometerUData,
+    GyroscopeData.TYPE: GyroscopeData,
+    GyroscopeUData.TYPE: GyroscopeUData,
+    MagneticFieldData.TYPE: MagneticFieldData,
+    MagneticFieldUData.TYPE: MagneticFieldUData,
+    RotationVectorData.TYPE: RotationVectorData
+}
 
 """
     关闭控制台的快速编辑模式
@@ -74,7 +100,7 @@ if __name__ == "__main__":
     watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
     phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
     # 数据接收器
-    dataRecver = DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET)
+    dataRecver = DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET, STRING_TYPEDATA_DICT)
 
     # 数据处理控制器
     dataDealController = DataSaveController(view, dataRecver)

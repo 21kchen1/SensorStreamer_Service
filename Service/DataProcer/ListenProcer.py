@@ -2,7 +2,7 @@ import csv
 import logging
 import os
 from Model.Data.TypeData import TypeData
-from Component.DataDeal.DataProcer.DataProcer import DataProcer
+from Service.DataProcer.DataProcer import DataProcer
 import pandas as pd
 
 """
@@ -10,7 +10,7 @@ import pandas as pd
     @author: chen
 """
 
-class SensorProcer(DataProcer):
+class ListenProcer(DataProcer):
     """
         @TypeData: 数据构造函数
         @bufRowSize: 缓冲区行数
@@ -25,7 +25,7 @@ class SensorProcer(DataProcer):
     """
         创建 csv 文件夹，并做对应的校验
     """
-    def create(self, storagePath: str, dataCode: str) -> bool:
+    def create(self, storagePath: str, dataCode: str, callback= None) -> bool:
         if self.running:
             return False
 
@@ -45,6 +45,8 @@ class SensorProcer(DataProcer):
         self.writer = csv.writer(self.file)
         # 记录缓存区的数据行数
         self.writerIndex = 0
+        # 回调函数
+        self.callback = callback
         self.running = True
 
     """
@@ -68,6 +70,10 @@ class SensorProcer(DataProcer):
             if self.writerIndex >= self.bufRowSize:
                 self.file.flush()
                 self.writerIndex = 0
+            # 使用回调函数
+            if self.callback == None:
+                return
+            self.callback(self.TypeData.TYPE)
         except Exception as e:
             logging.warning(f"addData: {e}")
 

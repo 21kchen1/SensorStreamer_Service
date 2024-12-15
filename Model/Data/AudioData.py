@@ -1,5 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.DataString import DataString
+from Service.DataProcer.ListenProcer import ListenProcer
 
 
 """
@@ -17,3 +18,5 @@ class AudioData(TypeData):
     def __init__(self, unixTimestamp: int, values: list) -> None:
         super().__init__(AudioData.TYPE, unixTimestamp)
         self.values = values
+
+AudioData.DATA_PROCER = ListenProcer(AudioData)

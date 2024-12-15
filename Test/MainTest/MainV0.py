@@ -5,10 +5,10 @@ from Model.SQLModel.BaseModel import BaseModel
 from Model.SQLModel.RecordItem import RecordItem
 from View.MainView import Ui_MainWidget
 from Controller.Controller import Controller
-from Component.Control.WatchControl import WatchControl
-from Component.DataDeal.DataRecver import DataRecver
-from Component.Link.TCPMLinkListen import TCPMLinkListen
-from Component.Link.UDPLink import UDPLink
+from Service.Control.WatchControl import WatchControl
+from Service.DataDeal.DataRecver import DataRecver
+from Service.Link.TCPMLinkListen import TCPMLinkListen
+from Service.Link.UDPLink import UDPLink
 from Dao import MySql
 import socket
 import logging

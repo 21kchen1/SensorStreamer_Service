@@ -5,7 +5,7 @@ import json
 
 from Model.PDU.RLink_PDU import RLink_PDU
 from Model.PDU.Remote_PDU import Remote_PDU
-from Component.Link.TCPMLinkListen import TCPMLinkListen
+from Service.Link.TCPMLinkListen import TCPMLinkListen
 from Resource.String.NetString import NetString
 
 """

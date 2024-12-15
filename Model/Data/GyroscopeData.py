@@ -1,5 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.DataString import DataString
+from Service.DataProcer.ListenProcer import ListenProcer
 
 """
     Gyroscope 数据结构
@@ -16,3 +17,5 @@ class GyroscopeData(TypeData):
         self.angularSpeedX = values[0]
         self.angularSpeedY = values[1]
         self.angularSpeedZ = values[2]
+
+GyroscopeData.DATA_PROCER = ListenProcer(GyroscopeData)

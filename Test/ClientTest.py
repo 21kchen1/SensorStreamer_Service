@@ -186,6 +186,8 @@ SensorControl = {
     "sampling": 0,
     "sensors": [
         TYPE_GYROSCOPE,
+        TYPE_MAGNETIC_FIELD,
+        TYPE_ROTATION_VECTOR,
         TYPE_MAGNETIC_FIELD
     ]
 }

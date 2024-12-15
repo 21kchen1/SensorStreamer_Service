@@ -1,5 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.DataString import DataString
+from Service.DataProcer.ListenProcer import ListenProcer
 
 """
     MagneticFieldU 未校准 数据结构
@@ -19,3 +20,5 @@ class MagneticFieldUData(TypeData):
         self.magneticFieldX_bias = values[3]
         self.magneticFieldY_bias = values[4]
         self.magneticFieldZ_bias = values[5]
+
+MagneticFieldUData.DATA_PROCER = ListenProcer(MagneticFieldUData)

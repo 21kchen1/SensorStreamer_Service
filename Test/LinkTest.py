@@ -5,8 +5,8 @@ from Resource.String.NetString import NetString
 from Resource.String.SwitchString import SwitchString
 
 import threading
-from Component.Link.TCPMLinkListen import TCPMLinkListen
-from Component.Link.UDPLink import UDPLink
+from Service.Link.TCPMLinkListen import TCPMLinkListen
+from Service.Link.UDPLink import UDPLink
 import time
 import socket
 import logging

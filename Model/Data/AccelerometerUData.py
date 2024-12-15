@@ -1,5 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.DataString import DataString
+from Service.DataProcer.ListenProcer import ListenProcer
 
 """
     AccelerometerU 未校准 数据结构
@@ -19,3 +20,5 @@ class AccelerometerUData(TypeData):
         self.Gx_bias = values[3]
         self.Gy_bias = values[4]
         self.Gz_bias = values[5]
+
+AccelerometerUData.DATA_PROCER = ListenProcer(AccelerometerUData)
