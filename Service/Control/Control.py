@@ -3,8 +3,8 @@ import socket
 import threading
 import json
 
-from Model.PDU.RLink_PDU import RLink_PDU
-from Model.PDU.Remote_PDU import Remote_PDU
+from Model.PDU.RLinkPDU import RLinkPDU
+from Model.PDU.RemotePDU import RemotePDU
 from Service.Link.TCPMLinkListen import TCPMLinkListen
 from Resource.String.NetString import NetString
 
@@ -45,11 +45,11 @@ class Control:
                 assert isinstance(data, bytes)
                 data_dict = json.loads(data)
                 # 需要是心跳信息
-                if not data_dict[RLink_PDU.REUSE_NAME] == Control.REUSE_HEARTBEAT:
+                if not data_dict[RLinkPDU.REUSE_NAME] == Control.REUSE_HEARTBEAT:
                     continue
                 logging.info(f"Rece: {data}")
                 # 返回心跳
-                reData = vars(RLink_PDU(Control.REUSE_HEARTBEAT, Control.HEARTBEAT))
+                reData = vars(RLinkPDU(Control.REUSE_HEARTBEAT, Control.HEARTBEAT))
                 assert TCPMLinkListen.send(self.conn, str(reData) + "\n", self.charsets)
                 logging.info(f"Send: {reData}")
             except Exception as e:
@@ -65,9 +65,9 @@ class Control:
     def startStream(self, controlData: list, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCH_ON, controlData))
+            remotePDU = vars(RemotePDU(RemotePDU.TYPE_CONTROL, timeStamp, RemotePDU.CONTROL_SWITCH_ON, controlData))
             # 发送启动命令
-            rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
+            rLinkPDU = vars(RLinkPDU(RemotePDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
         except Exception as e:
             logging.error(f"startStream: {e}")
@@ -80,9 +80,9 @@ class Control:
     def stopStream(self, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCH_OFF, []))
+            remotePDU = vars(RemotePDU(RemotePDU.TYPE_CONTROL, timeStamp, RemotePDU.CONTROL_SWITCH_OFF, []))
             # 发送关闭命令
-            rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
+            rLinkPDU = vars(RLinkPDU(RemotePDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
         except Exception as e:
             logging.error(f"stopStream: {e}")

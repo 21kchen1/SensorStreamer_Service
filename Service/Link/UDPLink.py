@@ -53,4 +53,4 @@ class UDPLink(Link):
             return data, address
         except Exception as e:
             logging.warning(str(e))
-            return None
+            return None, None

@@ -100,7 +100,7 @@ if __name__ == "__main__":
     watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
     phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
     # 数据接收器
-    dataRecver = DataRecver([watchUDPLink, phoneUDPLink], 10240, CHARSET, STRING_TYPEDATA_DICT)
+    dataRecver = DataRecver([watchUDPLink, phoneUDPLink], 65536, CHARSET, STRING_TYPEDATA_DICT)
 
     # 数据处理控制器
     dataDealController = DataSaveController(view, dataRecver)
@@ -109,5 +109,3 @@ if __name__ == "__main__":
 
     # 开启视图
     view.run()
-
-

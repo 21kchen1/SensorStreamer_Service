@@ -8,7 +8,7 @@ from Resource.String.NetString import NetString
 from Resource.String.SwitchString import SwitchString
 
 
-class Remote_PDU:
+class RemotePDU:
     REUSE_NAME = NetString.REUSE_NAME_REMOTE_SWITCH
 
     TYPE_CONTROL = SwitchString.TYPE_CONTROL
@@ -31,4 +31,4 @@ class Remote_PDU:
         self.data = data
 
     def __repr__(self) -> str:
-        return f"Remote_PDU(type= {self.type}, time= {self.time}, control= {self.control}, data= {self.data})"
+        return f"RemotePDU(type= {self.type}, time= {self.time}, control= {self.control}, data= {self.data})"

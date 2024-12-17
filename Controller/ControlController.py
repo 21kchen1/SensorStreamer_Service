@@ -54,7 +54,7 @@ class ControlController:
         self.view.setWatchStatus(View.STATUS_OFF)
 
     def cancelPhoneControl(self) -> None:
-        self.watchControl = None
+        self.PhoneControl = None
         self.view.setPhoneStatus(View.STATUS_OFF)
 
     """
@@ -81,11 +81,18 @@ class ControlController:
         return self.view.ui.audioSpinBox.value()
 
     """
+        获取视频设置
+    """
+    def getVideoSetting(self) -> int:
+        if not self.view.ui.videoCheck.isChecked():
+            return 0
+        return 1
+
+    """
         槽函数
     """
     # 开始流式传输
     def startStream(self) -> None:
-        # serviceTimeStamp = int(time.time() * 1000)
         serviceTimeStamp = TimeLine.getBaseTime()
 
         if self.watchControl != None:
@@ -96,7 +103,8 @@ class ControlController:
             self.watchControl.startStream(serviceTimeStamp)
 
         if self.phoneControl != None:
-            self.phoneControl.startStream(None, serviceTimeStamp)
+            self.phoneControl.setVideo(self.getVideoSetting())
+            self.phoneControl.startStream(serviceTimeStamp)
 
     # 停止流式传输
     def stopStream(self) -> None:

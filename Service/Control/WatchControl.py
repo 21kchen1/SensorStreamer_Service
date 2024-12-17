@@ -2,8 +2,8 @@ import logging
 import socket
 from Model.Control.AudioControl import AudioControl
 from Model.Control.SensorControl import SensorControl
-from Model.PDU.RLink_PDU import RLink_PDU
-from Model.PDU.Remote_PDU import Remote_PDU
+from Model.PDU.RLinkPDU import RLinkPDU
+from Model.PDU.RemotePDU import RemotePDU
 from Service.Control.Control import Control
 from Service.Link.TCPMLinkListen import TCPMLinkListen
 
@@ -19,8 +19,6 @@ class WatchControl(Control):
         self.sensorControl = None
         # 音频控制信息
         self.audioControl = None
-        # 控制信息列表
-        self.controlList = []
 
     """
         设置手表的传感器
@@ -50,11 +48,10 @@ class WatchControl(Control):
     def startStream(self, timeStamp: int) -> None:
         try:
             # Switch 使用的 PDU
-            remotePDU = vars(Remote_PDU(Remote_PDU.TYPE_CONTROL, timeStamp, Remote_PDU.CONTROL_SWITCH_ON, [str(self.sensorControl), str(self.audioControl)]))
+            remotePDU = vars(RemotePDU(RemotePDU.TYPE_CONTROL, timeStamp, RemotePDU.CONTROL_SWITCH_ON, [str(self.sensorControl), str(self.audioControl)]))
             # 发送启动命令
-            rLinkPDU = vars(RLink_PDU(Remote_PDU.REUSE_NAME, str(remotePDU)))
+            rLinkPDU = vars(RLinkPDU(RemotePDU.REUSE_NAME, str(remotePDU)))
             assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
-
         except Exception as e:
             logging.error(f"startStream: {e}")
             self.offLink()

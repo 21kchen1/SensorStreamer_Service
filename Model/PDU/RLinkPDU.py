@@ -3,7 +3,7 @@
     通信数据单元
     @author chen
 """
-class RLink_PDU:
+class RLinkPDU:
     REUSE_NAME = "reuseName"
     DATA = "data"
     """
@@ -15,4 +15,4 @@ class RLink_PDU:
         self.data = data
 
     def __repr__(self) -> str:
-        return f"RLink_PDU(reuseName= {self.reuseName}, data= {self.data})"
+        return f"RLinkPDU(reuseName= {self.reuseName}, data= {self.data})"
