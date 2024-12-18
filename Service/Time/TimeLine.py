@@ -16,8 +16,8 @@ class TimeLine(Time):
         设置基准时间
     """
     @staticmethod
-    def __setBaseTime():
-        TimeLine.BASE_TIME = TimeLine.getSystemTime()
+    def __setBaseTime() -> None:
+        TimeLine.__BASE_TIME = TimeLine.getSystemTime()
 
     """
         获取基准时间
@@ -32,7 +32,8 @@ class TimeLine(Time):
             # 防止多个线程同时进入，需要做额外检查
             if not TimeLine.__BASE_TIME == 0:
                 return TimeLine.__BASE_TIME
-            TimeLine.__BASE_TIME = TimeLine.getSystemTime()
+            # 以当前系统时间作为基准时间
+            TimeLine.__setBaseTime()
             return TimeLine.__BASE_TIME
 
     """

@@ -39,7 +39,7 @@ class UDPLink(Link):
                 self.sendSocket.sendto(data.encode(encode), (self.address, self.port))
             return True
         except Exception as e:
-            logging.warning(str(e))
+            logging.warning(f"send: {e}")
             return False
 
     """
@@ -52,5 +52,5 @@ class UDPLink(Link):
                 data, address = self.receSocket.recvfrom(bufSize)
             return data, address
         except Exception as e:
-            logging.warning(str(e))
+            logging.warning(f"rece: {e}")
             return None, None

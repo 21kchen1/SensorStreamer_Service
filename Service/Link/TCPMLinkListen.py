@@ -42,7 +42,7 @@ class TCPMLinkListen(Link):
             conn.sendall(data.encode(encode))
             return True
         except Exception as e:
-            logging.warning(str(e))
+            logging.warning(f"send: {e}")
             return False
 
     """
@@ -61,7 +61,7 @@ class TCPMLinkListen(Link):
                 raise socket.error("The remote host aborted an established connection")
             return data, address
         except Exception as e:
-            logging.warning(str(e))
+            logging.warning(f"rece: {e}")
             return None, None
 
     """
@@ -91,7 +91,7 @@ class TCPMLinkListen(Link):
                 logging.info(f"Connection from { self.address }")
                 threading.Thread(target= self.callback, args=(conn, self.address)).start()
             except Exception as e:
-                logging.error(str(e))
+                logging.error(f"__tryLink: {e}")
                 if self.__linking:
                     continue
                 break

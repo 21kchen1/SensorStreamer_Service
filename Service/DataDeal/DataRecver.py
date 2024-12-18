@@ -168,8 +168,6 @@ class DataRecver:
                 return
             initDataDict[TypeData.ATTR_UNIX_TIMESTANP] -= self.timestamp
 
-            # 数据类型计数
-            # self.typeDataCount(dataType)
             # 添加数据
             typeData.DATA_PROCER.addData(initDataDict)
         except Exception as e:

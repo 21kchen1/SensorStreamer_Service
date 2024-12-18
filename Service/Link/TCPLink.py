@@ -41,7 +41,7 @@ class TCPLink(Link):
             self.clientSocket.sendall(data.encode(encode))
             return True
         except Exception as e:
-            logging.warning(str(e))
+            logging.warning(f"send: {e}")
             with self.linkingBlock:
                 self.linkingBlock.notify()
             return False
@@ -60,7 +60,7 @@ class TCPLink(Link):
                 raise socket.error("The remote host aborted an established connection")
             return data, address
         except Exception as e:
-            logging.warning(str(e))
+            logging.warning(f"rece: {e}")
             with self.linkingBlock:
                 self.linkingBlock.notify()
             return None, None
@@ -101,7 +101,7 @@ class TCPLink(Link):
 
                 self.clientSocket.close()
             except Exception as e:
-                logging.error(str(e))
+                logging.error(f"__tryLink: {e}")
                 self.clientSocket.close()
                 if self.__linking:
                     continue
