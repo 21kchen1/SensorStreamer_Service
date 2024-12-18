@@ -1,6 +1,6 @@
 from Model.Data.TypeData import TypeData
 from Resource.String.ModelString import DataString
-from Service.DataProcer.ListenProcer import ListenProcer
+from Service.DataProcer.VideoProcer import VideoProcer
 
 """
     Video 数据结构
@@ -22,4 +22,4 @@ class VideoData(TypeData):
         self.height = height
         self.values = values
 
-VideoData.DATA_PROCER = ListenProcer(VideoData)
+VideoData.DATA_PROCER = VideoProcer(VideoData)

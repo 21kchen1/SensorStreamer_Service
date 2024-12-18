@@ -1,3 +1,4 @@
+import io
 import logging
 import cv2
 import numpy as np
@@ -28,11 +29,25 @@ class VideoProcer(ListenProcer):
             return False
 
         try:
-            # 图片框架
-            frame = np.frombuffer(typeData.values, dtype= np.uint8).reshape((typeData.height, typeData.width, 3))
-            cv2.imshow(, frame)
-            cv2.waitKey(50)
+            # 将字节列表转换为字节数据
+            dataBytes = np.array(typeData.values, dtype=np.uint8).tobytes()
+            # 使用 io.BytesIO 将字节数据转换为文件类对象
+            imageData = io.BytesIO(dataBytes).getvalue()
+            # 使用 cv2 读取图像数据
+            image = cv2.imdecode(np.frombuffer(imageData, np.uint8), cv2.IMREAD_UNCHANGED)
+
+            # 检查图像是否加载成功
+            if image is not None:
+                # 显示
+                cv2.imshow(VideoProcer.WIN_NAME, image)
+                cv2.waitKey(1)
             return True
         except Exception as e:
             logging.error(f"_procData: {e}")
             return False
+
+    def getPath(self) -> str:
+        # # 如果窗口是存在的
+        # if cv2.getWindowProperty(VideoProcer.WIN_NAME, cv2.WND_PROP_VISIBLE) >= 0:
+        #     cv2.destroyWindow(VideoProcer.WIN_NAME)
+        return super().getPath()
