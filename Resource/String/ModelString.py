@@ -2,7 +2,6 @@
 """
     DataType 使用的字符串
 """
-
 class DataString:
     TYPE_SENSOR = "SENSOR"
     TYPE_AUDIO = "AUDIO"
@@ -28,3 +27,26 @@ class DataString:
     TYPE_MOTION_DETECT = "MOTION_DETECT"
     TYPE_HEART_BEAT = "HEART_BEAT"
     TYPE_ACCELEROMETER_UNCALIBRATED = "ACCELEROMETER_UNCALIBRATED"
+
+"""
+    PDU 使用的字符串
+"""
+class PDUString:
+    # 特殊值
+    VALUE_HEART_BEAT = "heartbeat"
+
+    # 复用名
+    REUSE_NAME_HEART_BEAT = "HeartBeat"
+    REUSE_NAME_REMOTE_SWITCH = "RemoteSwitch"
+
+    """
+        Switch 的特殊字符串
+    """
+    # 报文类型
+    SWITCH_TYPE_CONTROL = "TYPE_CONTROL"
+    SWITCH_TYPE_SYN = "TYPE_SYN"
+    SWITCH_TYPE_MSG = "TYPE_MSG"
+
+    # 控制类型
+    SWITCH_CONTROL_SWITCH_ON = "CONTROL_SWITCH_ON"
+    SWITCH_CONTROL_SWITCH_OFF = "CONTROL_SWITCH_OFF"

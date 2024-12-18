@@ -3,8 +3,8 @@ import os
 import threading
 
 import cv2
+from Resource.String.ServiceString import DataProcerString
 from Service.DataProcer.DataProcer import DataProcer
-import pandas as pd
 
 """
     Picture 数据处理
@@ -12,6 +12,8 @@ import pandas as pd
 """
 
 class PictureProcer(DataProcer):
+    WIN_NAME = DataProcerString.WIN_NAME_PICTURE
+
     def __init__(self, TypeData) -> None:
         super().__init__(TypeData)
 
@@ -61,7 +63,7 @@ class PictureProcer(DataProcer):
                 if not ret:
                     logging.error("addData: Unable to read frames")
                     return
-                cv2.imshow("Picture", frame)
+                cv2.imshow(PictureProcer.WIN_NAME, frame)
                 # 等待按键 s
                 if not cv2.waitKey(1) == ord("s"):
                     continue
@@ -73,7 +75,7 @@ class PictureProcer(DataProcer):
                 self.callBack(self.TypeData.TYPE)
             # 释放摄像头
             cap.release()
-            cv2.destroyAllWindows()
+            cv2.destroyWindow(PictureProcer.WIN_NAME)
         except Exception as e:
             logging.warning(f"addData: {e}")
 

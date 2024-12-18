@@ -1,5 +1,5 @@
 from Model.Control.TypeControl import TypeControl
-from Resource.String.DataString import DataString
+from Resource.String.ModelString import DataString
 
 """
     Sensor 控制数据结构

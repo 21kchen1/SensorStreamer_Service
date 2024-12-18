@@ -1,8 +1,8 @@
 import sys
 sys.path.append("../")
 
-from Resource.String.NetString import NetString
-from Resource.String.SwitchString import SwitchString
+from Resource.String.ModelString import PDUString
+from Resource.String.ModelString import PDUString
 
 import threading
 from Service.Link.TCPMLinkListen import TCPMLinkListen
@@ -23,11 +23,11 @@ import logging
 
 tcpPort = 5006
 udpPort = 5005
-HEARTBEAT = NetString.VALUE_HEART_BEAT
+HEARTBEAT = PDUString.VALUE_HEART_BEAT
 # 远程开关
-TYPE_CONTROL = SwitchString.TYPE_CONTROL
-CONTROL_SWITCHON = SwitchString.CONTROL_SWITCH_ON
-CONTROL_SWITCHOFF = SwitchString.CONTROL_SWITCH_OFF
+TYPE_CONTROL = PDUString.SWITCH_TYPE_CONTROL
+CONTROL_SWITCHON = PDUString.SWITCH_CONTROL_SWITCH_ON
+CONTROL_SWITCHOFF = PDUString.SWITCH_CONTROL_SWITCH_OFF
 # 传感器
 TYPE_ACCELEROMETER = 1
 TYPE_GYROSCOPE = 4
@@ -51,7 +51,7 @@ def dealHeartBeat(conn: socket):
             assert isinstance(data, bytes)
             print(f"recv data: {data.decode()} {index}")
 
-            RTCP_PDU["reuseName"] = NetString.REUSE_NAME_HEART_BEAT
+            RTCP_PDU["reuseName"] = PDUString.REUSE_NAME_HEART_BEAT
             RTCP_PDU["data"] = HEARTBEAT
             assert TCPMLinkListen.send(conn, str(RTCP_PDU) + "\n", "utf-8")
             print(f"send data: {RTCP_PDU} {index}")
@@ -89,7 +89,7 @@ def dealControl(conn: socket):
     while True:
         try:
             ch = input("On or Off")
-            RTCP_PDU["reuseName"] = NetString.REUSE_NAME_REMOTE_SWITCH
+            RTCP_PDU["reuseName"] = PDUString.REUSE_NAME_REMOTE_SWITCH
             if ch == 'On':
                 RTCP_PDU["data"] = str(controlOn)
             elif ch == 'Off':

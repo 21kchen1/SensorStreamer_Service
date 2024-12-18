@@ -1,22 +1,19 @@
+from Resource.String.ModelString import PDUString
 
 """
-    协议数据单元
+    控制数据单元
     @author chen
 """
 
-from Resource.String.NetString import NetString
-from Resource.String.SwitchString import SwitchString
-
-
 class RemotePDU:
-    REUSE_NAME = NetString.REUSE_NAME_REMOTE_SWITCH
+    REUSE_NAME = PDUString.REUSE_NAME_REMOTE_SWITCH
 
-    TYPE_CONTROL = SwitchString.TYPE_CONTROL
-    TYPE_SYN = SwitchString.TYPE_SYN
-    TYPE_MSG = SwitchString.TYPE_MSG
+    TYPE_CONTROL = PDUString.SWITCH_TYPE_CONTROL
+    TYPE_SYN = PDUString.SWITCH_TYPE_SYN
+    TYPE_MSG = PDUString.SWITCH_TYPE_MSG
 
-    CONTROL_SWITCH_ON = SwitchString.CONTROL_SWITCH_ON
-    CONTROL_SWITCH_OFF = SwitchString.CONTROL_SWITCH_OFF
+    CONTROL_SWITCH_ON = PDUString.SWITCH_CONTROL_SWITCH_ON
+    CONTROL_SWITCH_OFF = PDUString.SWITCH_CONTROL_SWITCH_OFF
 
     """
         @param t_type 数据类型

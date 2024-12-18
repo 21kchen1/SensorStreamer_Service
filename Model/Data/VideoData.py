@@ -1,5 +1,5 @@
 from Model.Data.TypeData import TypeData
-from Resource.String.DataString import DataString
+from Resource.String.ModelString import DataString
 from Service.DataProcer.ListenProcer import ListenProcer
 
 """
@@ -12,10 +12,14 @@ class VideoData(TypeData):
 
     """
         @param unixTimestamp 系统时间戳
+        @param width 视频宽度
+        @param height 视频高度
         @param values 视频数据
     """
-    def __init__(self, unixTimestamp: int, values: list) -> None:
+    def __init__(self, unixTimestamp: int, width: int, height: int, values: list) -> None:
         super().__init__(VideoData.TYPE, unixTimestamp)
+        self.width = width
+        self.height = height
         self.values = values
 
 VideoData.DATA_PROCER = ListenProcer(VideoData)

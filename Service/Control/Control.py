@@ -3,10 +3,10 @@ import socket
 import threading
 import json
 
+from Model.PDU.HeartBeatPDU import HeartBeatPDU
 from Model.PDU.RLinkPDU import RLinkPDU
 from Model.PDU.RemotePDU import RemotePDU
 from Service.Link.TCPMLinkListen import TCPMLinkListen
-from Resource.String.NetString import NetString
 
 """
     Control 通用控制类
@@ -14,11 +14,6 @@ from Resource.String.NetString import NetString
 """
 class Control:
     listenAddress = "0.0.0.0"
-    # REUSE_HEARTBEAT = "HeartBeat"
-    # HEARTBEAT = "heartbeat"
-
-    REUSE_HEARTBEAT = NetString.REUSE_NAME_HEART_BEAT
-    HEARTBEAT = NetString.VALUE_HEART_BEAT
 
     """
         @param conn client socket
@@ -45,11 +40,11 @@ class Control:
                 assert isinstance(data, bytes)
                 data_dict = json.loads(data)
                 # 需要是心跳信息
-                if not data_dict[RLinkPDU.REUSE_NAME] == Control.REUSE_HEARTBEAT:
+                if not data_dict[RLinkPDU.ATTR_REUSE_NAME] == HeartBeatPDU.REUSE_NAME:
                     continue
                 logging.info(f"Rece: {data}")
                 # 返回心跳
-                reData = vars(RLinkPDU(Control.REUSE_HEARTBEAT, Control.HEARTBEAT))
+                reData = vars(RLinkPDU(HeartBeatPDU.REUSE_NAME, HeartBeatPDU.VALUE))
                 assert TCPMLinkListen.send(self.conn, str(reData) + "\n", self.charsets)
                 logging.info(f"Send: {reData}")
             except Exception as e:

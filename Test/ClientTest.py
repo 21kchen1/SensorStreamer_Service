@@ -1,8 +1,8 @@
 import sys
 sys.path.append("../")
 
-from Resource.String.NetString import NetString
-from Resource.String.SwitchString import SwitchString
+from Resource.String.ModelString import PDUString
+from Resource.String.ModelString import PDUString
 import json
 import socket
 import time
@@ -49,7 +49,7 @@ def tcp_server(host, port, data):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((host, port))
 
-        RTCP_PDU["reuseName"] = NetString.REUSE_NAME_HEART_BEAT
+        RTCP_PDU["reuseName"] = PDUString.REUSE_NAME_HEART_BEAT
         RTCP_PDU["data"] = HEARTBEAT
         jsonData = RTCP_PDU + "\n"
 
@@ -123,8 +123,8 @@ def tcp_control_test(host, port):
         @func 用于接收并处理心跳信号
     """
     def heartbeat(conn):
-        RTCP_PDU["reuseName"] = NetString.REUSE_NAME_HEART_BEAT
-        RTCP_PDU["data"] = NetString.VALUE_HEART_BEAT
+        RTCP_PDU["reuseName"] = PDUString.REUSE_NAME_HEART_BEAT
+        RTCP_PDU["data"] = PDUString.VALUE_HEART_BEAT
         recedata = str(RTCP_PDU) + "\n"
         index = 1
         while True:
@@ -163,11 +163,10 @@ tcpPort = 5006  # TCP 端口
 
 sendHost = "192.168.1.102"
 
-TYPE_CONTROL = SwitchString.TYPE_CONTROL
-TYPE_SYN = SwitchString.TYPE_SYN
-CONTROL_SWITCHON = SwitchString.CONTROL_SWITCH_ON
-CONTROL_SWITCHOFF = SwitchString.CONTROL_SWITCH_OFF
-HEARTBEAT = NetString.VALUE_HEART_BEAT
+TYPE_CONTROL = PDUString.SWITCH_TYPE_CONTROL
+CONTROL_SWITCHON = PDUString.SWITCH_CONTROL_SWITCH_ON
+CONTROL_SWITCHOFF = PDUString.SWITCH_CONTROL_SWITCH_OFF
+HEARTBEAT = PDUString.VALUE_HEART_BEAT
 
 data = {"type": TYPE_CONTROL, "time": 114514, "control": CONTROL_SWITCHON, "data": []}
 

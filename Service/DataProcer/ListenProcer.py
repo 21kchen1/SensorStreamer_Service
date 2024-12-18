@@ -56,9 +56,11 @@ class ListenProcer(DataProcer):
         if not self.running:
             return
         try:
-            # 解包生成类字典
-            dataDict = [vars(self.TypeData(**data))]
-            dataFrame = pd.DataFrame.from_dict(dataDict)
+            # 结构化数据
+            typeData = self.TypeData(**data)
+            self._procData(typeData)
+            # 解包生成类字典转化为 df
+            dataFrame = pd.DataFrame.from_dict([vars(typeData)])
             with self.lock:
                 # 第一次添加，额外写入头部
                 if not self.fileExists:

@@ -1,5 +1,5 @@
 from Model.Data.TypeData import TypeData
-from Resource.String.DataString import DataString
+from Resource.String.ModelString import DataString
 from Service.DataProcer.ListenProcer import ListenProcer
 
 """

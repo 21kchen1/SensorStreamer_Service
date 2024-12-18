@@ -25,21 +25,6 @@ class RecordItem(BaseModel):
     # 路径
     path = CharField()
 
-    # # 图片路径
-    # picturePath = CharField(null= True)
-    # # 视频路径
-    # videoPath = CharField(null= True)
-    # # 音频路径
-    # audioPath = CharField(null= True)
-    # # 传感器路径
-    # accelerometerPath = CharField(null= True)
-    # accelerometerUPath = CharField(null= True)
-    # gyroscopePath = CharField(null= True)
-    # gyroscopeUPath = CharField(null= True)
-    # magneticFieldPath = CharField(null= True)
-    # magneticFieldUPath = CharField(null= True)
-    # rotationVectorPath = CharField(null= True)
-
 """
     实际使用的模型
     @author chen
@@ -74,32 +59,8 @@ class RecordItemEnable:
     def setPathInfo(
         self,
         path: str
-        # picturePath: str,
-        # videoPath: str,
-        # audioPath: str,
-        # accelerometerPath: str,
-        # accelerometerUPath: str,
-        # gyroscopePath: str,
-        # gyroscopeUPath: str,
-        # magneticFieldPath: str,
-        # magneticFieldUPath: str,
-        # rotationVectorPath: str
     ) -> None:
         self.path = path
-        # # 图片路径
-        # self.picturePath = picturePath
-        # # 视频路径
-        # self.videoPath = videoPath
-        # # 音频路径
-        # self.audioPath = audioPath
-        # # 传感器路径
-        # self.accelerometerPath = accelerometerPath
-        # self.accelerometerUPath = accelerometerUPath
-        # self.gyroscopePath = gyroscopePath
-        # self.gyroscopeUPath = gyroscopeUPath
-        # self.magneticFieldPath = magneticFieldPath
-        # self.magneticFieldUPath = magneticFieldUPath
-        # self.rotationVectorPath = rotationVectorPath
 
     """
         存储信息

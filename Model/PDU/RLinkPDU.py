@@ -3,8 +3,9 @@
     通信数据单元
     @author chen
 """
+
 class RLinkPDU:
-    REUSE_NAME = "reuseName"
+    ATTR_REUSE_NAME = "reuseName"
     DATA = "data"
     """
         @param reuseName 复用名称
