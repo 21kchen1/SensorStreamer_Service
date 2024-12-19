@@ -22,10 +22,14 @@ class VideoProcer(ListenProcer):
         super().__init__(TypeData, bufRowSize)
         self.image = None
 
+    """
+        父函数拓展，增加图像显示线程的启动
+    """
     def create(self, storagePath, dataCode) -> bool:
         if not super().create(storagePath, dataCode):
             return False
 
+        self.image = None
         # 显示图像的线程
         threading.Thread(target= self._showVideo).start()
         return True
