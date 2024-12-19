@@ -10,6 +10,7 @@ from Model.Data.MagneticFieldUData import MagneticFieldUData
 from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.VideoData import VideoData
+from Service.DataDeal.DataShower import DataShower
 from View.View import View
 from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
@@ -101,11 +102,13 @@ if __name__ == "__main__":
     phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
     # 数据接收器
     dataRecver = DataRecver([watchUDPLink, phoneUDPLink], 65536, CHARSET, STRING_TYPEDATA_DICT)
+    # 数据展示器
+    dataShower = DataShower(dataRecver)
 
     # 数据处理控制器
     dataDealController = DataSaveController(view, dataRecver)
     # 数据展示控制器
-    dataShowController = DataShowController(view, dataRecver)
+    dataShowController = DataShowController(view, dataShower)
 
     # 开启视图
     view.run()

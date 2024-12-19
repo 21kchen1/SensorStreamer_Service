@@ -14,23 +14,38 @@ class DataShower(QThread):
 
     """
         @param dataRecver 获取字典
-        @param endInfo 结束信息
     """
-    def __init__(self, dataRecver: DataRecver, endInfo: str):
+    def __init__(self, dataRecver: DataRecver) -> None:
         super().__init__()
         self.dataRecver = dataRecver
-        self.endInfo = endInfo
+        self.endInfo = ""
         self.running = False
 
-    def start(self):
+    """
+        设置展示结束信息
+        @param endInfo 结束信息
+    """
+    def setEndInfo(self, endInfo) -> None:
+        self.endInfo = endInfo
+
+    """
+        设置 running 控制线程的开始
+    """
+    def start(self) -> None:
         self.running = True
         return super().start()
 
-    def quit(self):
+    """
+        设置 running 控制线程的结束
+    """
+    def quit(self) -> None:
         self.running = False
         return super().quit()
 
-    def run(self):
+    """
+        每 1 秒钟生成并发送展示数据
+    """
+    def run(self) -> None:
         # 未发送停止信号时持续运行
         while self.running:
             # 每一秒处理一次
