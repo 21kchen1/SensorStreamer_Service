@@ -20,12 +20,12 @@ class PictureProcer(DataProcer):
     """
         创建图片存储文件夹，并做对应的校验
     """
-    def create(self, storagePath: str, dataCode: str, callBack= None) -> bool:
-        if self.running:
+    def create(self, storagePath: str, dataCode: str) -> bool:
+        if not super().create(storagePath, dataCode):
             return False
 
         # 生成存储路径
-        self.pathDirName = f"{storagePath}/{self.TypeData.TYPE}"
+        self.pathDirName = f"{self.storagePath}/{self.TypeData.TYPE}"
         # 检查是否已经存在文件夹
         self.fileExists = os.path.isdir(self.pathDirName)
         if self.fileExists:
@@ -34,7 +34,6 @@ class PictureProcer(DataProcer):
         if not os.path.exists(self.pathDirName):
             os.makedirs(self.pathDirName)
 
-        self.callBack = callBack
         # 创建图片存储路径
         self.running = True
 
@@ -44,47 +43,42 @@ class PictureProcer(DataProcer):
     """
         打开摄像头并监听按键，并保存图片
     """
-    def addData(self):
-        if not self.running:
-            return
+    def addData(self) -> bool:
+        if not super().addData({}):
+            return False
 
         try:
             # 打开摄像头
             cap = cv2.VideoCapture(0)
             if not cap.isOpened():
-                logging.error("addData: Unable to open the camera")
-                return
-            # 照片计数
-            pictureNum = 0
+                raise Exception("Unable to open the camera")
 
             while self.running:
                 # 读取每一帧
                 ret, frame = cap.read()
                 if not ret:
-                    logging.error("addData: Unable to read frames")
-                    return
+                    logging.warning("addData: Unable to read frames")
+                    continue
                 cv2.imshow(PictureProcer.WIN_NAME, frame)
                 # 等待按键 s
                 if not cv2.waitKey(1) == ord("s"):
                     continue
-                pictureNum += 1
+                self._addTypeNum()
                 # 保存图片
-                cv2.imwrite(f"{self.pathDirName}/{pictureNum}.jpg", frame)
-                if self.callBack == None:
-                    continue
-                self.callBack(self.TypeData.TYPE)
+                cv2.imwrite(f"{self.pathDirName}/{self.getTypeNum()}.jpg", frame)
             # 释放摄像头
             cap.release()
             cv2.destroyWindow(PictureProcer.WIN_NAME)
+            return True
         except Exception as e:
             logging.warning(f"addData: {e}")
+            self.getPath()
+            return False
 
     """
         关闭存储并返回 csv 文件路径
     """
     def getPath(self) -> str:
-        if not self.running:
+        if super().getPath() == None:
             return None
-        # 关闭存储
-        self.running = False
         return self.pathDirName

@@ -74,7 +74,7 @@ class DataRecver:
             typeData = self.stringTypeDataDict.get(t_type)
             if typeData == None:
                 continue
-            typeData.DATA_PROCER.create(self.storagePath, dataCode, self.typeDataCount)
+            typeData.DATA_PROCER.create(self.storagePath, dataCode)
         # 重置字典
         self.typeNumDict = {}
         # 开始处理数据
@@ -87,14 +87,12 @@ class DataRecver:
         self.running = False
 
     """
-        统计数据
-        @param dataType 数据类型
+        获取类型数据数量字典
     """
-    def typeDataCount(self, dataType: str) -> None:
-        # 添加数量
-        if self.typeNumDict.get(dataType) == None:
-            self.typeNumDict[dataType] = 0
-        self.typeNumDict[dataType] += 1
+    def getTypNumDict(self) -> dict:
+        for typeString, typeData in self.stringTypeDataDict.items():
+            self.typeNumDict[typeString] = typeData.DATA_PROCER.getTypeNum()
+        return self.typeNumDict
 
     """
         获取路径并存储到数据库

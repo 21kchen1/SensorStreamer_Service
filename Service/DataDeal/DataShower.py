@@ -60,7 +60,7 @@ class DataShower(QThread):
             showStr += storagePath
 
             # 数据统计
-            dataNumDict = self.dataRecver.typeNumDict
+            dataNumDict = self.dataRecver.getTypNumDict()
             if len(dataNumDict) == 0:
                 self.runSign.emit(showStr)
                 continue

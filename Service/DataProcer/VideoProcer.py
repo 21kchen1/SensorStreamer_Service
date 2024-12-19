@@ -20,12 +20,11 @@ class VideoProcer(ListenProcer):
     def __init__(self, TypeData, bufRowSize=500):
         super().__init__(TypeData, bufRowSize)
 
-
     """
         @Override 重写，将结构化数据转化为图像并显示
     """
     def _procData(self, typeData) -> bool:
-        if not isinstance(typeData, self.TypeData):
+        if not super()._procData(typeData):
             return False
 
         try:
@@ -45,9 +44,3 @@ class VideoProcer(ListenProcer):
         except Exception as e:
             logging.error(f"_procData: {e}")
             return False
-
-    def getPath(self) -> str:
-        # # 如果窗口是存在的
-        # if cv2.getWindowProperty(VideoProcer.WIN_NAME, cv2.WND_PROP_VISIBLE) >= 0:
-        #     cv2.destroyWindow(VideoProcer.WIN_NAME)
-        return super().getPath()

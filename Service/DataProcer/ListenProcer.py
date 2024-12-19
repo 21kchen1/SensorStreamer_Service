@@ -25,13 +25,13 @@ class ListenProcer(DataProcer):
     """
         创建 csv 文件夹，并做对应的校验
     """
-    def create(self, storagePath: str, dataCode: str, callback= None) -> bool:
-        if self.running:
+    def create(self, storagePath: str, dataCode: str) -> bool:
+        if not super().create(storagePath, dataCode):
             return False
 
         # 生成存储路径
-        path = f"{storagePath}/{self.TypeData.TYPE}"
-        fileName = f"{dataCode}_{self.TypeData.TYPE}.csv"
+        path = f"{self.storagePath}/{self.TypeData.TYPE}"
+        fileName = f"{self.dataCode}_{self.TypeData.TYPE}.csv"
         self.pathFileName = f"{path}/{fileName}"
         # 检查是否已经存在文件
         self.fileExists = os.path.isfile(self.pathFileName)
@@ -45,16 +45,16 @@ class ListenProcer(DataProcer):
         self.writer = csv.writer(self.file)
         # 记录缓存区的数据行数
         self.writerIndex = 0
-        # 回调函数
-        self.callback = callback
+
         self.running = True
 
     """
         处理数据并向 csv 文件添加数据
     """
-    def addData(self, data: dict) -> TypeData:
-        if not self.running:
-            return
+    def addData(self, data: dict) -> bool:
+        if not super().addData(data):
+            return False
+
         try:
             # 结构化数据
             typeData = self.TypeData(**data)
@@ -68,25 +68,25 @@ class ListenProcer(DataProcer):
                     self.fileExists = True
                 self.writer.writerow(dataFrame.values.tolist()[0])
             self.writerIndex += 1
+            # 记录数据
+            self._addTypeNum()
             # 当缓存满，直接写入文件
             if self.writerIndex >= self.bufRowSize:
                 self.file.flush()
                 self.writerIndex = 0
-            # 使用回调函数
-            if self.callback == None:
-                return
-            self.callback(self.TypeData.TYPE)
+            return True
         except Exception as e:
             logging.warning(f"addData: {e}")
+            self.getPath()
+            return False
 
     """
         关闭存储并返回 csv 文件路径
     """
     def getPath(self) -> str:
-        if not self.running:
+        if super().getPath() == None:
             return None
         # 关闭存储
-        self.running = False
         self.writer = None
         self.file.close()
 

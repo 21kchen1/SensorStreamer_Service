@@ -14,6 +14,8 @@ class DataProcer:
     def __init__(self, TypeData) -> None:
         self.lock = threading.Lock()
         self.TypeData = TypeData
+
+        self.typeNum = 0
         self.running = False
 
     """
@@ -23,10 +25,13 @@ class DataProcer:
         @param callback 回调函数
         @return 是否创建成功
     """
-    def create(self, storagePath: str, dataCode: str, callback) -> bool:
+    def create(self, storagePath: str, dataCode: str) -> bool:
         if self.running:
             return False
-        self.running = True
+        self.storagePath = storagePath
+        self.dataCode = dataCode
+        self.typeNum = 0
+        return True
 
     """
         加工结构化数据
@@ -38,15 +43,29 @@ class DataProcer:
         return True
 
     """
+        记录类型数据数量
+    """
+    def _addTypeNum(self) -> None:
+        if not self.running:
+            return
+        self.typeNum = self.typeNum + 1
+
+    """
+        获取类型数据数量
+    """
+    def getTypeNum(self) -> int:
+        if not self.running:
+            return -1
+        return self.typeNum
+
+    """
         向存储结构添加数据，注意线程安全
         @param data 原始数据
     """
-    def addData(self, data: dict) -> None:
+    def addData(self, data: dict) -> bool:
         if not self.running:
-            return
-        typeData = self.TypeData(**data)
-        self._procData(typeData)
-        pass
+            return False
+        return True
 
     """
         返回存储结构路径，并结束存储
@@ -54,4 +73,7 @@ class DataProcer:
     def getPath(self) -> str:
         if not self.running:
             return None
+
+        self.running = False
+        self.typeNum = 0
         return ""
