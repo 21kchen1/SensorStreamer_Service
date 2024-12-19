@@ -99,6 +99,10 @@ class View:
     def setDataStatusInfo(self, info: str) -> None:
         self.ui.dataInfoText.setText(info)
 
+    # 设置默认存储路径
+    def setDefaultStoragePath(self, path: str) -> None:
+        self.ui.dataPathLineEdit.setText(path)
+
     def getCodeGender(self) -> str:
         return self.ui.codeGenderComboBox.currentText()
 

@@ -47,6 +47,7 @@ class ListenProcer(DataProcer):
         self.writerIndex = 0
 
         self.running = True
+        return True
 
     """
         处理数据并向 csv 文件添加数据

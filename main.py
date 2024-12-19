@@ -33,12 +33,17 @@ TEST = True
 # 清理数据库
 CLEAN = False
 
+# 默认存储路径
+DEFAULT_STORAGE_PATH = "G:/Badminton/DataBase"
+
+# 端口
 WATCH_TCP_PORT = 5006
 WATCH_UDP_PORT = 5005
 PHONE_TCP_PORT = 5008
 PHONE_UDP_PORT = 5007
+# 编码
 CHARSET = "utf-8"
-
+# 日志设置
 logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(funcName)s . %(message)s',
                     level=logging.DEBUG)
 
@@ -88,6 +93,8 @@ if __name__ == "__main__":
 
     # 视图
     view = View()
+    # 设置默认存储路径
+    view.setDefaultStoragePath(DEFAULT_STORAGE_PATH)
 
     # 控制控制器
     controlController = ControlController(view, CHARSET)

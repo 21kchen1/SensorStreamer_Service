@@ -1,7 +1,6 @@
 import logging
 import os
 import threading
-
 import cv2
 from Resource.String.ServiceString import DataProcerString
 from Service.DataProcer.DataProcer import DataProcer
@@ -10,7 +9,6 @@ from Service.DataProcer.DataProcer import DataProcer
     Picture 数据处理
     @author: chen
 """
-
 class PictureProcer(DataProcer):
     WIN_NAME = DataProcerString.WIN_NAME_PICTURE
 
@@ -36,9 +34,9 @@ class PictureProcer(DataProcer):
 
         # 创建图片存储路径
         self.running = True
-
         # 开启摄像机线程
         threading.Thread(target= self.addData).start()
+        return True
 
     """
         打开摄像头并监听按键，并保存图片

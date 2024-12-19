@@ -1,5 +1,6 @@
 import io
 import logging
+import threading
 import cv2
 import numpy as np
 from Resource.String.ServiceString import DataProcerString
@@ -17,8 +18,31 @@ class VideoProcer(ListenProcer):
         @TypeData: 数据构造函数
         @bufRowSize: 缓冲区行数
     """
-    def __init__(self, TypeData, bufRowSize=500):
+    def __init__(self, TypeData, bufRowSize=500) -> None:
         super().__init__(TypeData, bufRowSize)
+        self.image = None
+
+    def create(self, storagePath, dataCode) -> bool:
+        if not super().create(storagePath, dataCode):
+            return False
+
+        # 显示图像的线程
+        threading.Thread(target= self._showVideo).start()
+        return True
+
+    """
+        图像显示函数
+    """
+    def _showVideo(self) -> None:
+        if not self.running:
+            return
+
+        while self.running:
+            if self.image is None:
+                continue
+            cv2.imshow(VideoProcer.WIN_NAME, self.image)
+            cv2.waitKey(1)
+        cv2.destroyWindow(VideoProcer.WIN_NAME)
 
     """
         @Override 重写，将结构化数据转化为图像并显示
@@ -33,13 +57,7 @@ class VideoProcer(ListenProcer):
             # 使用 io.BytesIO 将字节数据转换为文件类对象
             imageData = io.BytesIO(dataBytes).getvalue()
             # 使用 cv2 读取图像数据
-            image = cv2.imdecode(np.frombuffer(imageData, np.uint8), cv2.IMREAD_UNCHANGED)
-
-            # 检查图像是否加载成功
-            if image is not None:
-                # 显示
-                cv2.imshow(VideoProcer.WIN_NAME, image)
-                cv2.waitKey(1)
+            self.image = cv2.imdecode(np.frombuffer(imageData, np.uint8), cv2.IMREAD_UNCHANGED)
             return True
         except Exception as e:
             logging.error(f"_procData: {e}")
