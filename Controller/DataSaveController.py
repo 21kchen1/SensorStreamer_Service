@@ -109,7 +109,7 @@ class DataSaveController:
             self.view.showDataCodeWarning()
             return
         # 检查存储路径是否有效
-        if not self.dataRecver.checkDataPath(self.getDataPath()):
+        if not self.dataRecver.checkDataPath(self.getDataCode(), self.getDataPath()):
             self.view.showDataPathWarning()
             return
 

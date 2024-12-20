@@ -49,6 +49,7 @@ class DataRecver:
     """
         从数据库中检查数据编号是否重复
         @param dataCode 数据编号
+        @return 是否重复
     """
     def checkDataCode(self, dataCode: str) -> bool:
         res = RecordItem.get_or_none(RecordItem.recordName == dataCode)
@@ -58,10 +59,16 @@ class DataRecver:
 
     """
         检测存储路径是否有效
-        @param dataPath 存储路径
+        @param dataCode 数据编号
+        @param storagePath 存储路径
+        @return 是否有效
     """
-    def checkDataPath(self, dataPath: str) -> bool:
-        return os.path.exists(dataPath)
+    def checkDataPath(self, dataCode, storagePath: str) -> bool:
+        # 如果存储目录不存在
+        if not os.path.exists(storagePath):
+            return False
+        # 如果存储位置已经有文件了
+        return not os.path.exists(f"{storagePath}/{dataCode}")
 
     """
         开始处理数据
@@ -76,7 +83,7 @@ class DataRecver:
             logging.warning(f"startAccept: DataCode error")
             return
         # 检查存储路径
-        if not self.checkDataPath(storagePath):
+        if not self.checkDataPath(dataCode, storagePath):
             logging.warning(f"startAccept: DataPath error")
             return
 

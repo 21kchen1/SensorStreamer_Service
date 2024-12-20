@@ -2,8 +2,10 @@
 *.pyc
 *.sql
 *.wav
+*.csv
 
 # folder
 __pycache__
 DatasetTest
 DataBase
+AudioTest
