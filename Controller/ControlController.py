@@ -42,11 +42,11 @@ class ControlController:
     # 设置控制器
     def setWatchControl(self, conn: socket, address) -> None:
         self.watchControl = WatchControl(conn, self.cancelWatchControl, self.charset)
-        self.view.setWatchStatus(View.STATUS_ON)
+        self.view.setWatchStatus(f"{ View.STATUS_ON } | { address }")
 
     def setPhoneControl(self, conn: socket, address) -> None:
         self.phoneControl = PhoneControl(conn, self.cancelPhoneControl, self.charset)
-        self.view.setPhoneStatus(View.STATUS_ON)
+        self.view.setPhoneStatus(f"{ View.STATUS_ON } | { address }")
 
     # 取消控制器
     def cancelWatchControl(self) -> None:
