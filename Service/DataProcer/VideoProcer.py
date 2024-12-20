@@ -46,6 +46,9 @@ class VideoProcer(ListenProcer):
                 continue
             cv2.imshow(VideoProcer.WIN_NAME, self.image)
             cv2.waitKey(1)
+        # 检测窗口是否存在
+        if cv2.getWindowProperty(VideoProcer.WIN_NAME, cv2.WND_PROP_VISIBLE) < 1:
+            return
         cv2.destroyWindow(VideoProcer.WIN_NAME)
 
     """

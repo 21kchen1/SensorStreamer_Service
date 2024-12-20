@@ -57,6 +57,13 @@ class DataRecver:
         return True
 
     """
+        检测存储路径是否有效
+        @param dataPath 存储路径
+    """
+    def checkDataPath(self, dataPath: str) -> bool:
+        return os.path.exists(dataPath)
+
+    """
         开始处理数据
         @param typeSetting 设置列表
         @param storagePath 存储路径
@@ -64,9 +71,15 @@ class DataRecver:
         @param timestamp 统一时间戳
     """
     def startAccept(self, typeSetting: list, storagePath: str, dataCode: str, timestamp: int) -> None:
+        # 检查数据标签
         if not self.checkDataCode(dataCode):
-            logging.warning(f"startAccept: DataCode duplicate")
+            logging.warning(f"startAccept: DataCode error")
             return
+        # 检查存储路径
+        if not self.checkDataPath(storagePath):
+            logging.warning(f"startAccept: DataPath error")
+            return
+
         self.timestamp = timestamp
         self.storagePath = f"{storagePath}/{dataCode}"
         # 重置选择的数据处理类

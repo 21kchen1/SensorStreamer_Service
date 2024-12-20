@@ -29,22 +29,26 @@ class ListenProcer(DataProcer):
         if not super().create(storagePath, dataCode):
             return False
 
-        # 生成存储路径
-        path = f"{self.storagePath}/{self.TypeData.TYPE}"
-        fileName = f"{self.dataCode}_{self.TypeData.TYPE}.csv"
-        self.pathFileName = f"{path}/{fileName}"
-        # 检查是否已经存在文件
-        self.fileExists = os.path.isfile(self.pathFileName)
-        if self.fileExists:
+        try:
+            # 生成存储路径
+            path = f"{self.storagePath}/{self.TypeData.TYPE}"
+            fileName = f"{self.dataCode}_{self.TypeData.TYPE}.csv"
+            self.pathFileName = f"{path}/{fileName}"
+            # 检查是否已经存在文件
+            self.fileExists = os.path.isfile(self.pathFileName)
+            if self.fileExists:
+                raise Exception("File already exists!")
+            # 创建文件路径
+            if not os.path.exists(path):
+                os.makedirs(path)
+            # 开启文件
+            self.file = open(self.pathFileName, "w", newline= "")
+            self.writer = csv.writer(self.file)
+            # 记录缓存区的数据行数
+            self.writerIndex = 0
+        except Exception as e:
+            logging.error(f"create: {e}")
             return False
-        # 创建文件路径
-        if not os.path.exists(path):
-            os.makedirs(path)
-        # 开启文件
-        self.file = open(self.pathFileName, "w", newline= "")
-        self.writer = csv.writer(self.file)
-        # 记录缓存区的数据行数
-        self.writerIndex = 0
 
         self.running = True
         return True

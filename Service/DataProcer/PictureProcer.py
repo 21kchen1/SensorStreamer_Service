@@ -22,15 +22,19 @@ class PictureProcer(DataProcer):
         if not super().create(storagePath, dataCode):
             return False
 
-        # 生成存储路径
-        self.pathDirName = f"{self.storagePath}/{self.TypeData.TYPE}"
-        # 检查是否已经存在文件夹
-        self.fileExists = os.path.isdir(self.pathDirName)
-        if self.fileExists:
+        try:
+            # 生成存储路径
+            self.pathDirName = f"{self.storagePath}/{self.TypeData.TYPE}"
+            # 检查是否已经存在文件夹
+            self.fileExists = os.path.isdir(self.pathDirName)
+            if self.fileExists:
+                raise Exception("Dir already exists!")
+            # 创建文件路径
+            if not os.path.exists(self.pathDirName):
+                os.makedirs(self.pathDirName)
+        except Exception as e:
+            logging.error(f"create: {e}")
             return False
-        # 创建文件路径
-        if not os.path.exists(self.pathDirName):
-            os.makedirs(self.pathDirName)
 
         # 创建图片存储路径
         self.running = True

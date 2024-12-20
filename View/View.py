@@ -1,6 +1,6 @@
+from Resource.String.ViewString import ViewString
 from View.MainView import Ui_MainWidget
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtGui import QFont
 import sys
 
 """
@@ -9,14 +9,14 @@ import sys
 """
 
 class View:
-    VIDEO_CHECK = "videoCheck"
-    PICTURE_CHECK = "pictureCheck"
-    AUDIO_CHECK = "audioCheck"
-    HEART_RATE_CHECK = "heartRateCheck"
-    ACCELEROMETER_CHECK = "accelerometerCheck"
-    GYROSCOPE_CHECK = "gyroscopeCheck"
-    ROTATION_VECTOR_CHECK = "rotationVectorCheck"
-    MAGNETIC_FIELD_CHECK = "magneticFieldCheck"
+    VIDEO_CHECK = ViewString.VIDEO_CHECK
+    PICTURE_CHECK = ViewString.PICTURE_CHECK
+    AUDIO_CHECK = ViewString.AUDIO_CHECK
+    HEART_RATE_CHECK = ViewString.HEART_RATE_CHECK
+    ACCELEROMETER_CHECK = ViewString.ACCELEROMETER_CHECK
+    GYROSCOPE_CHECK = ViewString.GYROSCOPE_CHECK
+    ROTATION_VECTOR_CHECK = ViewString.ROTATION_VECTOR_CHECK
+    MAGNETIC_FIELD_CHECK = ViewString.MAGNETIC_FIELD_CHECK
 
 
     CHECK_LIST = [
@@ -73,12 +73,20 @@ class View:
         self.ui.startStream.setEnabled(False)
         self.ui.stopStream.setEnabled(False)
 
-    # 存储校验警告
+    # 数据标签校验警告
     def showDataCodeWarning(self):
         return QtWidgets.QMessageBox.warning(
             self.mainWidget,
-            "DataCodeWarning",
-            "Duplicate Data Code"
+            "Data Code Warning",
+            "Duplicate Data Code."
+        )
+
+    # 数据存储校验警告
+    def showDataPathWarning(self):
+        return QtWidgets.QMessageBox.warning(
+            self.mainWidget,
+            "Data Path Warning",
+            "Exception Data Path."
         )
 
     # 数据存储确认

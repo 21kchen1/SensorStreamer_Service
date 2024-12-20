@@ -96,27 +96,34 @@ class DataSaveController:
         槽函数
     """
 
-    # 检验当前的数据标签是否重复
+    # 检验当前的数据标签与路径是否重复，如果验证正确，则允许开始执行
     def checkDataCode(self) -> None:
-        # 如果验证正确，则允许开始执行
-        self.dataCode = self.getDataCode()
-        if self.dataRecver.checkDataCode(self.dataCode):
-            self.dataBaseInfo = self.getRecordItemBaseInfo()
-            self.view.ui.startStream.setEnabled(True)
-            self.view.ui.stopStream.setEnabled(False)
-            return
-        # 如果验证错误，则弹出提示框
         self.dataCode = None
+        self.dataPath = None
         self.dataBaseInfo = None
         self.view.ui.startStream.setEnabled(False)
         self.view.ui.stopStream.setEnabled(False)
-        self.view.showDataCodeWarning()
+
+        # 检测数据标签是否重复
+        if not self.dataRecver.checkDataCode(self.getDataCode()):
+            self.view.showDataCodeWarning()
+            return
+        # 检查存储路径是否有效
+        if not self.dataRecver.checkDataPath(self.getDataPath()):
+            self.view.showDataPathWarning()
+            return
+
+        self.dataCode = self.getDataCode()
+        self.dataPath = self.getDataPath()
+        self.dataBaseInfo = self.getRecordItemBaseInfo()
+        self.view.ui.startStream.setEnabled(True)
+        self.view.ui.stopStream.setEnabled(False)
 
     # 开始流式传输
     def startStream(self) -> None:
         self.dataRecver.startAccept(
             self.getTypeSetting(),
-            self.getDataPath(),
+            self.dataPath,
             self.dataCode,
             TimeLine.getBaseTime()
         )
