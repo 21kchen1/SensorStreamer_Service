@@ -41,12 +41,16 @@ class View:
 
     """
         初始化 ui，并实现信息获取
+        @param width 窗口宽度
+        @param height 窗口高度
     """
-    def __init__(self) -> None:
+    def __init__(self, width= 1500, height= 1000) -> None:
         self.app = QtWidgets.QApplication(sys.argv)
         self.mainWidget = QtWidgets.QWidget()
         # 主界面
         self.ui = Ui_MainWidget()
+        self.width = width
+        self.height = height
         # 初始化
         self.uiInit()
 
@@ -62,8 +66,8 @@ class View:
     def uiInit(self) -> None:
         # 大小设置
         self.ui.setupUi(self.mainWidget)
-        self.mainWidget.resize(1500, 1000)
-        self.mainWidget.setMinimumSize(QtCore.QSize(500, 500))
+        self.mainWidget.resize(self.width, self.height)
+        self.mainWidget.setMinimumSize(QtCore.QSize(self.width, self.height))
 
         # 设置按钮禁用
         self.ui.startStream.setEnabled(False)

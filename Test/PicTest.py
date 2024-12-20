@@ -1,5 +1,10 @@
 import cv2
 
+"""
+    摄像测试
+    @author chen
+"""
+
 # 打开摄像头
 cap = cv2.VideoCapture(0)
 

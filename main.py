@@ -33,9 +33,14 @@ TEST = True
 # 清理数据库
 CLEAN = False
 
+# 窗口宽高
+VIEW_WIDTH = 1500
+VIEW_HEIGHT = 1000
 # 默认存储路径
-DEFAULT_STORAGE_PATH = "G:/Badminton/DataBase"
+VIEW_DEFAULT_STORAGE_PATH = "G:/Badminton/DataBase"
 
+# 地址
+ADDRESS = "0.0.0.0"
 # 端口
 WATCH_TCP_PORT = 5006
 WATCH_UDP_PORT = 5005
@@ -66,7 +71,7 @@ STRING_TYPEDATA_DICT = {
 """
     关闭控制台的快速编辑模式
 """
-def disableQEMode():
+def disableQEMode() -> None:
     if not os.name == 'nt':
         return
 
@@ -92,21 +97,21 @@ if __name__ == "__main__":
     MySql.DB.create_tables([RecordItem], safe= True)
 
     # 视图
-    view = View()
+    view = View(VIEW_WIDTH, VIEW_HEIGHT)
     # 设置默认存储路径
-    view.setDefaultStoragePath(DEFAULT_STORAGE_PATH)
+    view.setDefaultStoragePath(VIEW_DEFAULT_STORAGE_PATH)
 
     # 控制控制器
     controlController = ControlController(view, CHARSET)
     # 开始监听，并生成控制
-    watchListen = TCPMLinkListen(WATCH_TCP_PORT, "0.0.0.0", controlController.setWatchControl)
+    watchListen = TCPMLinkListen(WATCH_TCP_PORT, ADDRESS, controlController.setWatchControl)
     watchListen.startListen()
-    phoneListen = TCPMLinkListen(PHONE_TCP_PORT, "0.0.0.0", controlController.setPhoneControl)
+    phoneListen = TCPMLinkListen(PHONE_TCP_PORT, ADDRESS, controlController.setPhoneControl)
     phoneListen.startListen()
 
     # 启动 UDP
-    watchUDPLink = UDPLink(WATCH_UDP_PORT, "0.0.0.0")
-    phoneUDPLink = UDPLink(PHONE_UDP_PORT, "0.0.0.0")
+    watchUDPLink = UDPLink(WATCH_UDP_PORT, ADDRESS)
+    phoneUDPLink = UDPLink(PHONE_UDP_PORT, ADDRESS)
     # 数据接收器
     dataRecver = DataRecver([watchUDPLink, phoneUDPLink], 65536, CHARSET, STRING_TYPEDATA_DICT)
     # 数据展示器

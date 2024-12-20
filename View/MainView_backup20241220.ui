@@ -22,6 +22,13 @@
     <height>500</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Consolas</family>
+    <weight>50</weight>
+    <bold>false</bold>
+   </font>
+  </property>
   <property name="cursor">
    <cursorShape>ArrowCursor</cursorShape>
   </property>
@@ -32,7 +39,7 @@
    <double>1.000000000000000</double>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 75 9pt &quot;Times New Roman&quot;;</string>
+   <string notr="true"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="spacing">
@@ -62,7 +69,7 @@
          <item>
           <widget class="QLabel" name="dataInfoLabel">
            <property name="text">
-            <string>UDPLink Recv Data:</string>
+            <string>Data State Infomation:</string>
            </property>
           </widget>
          </item>
@@ -75,8 +82,8 @@
             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Times New Roman'; font-size:9pt; font-weight:72; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;waitting for data...&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Consolas'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:72;&quot;&gt;Streaming has not started...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -113,7 +120,7 @@ p, li { white-space: pre-wrap; }
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Off</string>
+               <string>OFF</string>
               </property>
               <property name="readOnly">
                <bool>true</bool>
@@ -129,7 +136,7 @@ p, li { white-space: pre-wrap; }
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Off</string>
+               <string>OFF</string>
               </property>
               <property name="readOnly">
                <bool>true</bool>
@@ -296,7 +303,7 @@ p, li { white-space: pre-wrap; }
                         </sizepolicy>
                        </property>
                        <property name="text">
-                        <string/>
+                        <string>ZERO</string>
                        </property>
                        <property name="placeholderText">
                         <string>Staff Name</string>

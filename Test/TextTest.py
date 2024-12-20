@@ -2,6 +2,11 @@ from PyQt5.QtWidgets import QApplication, QTextEdit
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
+"""
+    字体测试
+    @author chen
+"""
+
 app = QApplication([])
 
 # 创建QTextEdit控件
