@@ -435,17 +435,42 @@ p, li { white-space: pre-wrap; }
                        </property>
                        <item>
                         <property name="text">
-                         <string>Lobs</string>
+                         <string>ForehandHigh</string>
                         </property>
                        </item>
                        <item>
                         <property name="text">
-                         <string>Net Shots</string>
+                         <string>ForehandLob</string>
                         </property>
                        </item>
                        <item>
                         <property name="text">
-                         <string>Spikes</string>
+                         <string>ForehandKill</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>ForehandService</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>BackhandHigh</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>BackhandLob</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>BackhandKill</string>
+                        </property>
+                       </item>
+                       <item>
+                        <property name="text">
+                         <string>BackhandService</string>
                         </property>
                        </item>
                       </widget>
