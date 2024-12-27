@@ -1,52 +1,41 @@
 import logging
-import os
 import threading
 import cv2
+from Model.Data.TypeData import TypeData
 from Resource.String.ServiceString import DataProcerString
-from Service.DataProcer.DataProcer import DataProcer
+from Service.DataProcer.ListenProcer import ListenProcer
+from Service.Time.TimeLine import TimeLine
 
 """
-    Picture 数据处理
+    PictureNew 数据处理
     @author: chen
 """
-class PictureProcer(DataProcer):
+class PictureProcer(ListenProcer):
     WIN_NAME = DataProcerString.WIN_NAME_PICTURE
 
-    def __init__(self, TypeData) -> None:
-        super().__init__(TypeData)
+    """
+        @TypeData: 数据构造函数
+        @bufRowSize: 缓冲区行数
+    """
+    def __init__(self, TypeData, bufRowSize= 500) -> None:
+        super().__init__(TypeData, bufRowSize)
 
     """
-        创建图片存储文件夹，并做对应的校验
+        父函数拓展，创建图片存储文件夹，并做对应的校验
     """
     def create(self, storagePath: str, dataCode: str) -> bool:
         if not super().create(storagePath, dataCode):
             return False
 
-        try:
-            # 生成存储路径
-            self.pathDirName = f"{self.storagePath}/{self.TypeData.TYPE}"
-            # 检查是否已经存在文件夹
-            self.fileExists = os.path.isdir(self.pathDirName)
-            if self.fileExists:
-                raise Exception("Dir already exists!")
-            # 创建文件路径
-            if not os.path.exists(self.pathDirName):
-                os.makedirs(self.pathDirName)
-        except Exception as e:
-            logging.error(f"create: {e}")
-            return False
-
-        # 创建图片存储路径
-        self.running = True
         # 开启摄像机线程
-        threading.Thread(target= self.addData).start()
+        threading.Thread(target= self._getPicture).start()
         return True
 
     """
         打开摄像头并监听按键，并保存图片
     """
-    def addData(self) -> bool:
-        if not super().addData({}):
+    def _getPicture(self) -> bool:
+        if not self.running:
             return False
 
         try:
@@ -59,13 +48,16 @@ class PictureProcer(DataProcer):
                 # 读取每一帧
                 ret, frame = cap.read()
                 if not ret:
-                    logging.warning("addData: Unable to read frames")
+                    logging.warning("_getPicture: Unable to read frames")
                     continue
                 cv2.imshow(PictureProcer.WIN_NAME, frame)
                 # 等待按键 s
                 if not cv2.waitKey(1) == ord("s"):
                     continue
-                self._addTypeNum()
+                # 添加记录
+                initDataDict = vars(self.TypeData(TimeLine.getBaseToNow()))
+                initDataDict.pop(TypeData.ATTR_TYPE, None)
+                self.addData(initDataDict)
                 # 保存图片
                 cv2.imwrite(f"{self.pathDirName}/{self.getTypeNum()}.jpg", frame)
             # 释放摄像头
@@ -73,14 +65,6 @@ class PictureProcer(DataProcer):
             cv2.destroyWindow(PictureProcer.WIN_NAME)
             return True
         except Exception as e:
-            logging.warning(f"addData: {e}")
+            logging.warning(f"_getPicture: {e}")
             self.getPath()
             return False
-
-    """
-        关闭存储并返回 csv 文件路径
-    """
-    def getPath(self) -> str:
-        if super().getPath() == None:
-            return None
-        return self.pathDirName

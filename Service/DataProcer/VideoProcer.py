@@ -18,7 +18,7 @@ class VideoProcer(ListenProcer):
         @TypeData: 数据构造函数
         @bufRowSize: 缓冲区行数
     """
-    def __init__(self, TypeData, bufRowSize=500) -> None:
+    def __init__(self, TypeData, bufRowSize= 500) -> None:
         super().__init__(TypeData, bufRowSize)
         self.image = None
 

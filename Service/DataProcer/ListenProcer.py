@@ -31,16 +31,16 @@ class ListenProcer(DataProcer):
 
         try:
             # 生成存储路径
-            path = f"{self.storagePath}/{self.TypeData.TYPE}"
+            self.pathDirName = f"{self.storagePath}/{self.TypeData.TYPE}"
             fileName = f"{self.dataCode}_{self.TypeData.TYPE}.csv"
-            self.pathFileName = f"{path}/{fileName}"
+            self.pathFileName = f"{self.pathDirName}/{fileName}"
             # 检查是否已经存在文件
             self.fileExists = os.path.isfile(self.pathFileName)
             if self.fileExists:
                 raise Exception("File already exists!")
             # 创建文件路径
-            if not os.path.exists(path):
-                os.makedirs(path)
+            if not os.path.exists(self.pathDirName):
+                os.makedirs(self.pathDirName)
             # 开启文件
             self.file = open(self.pathFileName, "w", newline= "")
             self.writer = csv.writer(self.file)

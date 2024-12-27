@@ -10,9 +10,7 @@ from Service.DataProcer.PictureProcer import PictureProcer
 class PictureData(TypeData):
     TYPE = DataString.TYPE_PICTURE
 
-    def __init__(self, value):
-        super().__init__(PictureData.TYPE, 0)
-        # 照片
-        self.value = value
+    def __init__(self, unixTimestamp):
+        super().__init__(PictureData.TYPE, unixTimestamp)
 
 PictureData.DATA_PROCER = PictureProcer(PictureData)

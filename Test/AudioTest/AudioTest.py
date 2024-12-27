@@ -2,10 +2,16 @@ import csv
 import numpy as np
 import wave
 
+"""
+    测试音频还原
+    @version 1.0
+    @author chen
+"""
+
 # CSV 文件路径
-# csv_file = 'AUDIO1.csv'
-csv_file = 'G:\\Badminton\\测试数据\\Man_Low_Lobs_ZERO_4_Null_AUDIO.csv'
-wav_file = 'output_audio.wav'
+csv_file = 'AUDIO3.csv'
+# csv_file = 'G:\\Badminton\\测试数据\\Man_Low_Lobs_ZERO_4_Null_AUDIO.csv'
+wav_file = 'output2_audio.wav'
 
 # 设定参数
 sampling_rate = 16000  # 采样率
@@ -21,7 +27,7 @@ with open(csv_file, newline='', encoding='utf-8') as csvfile:
         if not row[0] == "AUDIO":
             continue
         # 提取音频数据（假设音频数据在 CSV 的第三列）
-        audio_data_str = row[2].strip('[]"')  # 去掉字符串的中括号和双引号
+        audio_data_str = row[3].strip('[]"')  # 去掉字符串的中括号和双引号
         audio_samples.extend(list(map(int, audio_data_str.split(', '))))  # 将字符串转为整数列表
         timestamp = int(row[1])
 
