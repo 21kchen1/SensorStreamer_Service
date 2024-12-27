@@ -3,6 +3,7 @@
 *.sql
 *.wav
 *.csv
+*.avi
 
 # folder
 __pycache__

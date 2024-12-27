@@ -65,6 +65,23 @@ class TCPMLinkListen(Link):
             return None, None
 
     """
+        查询设备当前的无线局域网适配器 WLAN 的 IPv4 地址
+    """
+    def getWLANIP(self):
+        try:
+            testSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            # 不需要真正发送数据，所以使用一个不存在的地址
+            testSocket.connect(("10.255.255.255", 1))
+            # 获取socket对象的IP地址和端口
+            IP = testSocket.getsockname()[0]
+        except Exception as e:
+            logging.warning(f"getIP: {e}")
+            IP = "127.0.0.1"
+        finally:
+            testSocket.close()
+        return IP
+
+    """
         设置 __linking 为真
         启动 service socket, 启动监听线程
     """
@@ -77,7 +94,8 @@ class TCPMLinkListen(Link):
             self.serviceSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.serviceSocket.bind((self.address, self.port))
             self.serviceSocket.listen()
-        logging.info(f"Listening on { socket.gethostbyname(socket.gethostname()) } : { self.port }")
+        # logging.info(f"Listening on { socket.gethostbyname(socket.gethostname()) } : { self.port }")
+        logging.info(f"Listening on { self.getWLANIP() } : { self.port }")
         threading.Thread(target= self.__tryLink).start()
 
     """
