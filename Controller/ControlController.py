@@ -120,7 +120,5 @@ class ControlController:
     # 设置槽函数
     def setSlotFunc(self) -> None:
         # 设置开始和结束按钮的事件
-        # self.view.ui.startStream.clicked.connect(self.startStream)
-        # self.view.ui.stopStream.clicked.connect(self.stopStream)
         self.view.setStartClicked(self.startStream)
         self.view.setStopClicked(self.stopStream)

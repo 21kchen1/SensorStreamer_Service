@@ -89,7 +89,8 @@ class DataRecvController:
             action= self.view.getCodeAction(),
             name= self.view.getCodeName(),
             time= int(self.view.getCodeTime()),
-            other= self.view.getCodeOther()
+            other= self.view.getCodeOther(),
+            duration= int(TimeLine.getBaseToNow())
         )
 
     """
@@ -142,7 +143,8 @@ class DataRecvController:
         # 询问是否保存
         result = self.view.showSaveData(self.dataCode)
         if result == QtWidgets.QMessageBox.Yes:
-            self.dataRecver.saveData(self.dataBaseInfo)
+            # self.dataRecver.saveData(self.dataBaseInfo)
+            self.dataRecver.saveData(self.getRecordItemBaseInfo())
         # 如果不保存则删除文件
         else:
             self.dataRecver.cancelSaveData()
@@ -154,10 +156,7 @@ class DataRecvController:
     # 设置槽
     def setSlotFunc(self) -> None:
         # 设置开始和结束按钮的事件
-        # self.view.ui.startStream.clicked.connect(self.startStream)
-        # self.view.ui.stopStream.clicked.connect(self.stopStream)
         self.view.setStartClicked(self.startStream)
         self.view.setStopClicked(self.stopStream)
         # 设置校验按钮事件
-        # self.view.ui.dataSetCheckButton.clicked.connect(self.checkDataCode)
         self.view.setDataSetCheckClicked(self.checkDataCode)

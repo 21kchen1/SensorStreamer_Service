@@ -22,6 +22,8 @@ class RecordItem(BaseModel):
     time = IntegerField()
     # 其他
     other = CharField()
+    # 持续时间
+    duration = IntegerField()
     # 路径
     path = CharField()
 
@@ -39,7 +41,8 @@ class RecordItemEnable:
         action: str,
         name: str,
         time: int,
-        other: str
+        other: str,
+        duration: int
     ) -> None:
         # 记录名称，即 dataCode
         self.recordName = recordName
@@ -55,6 +58,8 @@ class RecordItemEnable:
         self.time = time
         # 其他
         self.other = other
+        # 持续时间
+        self.duration = duration
 
     def setPathInfo(
         self,

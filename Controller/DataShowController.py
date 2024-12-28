@@ -39,9 +39,6 @@ class DataShowController:
     def setSlotFunc(self) -> None:
         # 反向设置槽函数
         self.dataShower.runSign.connect(self.view.setDataStatusInfo)
-
-        # self.view.ui.startStream.clicked.connect(self.startStream)
-        # self.view.ui.stopStream.clicked.connect(self.stopStream)
-
+        # 设置按钮事件
         self.view.setStartClicked(self.startStream)
         self.view.setStopClicked(self.stopStream)

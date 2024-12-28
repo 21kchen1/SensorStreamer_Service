@@ -105,7 +105,7 @@ if __name__ == "__main__":
     # 时间控制器
     timeController = TimeController(view)
     timeController.setStartSlot()
-    
+
     # 控制控制器
     controlController = ControlController(view, CHARSET)
     # 开始监听，并生成控制
