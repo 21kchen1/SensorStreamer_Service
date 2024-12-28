@@ -132,7 +132,7 @@ class DataRecvController:
         )
         print(f"DataRecv: { serviceTimeStamp }")
         # 停止校验功能
-        self.view.ui.dataSetCheckButton.setEnabled(False)
+        self.view.ui.settingWidget.setEnabled(False)
         # 可以停止
         self.view.ui.startStream.setEnabled(False)
         self.view.ui.stopStream.setEnabled(True)
@@ -151,7 +151,7 @@ class DataRecvController:
         # 重置校验
         self.view.ui.startStream.setEnabled(False)
         self.view.ui.stopStream.setEnabled(False)
-        self.view.ui.dataSetCheckButton.setEnabled(True)
+        self.view.ui.settingWidget.setEnabled(True)
 
     # 设置槽
     def setSlotFunc(self) -> None:
