@@ -99,6 +99,18 @@ class View:
             QtWidgets.QMessageBox.No
         )
 
+    # 设置开始事件
+    def setStartClicked(self, slot):
+        self.ui.startStream.clicked.connect(slot)
+
+    # 设置结束事件
+    def setStopClicked(self, slot):
+        self.ui.stopStream.clicked.connect(slot)
+
+    # 设置检测事件
+    def setDataSetCheckClicked(self, slot):
+        self.ui.dataSetCheckButton.clicked.connect(slot)
+
     # 设置手表状态
     def setWatchStatus(self, status: str) -> None:
         self.ui.watchStatus.setText(status)

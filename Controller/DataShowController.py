@@ -1,6 +1,4 @@
-from time import sleep
 from View.View import View
-from Service.DataDeal.DataRecver import DataRecver
 from Service.DataDeal.DataShower import DataShower
 
 """
@@ -42,5 +40,8 @@ class DataShowController:
         # 反向设置槽函数
         self.dataShower.runSign.connect(self.view.setDataStatusInfo)
 
-        self.view.ui.startStream.clicked.connect(self.startStream)
-        self.view.ui.stopStream.clicked.connect(self.stopStream)
+        # self.view.ui.startStream.clicked.connect(self.startStream)
+        # self.view.ui.stopStream.clicked.connect(self.stopStream)
+
+        self.view.setStartClicked(self.startStream)
+        self.view.setStopClicked(self.stopStream)

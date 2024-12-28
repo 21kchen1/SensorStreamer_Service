@@ -94,6 +94,7 @@ class ControlController:
     # 开始流式传输
     def startStream(self) -> None:
         serviceTimeStamp = TimeLine.getBaseTime()
+        print(f"Control: { serviceTimeStamp }")
 
         if self.watchControl != None:
             # 设置音频采样率
@@ -116,10 +117,10 @@ class ControlController:
         if self.phoneControl != None:
             self.phoneControl.stopStream(serviceTimeStamp)
 
-        TimeLine.resetBaseTime()
-
     # 设置槽函数
     def setSlotFunc(self) -> None:
         # 设置开始和结束按钮的事件
-        self.view.ui.startStream.clicked.connect(self.startStream)
-        self.view.ui.stopStream.clicked.connect(self.stopStream)
+        # self.view.ui.startStream.clicked.connect(self.startStream)
+        # self.view.ui.stopStream.clicked.connect(self.stopStream)
+        self.view.setStartClicked(self.startStream)
+        self.view.setStopClicked(self.stopStream)

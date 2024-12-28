@@ -9,8 +9,10 @@ import io
     @author chen
 """
 
-csv_file = "VIDEO.csv"
-avi_file = "output.avi"
+# csv_file = "VIDEO.csv"
+csv_file = "G:\\Badminton\\测试数据\\DataBase\\Man_Low_ForehandService_Lie_2_Null\\VIDEO\\Man_Low_ForehandService_Lie_2_Null_VIDEO.csv"
+valueLocal = 4
+avi_file = "output2.avi"
 
 frames = []  # 这里应该是你的图像帧列表，每个元素都是一个numpy.ndarray
 
@@ -19,7 +21,7 @@ with open(csv_file, newline= "", encoding= "utf-8") as csvfile:
     for row in reader:
         if not row[0] == "VIDEO":
             continue
-        values = row[4].strip('[]"')
+        values = row[valueLocal].strip('[]"')
         values = list(map(int, values.split(", ")))
         # 将字节列表转换为字节数据
         dataBytes = np.array(values, dtype=np.uint8).tobytes()
@@ -31,7 +33,7 @@ with open(csv_file, newline= "", encoding= "utf-8") as csvfile:
 
 # 定义视频编码器和创建VideoWriter对象
 # 例如，使用XVID编码器，输出视频的分辨率为(640, 480)，帧率为20fps
-out = cv2.VideoWriter('output.avi', cv2.VideoWriter_fourcc(*'XVID'), 20.0, (640, 480))
+out = cv2.VideoWriter(avi_file, cv2.VideoWriter_fourcc(*'XVID'), 20.0, (640, 480))
 
 # 将每一帧图像写入视频
 for frame in frames:
@@ -40,3 +42,5 @@ for frame in frames:
 
 # 释放VideoWriter对象
 out.release()
+
+print(f"生成 { avi_file }.")

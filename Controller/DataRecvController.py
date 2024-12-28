@@ -15,11 +15,11 @@ from PyQt5 import QtWidgets
 from Service.Time.TimeLine import TimeLine
 
 """
-    DataDeal 控制器, 用于处理 UI 与 DataDeal 之间的数据存储任务
+    DataRecv 控制器, 用于处理 UI 与 DataDeal 之间的数据存储任务
     @author chen
 """
 
-class DataSaveController:
+class DataRecvController:
 
     # 选择框与 data 的映射，键可能为不存在的变量，需要检查
     CHECK_DATA_DICT = {
@@ -69,7 +69,7 @@ class DataSaveController:
     def getTypeSetting(self) -> list:
         # 获取选中
         typeList = []
-        for (checkName, sensorTypes) in DataSaveController.CHECK_DATA_DICT.items():
+        for (checkName, sensorTypes) in DataRecvController.CHECK_DATA_DICT.items():
             # 尝试获取按钮
             checkBox = getattr(self.view.ui, checkName, None)
             # 按钮不存在或没有选中
@@ -121,12 +121,15 @@ class DataSaveController:
 
     # 开始流式传输
     def startStream(self) -> None:
+        serviceTimeStamp = TimeLine.getBaseTime()
+
         self.dataRecver.startAccept(
             self.getTypeSetting(),
             self.dataPath,
             self.dataCode,
-            TimeLine.getBaseTime()
+            serviceTimeStamp
         )
+        print(f"DataRecv: { serviceTimeStamp }")
         # 停止校验功能
         self.view.ui.dataSetCheckButton.setEnabled(False)
         # 可以停止
@@ -147,12 +150,14 @@ class DataSaveController:
         self.view.ui.startStream.setEnabled(False)
         self.view.ui.stopStream.setEnabled(False)
         self.view.ui.dataSetCheckButton.setEnabled(True)
-        TimeLine.resetBaseTime()
 
     # 设置槽
     def setSlotFunc(self) -> None:
         # 设置开始和结束按钮的事件
-        self.view.ui.startStream.clicked.connect(self.startStream)
-        self.view.ui.stopStream.clicked.connect(self.stopStream)
+        # self.view.ui.startStream.clicked.connect(self.startStream)
+        # self.view.ui.stopStream.clicked.connect(self.stopStream)
+        self.view.setStartClicked(self.startStream)
+        self.view.setStopClicked(self.stopStream)
         # 设置校验按钮事件
-        self.view.ui.dataSetCheckButton.clicked.connect(self.checkDataCode)
+        # self.view.ui.dataSetCheckButton.clicked.connect(self.checkDataCode)
+        self.view.setDataSetCheckClicked(self.checkDataCode)

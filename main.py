@@ -1,5 +1,6 @@
-from Controller.DataSaveController import DataSaveController
+from Controller.DataRecvController import DataRecvController
 from Controller.DataShowController import DataShowController
+from Controller.TimeController import TimeController
 from Model.Data.AccelerometerData import AccelerometerData
 from Model.Data.AccelerometerUData import AccelerometerUData
 from Model.Data.AudioData import AudioData
@@ -101,6 +102,10 @@ if __name__ == "__main__":
     # 设置默认存储路径
     view.setDefaultStoragePath(VIEW_DEFAULT_STORAGE_PATH)
 
+    # 时间控制器
+    timeController = TimeController(view)
+    timeController.setStartSlot()
+    
     # 控制控制器
     controlController = ControlController(view, CHARSET)
     # 开始监听，并生成控制
@@ -118,9 +123,10 @@ if __name__ == "__main__":
     dataShower = DataShower(dataRecver)
 
     # 数据处理控制器
-    dataDealController = DataSaveController(view, dataRecver)
+    dataDealController = DataRecvController(view, dataRecver)
     # 数据展示控制器
     dataShowController = DataShowController(view, dataShower)
 
+    timeController.setStopSlot()
     # 开启视图
     view.run()
