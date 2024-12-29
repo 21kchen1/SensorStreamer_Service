@@ -43,7 +43,7 @@ class TCPMLinkListen(Link):
             return True
         except Exception as e:
             logging.warning(f"send: {e}")
-            return False
+            raise e
 
     """
         @param conn 连接的 socket
@@ -62,7 +62,7 @@ class TCPMLinkListen(Link):
             return data, address
         except Exception as e:
             logging.warning(f"rece: {e}")
-            return None, None
+            raise e
 
     """
         查询设备当前的无线局域网适配器 WLAN 的 IPv4 地址

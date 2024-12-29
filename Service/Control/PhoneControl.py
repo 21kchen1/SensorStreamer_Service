@@ -32,7 +32,7 @@ class PhoneControl(Control):
             remotePDU = vars(RemotePDU(RemotePDU.TYPE_CONTROL, timeStamp, RemotePDU.CONTROL_SWITCH_ON, [str(self.videoControl)]))
             # 发送启动命令
             rLinkPDU = vars(RLinkPDU(RemotePDU.REUSE_NAME, str(remotePDU)))
-            assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
+            TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
         except Exception as e:
             logging.error(f"startStream: {e}")
             self.offLink()

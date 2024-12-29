@@ -51,7 +51,7 @@ PHONE_UDP_PORT = 5007
 CHARSET = "utf-8"
 # 日志设置
 logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(funcName)s . %(message)s',
-                    level=logging.DEBUG)
+                    level=logging.INFO)
 
 """
     统一字符串与数据模型的映射

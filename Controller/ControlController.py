@@ -94,7 +94,6 @@ class ControlController:
     # 开始流式传输
     def startStream(self) -> None:
         serviceTimeStamp = TimeLine.getBaseTime()
-        print(f"Control: { serviceTimeStamp }")
 
         if self.watchControl != None:
             # 设置音频采样率

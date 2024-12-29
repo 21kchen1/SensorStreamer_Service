@@ -43,17 +43,15 @@ class PictureProcer(ListenProcer):
 
         try:
             # 先获取电脑的摄像头
-            cap = cv2.VideoCapture(0)
+            cap = None
             # 打开最新的摄像头
-            for i in range(PictureProcer.CAP_NUM - 1, 0, -1):
-                temp_cap = cv2.VideoCapture(i)
-                # 如果是无法使用的摄像头
-                if not temp_cap.isOpened():
-                    continue
-                cap = temp_cap
-                break
+            for i in range(PictureProcer.CAP_NUM - 1, -1, -1):
+                cap = cv2.VideoCapture(i)
+                # 如果是可以使用的摄像头
+                if cap.isOpened():
+                    break
             # 如果全都无法开启
-            if not cap.isOpened():
+            if cap == None or not cap.isOpened():
                 raise Exception("Unable to open the camera")
             # 设置清晰度
             cap.set(cv2.CAP_PROP_FRAME_WIDTH, PictureProcer.CAP_WIDTH)

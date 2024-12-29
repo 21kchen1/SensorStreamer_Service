@@ -130,7 +130,6 @@ class DataRecvController:
             self.dataCode,
             serviceTimeStamp
         )
-        print(f"DataRecv: { serviceTimeStamp }")
         # 停止校验功能
         self.view.ui.settingWidget.setEnabled(False)
         # 可以停止

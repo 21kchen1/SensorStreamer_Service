@@ -37,16 +37,17 @@ class Control:
         while self.running:
             try:
                 data, _ = TCPMLinkListen.rece(self.conn)
-                assert isinstance(data, bytes)
+                if not isinstance(data, bytes):
+                    raise Exception(f"data is { data }!")
                 data_dict = json.loads(data)
                 # 需要是心跳信息
                 if not data_dict[RLinkPDU.ATTR_REUSE_NAME] == HeartBeatPDU.REUSE_NAME:
                     continue
-                logging.info(f"Rece: {data}")
+                logging.debug(f"Rece: {data}")
                 # 返回心跳
                 reData = vars(RLinkPDU(HeartBeatPDU.REUSE_NAME, HeartBeatPDU.VALUE))
-                assert TCPMLinkListen.send(self.conn, str(reData) + "\n", self.charsets)
-                logging.info(f"Send: {reData}")
+                TCPMLinkListen.send(self.conn, str(reData) + "\n", self.charsets)
+                logging.debug(f"Send: {reData}")
             except Exception as e:
                 logging.error(f"heartBeat: {e}")
                 self.offLink()
@@ -63,7 +64,7 @@ class Control:
             remotePDU = vars(RemotePDU(RemotePDU.TYPE_CONTROL, timeStamp, RemotePDU.CONTROL_SWITCH_ON, controlData))
             # 发送启动命令
             rLinkPDU = vars(RLinkPDU(RemotePDU.REUSE_NAME, str(remotePDU)))
-            assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
+            TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
         except Exception as e:
             logging.error(f"startStream: {e}")
             self.offLink()
@@ -78,7 +79,7 @@ class Control:
             remotePDU = vars(RemotePDU(RemotePDU.TYPE_CONTROL, timeStamp, RemotePDU.CONTROL_SWITCH_OFF, []))
             # 发送关闭命令
             rLinkPDU = vars(RLinkPDU(RemotePDU.REUSE_NAME, str(remotePDU)))
-            assert TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
+            TCPMLinkListen.send(self.conn, str(rLinkPDU) + "\n", self.charsets)
         except Exception as e:
             logging.error(f"stopStream: {e}")
             self.offLink()
