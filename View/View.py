@@ -63,17 +63,31 @@ class View:
             self.getCodeOther
         ]
 
+    """
+        重写关闭事件
+    """
+    def closeEvent(self, event) -> None:
+        # 如果还在运行
+        if self.ui.stopStream.isEnabled():
+            self.ui.stopStream.click()
+        self.app.quit()
+        event.accept()
+
     def uiInit(self) -> None:
         # 大小设置
         self.ui.setupUi(self.mainWidget)
         self.mainWidget.resize(self.width, self.height)
         self.mainWidget.setMinimumSize(QtCore.QSize(self.width, self.height))
+        # 设置关闭事件
+        self.mainWidget.closeEvent = self.closeEvent
 
         # 设置按钮禁用
         self.ui.startStream.setEnabled(False)
         self.ui.stopStream.setEnabled(False)
 
-    # 数据标签校验警告
+    """
+        数据存储路径警告
+    """
     def showDataCodeWarning(self):
         return QtWidgets.QMessageBox.warning(
             self.mainWidget,
@@ -81,7 +95,9 @@ class View:
             "Duplicate Data Code."
         )
 
-    # 数据存储校验警告
+    """
+        数据存储校验警告
+    """
     def showDataPathWarning(self):
         return QtWidgets.QMessageBox.warning(
             self.mainWidget,
@@ -89,7 +105,9 @@ class View:
             "Exception Data Path."
         )
 
-    # 数据存储确认
+    """
+        数据存储确认
+    """
     def showSaveData(self, dataName: str):
         return QtWidgets.QMessageBox.question(
             self.mainWidget,
@@ -99,6 +117,9 @@ class View:
             QtWidgets.QMessageBox.No
         )
 
+    """
+        组件设置
+    """
     # 设置开始事件
     def setStartClicked(self, slot):
         self.ui.startStream.clicked.connect(slot)
