@@ -115,7 +115,7 @@ class DataRecvController:
             return
 
         self.dataCode = self.getDataCode()
-        self.dataPath = self.getDataPath()
+        self.dataPath = self.getDataPath().replace("\\", "/")
         self.dataBaseInfo = self.getRecordItemBaseInfo()
         self.view.ui.startStream.setEnabled(True)
         self.view.ui.stopStream.setEnabled(False)

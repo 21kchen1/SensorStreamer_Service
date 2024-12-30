@@ -2,6 +2,7 @@ import time
 
 from socket import socket
 from Model.Control.SensorControl import SensorControl
+from Service.Sound.Sound import Sound
 from View.View import View
 from Service.Control.PhoneControl import PhoneControl
 from Service.Control.WatchControl import WatchControl
@@ -50,10 +51,14 @@ class ControlController:
 
     # 取消控制器
     def cancelWatchControl(self) -> None:
+        # 提示退出
+        Sound.MessageBeep()
         self.watchControl = None
         self.view.setWatchStatus(View.STATUS_OFF)
 
     def cancelPhoneControl(self) -> None:
+        # 提示退出
+        Sound.MessageBeep()
         self.PhoneControl = None
         self.view.setPhoneStatus(View.STATUS_OFF)
 
