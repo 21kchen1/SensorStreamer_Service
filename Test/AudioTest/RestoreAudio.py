@@ -10,8 +10,8 @@ import wave
 
 # CSV 文件路径
 # csv_file = 'AUDIO3.csv'
-csv_file = 'G:\\Badminton\\测试数据\\DataBase\\Man_Low_ForehandService_Lie_2_Null\\AUDIO\\Man_Low_ForehandService_Lie_2_Null_AUDIO.csv'
-wav_file = 'output_audio.wav'
+csv_file = 'E:\\DataBase\\Man_Low_ForehandService_Liu_2_Null\\AUDIO\\Man_Low_ForehandService_Liu_2_Null_AUDIO.csv'
+wav_file = 'output_audio2.wav'
 
 # 设定参数
 sampling_rate = 16000  # 采样率

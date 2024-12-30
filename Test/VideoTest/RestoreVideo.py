@@ -10,7 +10,7 @@ import io
 """
 
 # csv_file = "VIDEO.csv"
-csv_file = "G:\\Badminton\\测试数据\\DataBase\\Man_Low_ForehandService_Lie_2_Null\\VIDEO\\Man_Low_ForehandService_Lie_2_Null_VIDEO.csv"
+csv_file = "E:\\DataBase\\Man_Low_ForehandService_Liu_2_Null\\VIDEO\\Man_Low_ForehandService_Liu_2_Null_VIDEO.csv"
 valueLocal = 4
 avi_file = "output2.avi"
 

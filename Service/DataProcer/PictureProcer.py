@@ -4,10 +4,11 @@ import cv2
 from Model.Data.TypeData import TypeData
 from Resource.String.ServiceString import DataProcerString
 from Service.DataProcer.ListenProcer import ListenProcer
+from Service.Sound.Sound import Sound
 from Service.Time.TimeLine import TimeLine
 
 """
-    PictureNew 数据处理
+    Picture 数据处理
     @author: chen
 """
 class PictureProcer(ListenProcer):
@@ -73,6 +74,8 @@ class PictureProcer(ListenProcer):
                 initDataDict = vars(self.TypeData(TimeLine.getBaseToNow()))
                 initDataDict.pop(TypeData.ATTR_TYPE, None)
                 self.addData(initDataDict)
+                # 发声提示
+                Sound.Beep()
                 # 保存图片
                 cv2.imwrite(f"{self.pathDirName}/{self.getTypeNum()}.jpg", frame)
             # 释放摄像头
