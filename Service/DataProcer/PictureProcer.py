@@ -68,7 +68,8 @@ class PictureProcer(ListenProcer):
                     continue
                 cv2.imshow(PictureProcer.WIN_NAME, frame)
                 # 等待按键 s
-                if not cv2.waitKey(1) == ord("s"):
+                theKey = cv2.waitKey(1)
+                if not theKey == ord("s") and not theKey == ord("S"):
                     continue
                 # 添加记录
                 initDataDict = vars(self.TypeData(TimeLine.getBaseToNow()))
