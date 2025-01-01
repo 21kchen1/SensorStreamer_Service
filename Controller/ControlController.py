@@ -1,12 +1,10 @@
-import time
-
 from socket import socket
 from Model.Control.SensorControl import SensorControl
-from Service.Sound.Sound import Sound
+from Component.Sound.Sound import Sound
 from View.View import View
 from Service.Control.PhoneControl import PhoneControl
 from Service.Control.WatchControl import WatchControl
-from Service.Time.TimeLine import TimeLine
+from Component.Time.TimeLine import TimeLine
 
 """
     Control 控制器, 用于处理 UI 和 Control 之间的任务

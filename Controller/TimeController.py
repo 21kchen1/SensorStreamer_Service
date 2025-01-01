@@ -1,5 +1,5 @@
 import logging
-from Service.Time.TimeLine import TimeLine
+from Component.Time.TimeLine import TimeLine
 from View.View import View
 
 """

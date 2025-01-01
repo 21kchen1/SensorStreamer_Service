@@ -12,7 +12,7 @@ from Model.SQLModel.RecordItem import RecordItemEnable
 from View.View import View
 from Service.DataDeal.DataRecver import DataRecver
 from PyQt5 import QtWidgets
-from Service.Time.TimeLine import TimeLine
+from Component.Time.TimeLine import TimeLine
 
 """
     DataRecv 控制器, 用于处理 UI 与 DataDeal 之间的数据存储任务

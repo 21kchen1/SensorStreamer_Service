@@ -4,8 +4,8 @@ import cv2
 from Model.Data.TypeData import TypeData
 from Resource.String.ServiceString import DataProcerString
 from Service.DataProcer.ListenProcer import ListenProcer
-from Service.Sound.Sound import Sound
-from Service.Time.TimeLine import TimeLine
+from Component.Sound.Sound import Sound
+from Component.Time.TimeLine import TimeLine
 
 """
     Picture 数据处理
@@ -15,7 +15,7 @@ class PictureProcer(ListenProcer):
     WIN_NAME = DataProcerString.WIN_NAME_PICTURE
     CAP_WIDTH = 2560
     CAP_HEIGHT = 1440
-    CAP_NUM = 10
+    CAP_NUM = 3
 
     """
         @TypeData: 数据构造函数
@@ -47,19 +47,29 @@ class PictureProcer(ListenProcer):
             cap = None
             # 打开最新的摄像头
             for i in range(PictureProcer.CAP_NUM - 1, -1, -1):
-                cap = cv2.VideoCapture(i)
+                nextCap = cv2.VideoCapture(i, cv2.CAP_DSHOW)
+                if not nextCap.isOpened():
+                    nextCap.release()
+                    continue
+                # 设置分辨率
+                nextCap.set(cv2.CAP_PROP_FRAME_WIDTH, PictureProcer.CAP_WIDTH)
+                nextCap.set(cv2.CAP_PROP_FRAME_HEIGHT, PictureProcer.CAP_HEIGHT)
                 # 如果是可以使用的摄像头
-                if cap.isOpened():
-                    break
+                if cap == None:
+                    cap = nextCap
+                    continue
+                elif cap.get(cv2.CAP_PROP_FRAME_WIDTH) < nextCap.get(cv2.CAP_PROP_FRAME_WIDTH):
+                    cap.release()
+                    cap = nextCap
+                    continue
+                nextCap.release()
             # 如果全都无法开启
             if cap == None or not cap.isOpened():
                 raise Exception("Unable to open the camera")
-            # 设置清晰度
-            cap.set(cv2.CAP_PROP_FRAME_WIDTH, PictureProcer.CAP_WIDTH)
-            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, PictureProcer.CAP_HEIGHT)
 
             logging.info(f"_getPicture: CAP_PROP_FRAME = { cap.get(cv2.CAP_PROP_FRAME_WIDTH) } : { cap.get(cv2.CAP_PROP_FRAME_HEIGHT) }")
-
+            cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter.fourcc('M','J','P','G'))
+            cap.set(cv2.CAP_PROP_FPS, 30)
             while self.running:
                 # 读取每一帧
                 ret, frame = cap.read()
