@@ -450,27 +450,7 @@ p, li { white-space: pre-wrap; }
                        </item>
                        <item>
                         <property name="text">
-                         <string>ForehandService</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
                          <string>BackhandTransition</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>BackhandHigh</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>BackhandLob</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>BackhandKill</string>
                         </property>
                        </item>
                        <item>
