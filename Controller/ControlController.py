@@ -1,3 +1,4 @@
+import logging
 from socket import socket
 from Model.Control.SensorControl import SensorControl
 from Component.Sound.Sound import Sound
@@ -6,12 +7,15 @@ from Service.Control.PhoneControl import PhoneControl
 from Service.Control.WatchControl import WatchControl
 from Component.Time.TimeLine import TimeLine
 
+from PyQt5.QtCore import pyqtSignal, QObject
+
 """
     Control 控制器, 用于处理 UI 和 Control 之间的任务
     @author chen
+    @version 2.0
 """
 
-class ControlController:
+class ControlController(QObject):
     # 选择框与 control 的映射，键可能为不存在的变量，需要检查
     CHECK_CONROL_DICT = {
         View.ACCELEROMETER_CHECK: SensorControl.SENSOR_ACCELEROMETER,
@@ -20,11 +24,16 @@ class ControlController:
         View.MAGNETIC_FIELD_CHECK: SensorControl.SENSOR_MAGNETIC_FIELD
     }
 
+    # 设置设备状态的信号
+    WATCH_STATUS_SIGNAL = pyqtSignal(str)
+    PHONE_STATUS_SIGNAL = pyqtSignal(str)
+
     """
         @param view 视图
         @param charset 编码集
     """
     def __init__(self, view: View, charset: str) -> None:
+        super().__init__()
         # 视图
         self.view = view
         # 编码
@@ -41,24 +50,24 @@ class ControlController:
     # 设置控制器
     def setWatchControl(self, conn: socket, address) -> None:
         self.watchControl = WatchControl(conn, self.cancelWatchControl, self.charset)
-        self.view.setWatchStatus(f"{ View.STATUS_ON } | { address }")
+        self.WATCH_STATUS_SIGNAL.emit(f"{ View.STATUS_ON } | { address }")
 
     def setPhoneControl(self, conn: socket, address) -> None:
         self.phoneControl = PhoneControl(conn, self.cancelPhoneControl, self.charset)
-        self.view.setPhoneStatus(f"{ View.STATUS_ON } | { address }")
+        self.PHONE_STATUS_SIGNAL.emit(f"{ View.STATUS_ON } | { address }")
 
     # 取消控制器
     def cancelWatchControl(self) -> None:
         # 提示退出
         Sound.MessageBeep()
         self.watchControl = None
-        self.view.setWatchStatus(View.STATUS_OFF)
+        self.WATCH_STATUS_SIGNAL.emit(View.STATUS_OFF)
 
     def cancelPhoneControl(self) -> None:
         # 提示退出
         Sound.MessageBeep()
         self.PhoneControl = None
-        self.view.setPhoneStatus(View.STATUS_OFF)
+        self.PHONE_STATUS_SIGNAL.emit(View.STATUS_OFF)
 
     """
         获取传感器设置
@@ -121,6 +130,10 @@ class ControlController:
 
     # 设置槽函数
     def setSlotFunc(self) -> None:
+        # 反向设置槽函数
+        self.WATCH_STATUS_SIGNAL.connect(self.view.setWatchStatus)
+        self.PHONE_STATUS_SIGNAL.connect(self.view.setPhoneStatus)
+
         # 设置开始和结束按钮的事件
         self.view.setStartClicked(self.startStream)
         self.view.setStopClicked(self.stopStream)

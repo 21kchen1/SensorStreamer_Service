@@ -1,4 +1,5 @@
 import logging
+import os
 import threading
 import cv2
 from Model.Data.TypeData import TypeData
@@ -47,7 +48,7 @@ class PictureProcer(ListenProcer):
             cap = None
             # 打开最新的摄像头
             for i in range(PictureProcer.CAP_NUM - 1, -1, -1):
-                nextCap = cv2.VideoCapture(i, cv2.CAP_DSHOW)
+                nextCap = cv2.VideoCapture(i, cv2.CAP_DSHOW if os.name == "nt" else cv2.CAP_ANY)
                 if not nextCap.isOpened():
                     nextCap.release()
                     continue
@@ -70,6 +71,7 @@ class PictureProcer(ListenProcer):
             logging.info(f"_getPicture: CAP_PROP_FRAME = { cap.get(cv2.CAP_PROP_FRAME_WIDTH) } : { cap.get(cv2.CAP_PROP_FRAME_HEIGHT) }")
             cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter.fourcc('M','J','P','G'))
             cap.set(cv2.CAP_PROP_FPS, 30)
+            cv2.namedWindow(PictureProcer.WIN_NAME, cv2.WINDOW_KEEPRATIO)
             while self.running:
                 # 读取每一帧
                 ret, frame = cap.read()
