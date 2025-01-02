@@ -30,7 +30,7 @@ import ctypes
 """
 
 # 测试模式
-TEST = True
+TEST = False
 # 清理数据库
 CLEAN = False
 

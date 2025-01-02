@@ -57,8 +57,6 @@ class TCPMLinkListen(Link):
 
         try:
             data, address = conn.recvfrom(bufSize)
-            if not data:
-                raise socket.error("The remote host aborted an established connection")
             return data, address
         except Exception as e:
             logging.warning(f"rece: {e}")

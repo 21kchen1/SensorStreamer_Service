@@ -19,11 +19,13 @@ class Control:
         @param conn client socket
         @param off 回调函数
         @param charsets 编码
+        @param noneLimit 空消息次数限制
     """
-    def __init__(self, conn: socket, offCallback, charsets: str) -> None:
+    def __init__(self, conn: socket, offCallback, charsets: str, noneLimit: int) -> None:
         self.conn = conn
         self.offCallback = offCallback
         self.charsets = charsets
+        self.noneLimit = noneLimit
 
         self.running = True
         # 启动心跳线程
@@ -34,9 +36,20 @@ class Control:
         处理客户端心跳信号
     """
     def heartBeat(self) -> None:
+        # 空消息连续次数
+        noneTime = 0
         while self.running:
             try:
                 data, _ = TCPMLinkListen.rece(self.conn)
+                # 如果是空数据
+                if not data:
+                    noneTime = noneTime + 1
+                    if noneTime < self.noneLimit:
+                        continue
+                    # 如果超出限制
+                    raise Exception("The remote host aborted an established connection")
+                noneTime = 0
+                # 如果非比特数据
                 if not isinstance(data, bytes):
                     raise Exception(f"data is { data }!")
                 data_dict = json.loads(data)

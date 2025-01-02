@@ -12,8 +12,10 @@ from Service.Link.TCPMLinkListen import TCPMLinkListen
 """
 
 class PhoneControl(Control):
+    NONE_LIMIT = 10
+
     def __init__(self, conn: socket, offCallback, charsets: str) -> None:
-        super().__init__(conn, offCallback, charsets)
+        super().__init__(conn, offCallback, charsets, self.NONE_LIMIT)
         # 视频控制信息
         self.videoControl = None
 

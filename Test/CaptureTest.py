@@ -18,13 +18,17 @@ if not cap.isOpened():
 print(f"_getPicture: CAP_PROP_FRAME = { cap.get(cv2.CAP_PROP_FRAME_WIDTH) } : { cap.get(cv2.CAP_PROP_FRAME_HEIGHT) }")
 cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter.fourcc('M','J','P','G'))
 cap.set(cv2.CAP_PROP_FPS, 30)
+
+alpha = 3
+beta = 100
+
 while True:
-    continue
-#     # 读取每一帧
-#     ret, frame = cap.read()
-#     if not ret:
-#         logging.warning("_getPicture: Unable to read frames")
-#         continue
-#     cv2.imshow(WIN_NAME, frame)
-#     # 等待按键 s
-#     theKey = cv2.waitKey(1)
+    # 读取每一帧
+    ret, frame = cap.read()
+    if not ret:
+        logging.warning("_getPicture: Unable to read frames")
+        continue
+    frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
+    cv2.imshow(WIN_NAME, frame)
+    # 等待按键 s
+    theKey = cv2.waitKey(1)

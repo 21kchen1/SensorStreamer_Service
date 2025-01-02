@@ -1,4 +1,3 @@
-import logging
 from Resource.String.ViewString import ViewString
 from View.MainView import Ui_MainWidget
 from PyQt5 import QtWidgets, QtCore
