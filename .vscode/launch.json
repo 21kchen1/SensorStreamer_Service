@@ -8,7 +8,7 @@
         {
             "name": "Python: MachineLEnv",
             // python.exe 的绝对路径
-            "python": "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\envs\\machineL\\python.exe",
+            "python": "D:\\vscode\\code\\projects_vscode\\Python\\Anaconda3\\envs\\badminton\\python.exe",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",

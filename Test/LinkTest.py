@@ -45,9 +45,16 @@ RTCP_PDU = {
 # 处理心跳
 def dealHeartBeat(conn: socket):
     index = 1
+    noneTime = 0
     while True:
         try:
             data, addr = TCPMLinkListen.rece(conn)
+            if not data:
+                print(1)
+                # noneTime += 1
+                # if noneTime > 100:
+                #     break
+                continue
             assert isinstance(data, bytes)
             print(f"recv data: {data.decode()} {index}")
 
@@ -57,6 +64,7 @@ def dealHeartBeat(conn: socket):
             print(f"send data: {RTCP_PDU} {index}")
             index += 1
         except Exception as e:
+            print(f"{e}")
             conn.close()
             break
 

@@ -38,8 +38,8 @@ CLEAN = False
 VIEW_WIDTH = 1500
 VIEW_HEIGHT = 1000
 # 默认存储路径
-VIEW_DEFAULT_STORAGE_PATH = "G:\Badminton\DataBase"
-# VIEW_DEFAULT_STORAGE_PATH = "E:\DataBase\TrueData"
+# VIEW_DEFAULT_STORAGE_PATH = "G:\Badminton\DataBase"
+VIEW_DEFAULT_STORAGE_PATH = "E:\DataBase\TrueData5"
 
 # 地址
 ADDRESS = "0.0.0.0"
@@ -87,7 +87,7 @@ def disableQEMode() -> None:
     # 设置控制台模式
     ctypes.windll.kernel32.SetConsoleMode(stdinHandle, mode)
 
-if __name__ == "__main__":
+def main() -> None:
     if not TEST:
         disableQEMode()
 
@@ -131,3 +131,6 @@ if __name__ == "__main__":
     timeController.setStopSlot()
     # 开启视图
     view.run()
+
+if __name__ == "__main__":
+    main()

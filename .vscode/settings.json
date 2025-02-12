@@ -8,14 +8,14 @@
     "python.autoComplete.extraPaths": [
         "${workspaceFolder}\\Anaconda3\\Lib\\site-packages",
         "${workspaceFolder}\\Anaconda3\\Scripts",
-        "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Scripts",
+        "${workspaceFolder}\\Anaconda3\\envs\\badminton\\Lib\\site-packages",
+        "${workspaceFolder}\\Anaconda3\\envs\\badminton\\Scripts",
     ],
     "python.analysis.extraPaths": [
         "${workspaceFolder}\\Anaconda3\\Lib\\site-packages",
         "${workspaceFolder}\\Anaconda3\\Scripts",
-        "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Lib\\site-packages",
-        "${workspaceFolder}\\Anaconda3\\envs\\machineL\\Scripts",
+        "${workspaceFolder}\\Anaconda3\\envs\\badminton\\Lib\\site-packages",
+        "${workspaceFolder}\\Anaconda3\\envs\\badminton\\Scripts",
     ],
     "sqltools.connections": [
         {
