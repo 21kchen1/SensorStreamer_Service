@@ -10,7 +10,7 @@ import wave
 
 # CSV 文件路径
 # csv_file = 'AUDIO3.csv'
-csv_file = 'E:\\DataBase\\Man_Low_ForehandService_Liu_2_Null\\AUDIO\\Man_Low_ForehandService_Liu_2_Null_AUDIO.csv'
+csv_file = 'G:\\Badminton\\测试数据\\TEST\\Man_Low_BackhandTransition_LeiYang_1_1_AUDIO.csv'
 wav_file = 'output_audio2.wav'
 
 # 设定参数
