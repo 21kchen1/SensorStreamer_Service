@@ -34,7 +34,7 @@ class TCPMLinkListen(Link):
         @return 发送成功
     """
     @staticmethod
-    def send(conn: socket, data: str, encode: str) -> bool:
+    def send(conn: socket.socket, data: str, encode: str) -> bool:
         if not conn or getattr(conn, '_closed'):
             return False
 
@@ -51,7 +51,7 @@ class TCPMLinkListen(Link):
         @return 返回数据与客户端地址
     """
     @staticmethod
-    def rece(conn: socket, bufSize = 1024) -> tuple:
+    def rece(conn: socket.socket, bufSize = 1024) -> tuple:
         if not conn or getattr(conn, '_closed'):
             return None, None
 

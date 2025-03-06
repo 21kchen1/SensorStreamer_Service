@@ -39,7 +39,7 @@ VIEW_WIDTH = 1500
 VIEW_HEIGHT = 1000
 # 默认存储路径
 # VIEW_DEFAULT_STORAGE_PATH = "G:\Badminton\DataBase"
-VIEW_DEFAULT_STORAGE_PATH = "E:\DataBase\TrueData5"
+VIEW_DEFAULT_STORAGE_PATH = "E:\\DataBase\\TrueData5"
 
 # 地址
 ADDRESS = "0.0.0.0"

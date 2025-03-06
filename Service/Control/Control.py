@@ -21,7 +21,7 @@ class Control:
         @param charsets 编码
         @param noneLimit 空消息次数限制
     """
-    def __init__(self, conn: socket, offCallback, charsets: str, noneLimit: int) -> None:
+    def __init__(self, conn: socket.socket, offCallback, charsets: str, noneLimit: int) -> None:
         self.conn = conn
         self.offCallback = offCallback
         self.charsets = charsets
