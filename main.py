@@ -51,7 +51,8 @@ PHONE_UDP_PORT = 5007
 # 编码
 CHARSET = "utf-8"
 # 日志设置
-logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(funcName)s . %(message)s',
+logging.basicConfig(format= "%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(funcName)s . %(message)s",
+                    datefmt= "datefmt='%Y-%m-%d %H:%M:%S %p',",
                     level=logging.INFO)
 
 """
