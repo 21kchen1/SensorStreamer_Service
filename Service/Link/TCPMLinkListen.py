@@ -2,6 +2,7 @@ import socket
 import logging
 import threading
 from Service.Link.Link import Link
+from Util.Net import getWLANInfo
 
 """
     TCPMLinkListen 处理多个 TCP 连接。
@@ -93,7 +94,8 @@ class TCPMLinkListen(Link):
             self.serviceSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.serviceSocket.bind((self.address, self.port))
             self.serviceSocket.listen()
-        logging.info(f"Listening on { self.getWLANIP() } : { self.port }")
+        # logging.info(f"Listening on { self.getWLANIP() } : { self.port }")
+        logging.info(f"Listening on { vars(getWLANInfo()) } : { self.port }")
         threading.Thread(target= self.__tryLink).start()
 
     """

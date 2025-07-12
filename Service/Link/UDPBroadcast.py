@@ -20,14 +20,15 @@ class UDPBroadcast:
     """
     UDP 广播类，自带地址广播器
     """
-    def __init__(self, port: int) -> None:
+    def __init__(self, host: str, port: int) -> None:
         """
         初始化
 
         Args:
+            host (str): 广播地址（网络号 + 全一主机号）
             port (int): 广播端口
         """
-        self.host = "192.168.16.255"
+        self.host = host
         self.port = port
         # 广播 socket
         self.socket = None
@@ -43,7 +44,7 @@ class UDPBroadcast:
                 # 广播 utf-8 编码
                 self.socket.sendto(message.encode(), (self.host, self.port))
                 # 间隔 3 秒
-                print(f"sendto: {(self.host, self.port)} \n message: { message }")
+                # print(f"sendto: {(self.host, self.port)} \n message: { message }")
                 time.sleep(3)
         finally:
             # 出现异常 直接停止

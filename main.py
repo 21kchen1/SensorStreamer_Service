@@ -13,6 +13,7 @@ from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.VideoData import VideoData
 from Service.DataDeal.DataShower import DataShower
 from Service.Link.UDPBroadcast import UDPBroadcast
+from Util.Net import getWLANInfo
 from View.View import View
 from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
@@ -112,10 +113,13 @@ def main() -> None:
     timeController = TimeController(view)
     timeController.setStartSlot()
 
+    # 获取广播地址
+    wlanInfo = getWLANInfo()
+    broadcastAddr = wlanInfo.broadcastAddr if not wlanInfo.broadcastAddr is None else "255.255.255.255"
     # 嵌套字广播
-    watchBroadcast = UDPBroadcast(WATCH_BROADCAST_PORT)
+    watchBroadcast = UDPBroadcast(broadcastAddr, WATCH_BROADCAST_PORT)
     watchBroadcast.broadcastSocket(WATCH_TCP_PORT, WATCH_UDP_PORT)
-    phoneBroadcast = UDPBroadcast(PHONE_BROADCAST_PORT)
+    phoneBroadcast = UDPBroadcast(broadcastAddr, PHONE_BROADCAST_PORT)
     phoneBroadcast.broadcastSocket(PHONE_TCP_PORT, PHONE_UDP_PORT)
 
     # 控制控制器
