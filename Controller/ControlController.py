@@ -1,5 +1,5 @@
 import logging
-from socket import socket
+import socket
 from Model.Control.SensorControl import SensorControl
 from Component.Sound.Sound import Sound
 from View.View import View
@@ -48,11 +48,11 @@ class ControlController(QObject):
         控制器函数
     """
     # 设置控制器
-    def setWatchControl(self, conn: socket, address) -> None:
+    def setWatchControl(self, conn: socket.socket, address) -> None:
         self.watchControl = WatchControl(conn, self.cancelWatchControl, self.charset)
         self.WATCH_STATUS_SIGNAL.emit(f"{ View.STATUS_ON } | { address }")
 
-    def setPhoneControl(self, conn: socket, address) -> None:
+    def setPhoneControl(self, conn: socket.socket, address) -> None:
         self.phoneControl = PhoneControl(conn, self.cancelPhoneControl, self.charset)
         self.PHONE_STATUS_SIGNAL.emit(f"{ View.STATUS_ON } | { address }")
 

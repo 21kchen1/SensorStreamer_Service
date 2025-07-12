@@ -39,7 +39,7 @@ VIEW_WIDTH = 1500
 VIEW_HEIGHT = 1000
 # 默认存储路径
 # VIEW_DEFAULT_STORAGE_PATH = "G:\Badminton\DataBase"
-VIEW_DEFAULT_STORAGE_PATH = "E:\\DataBase\\TrueData5"
+VIEW_DEFAULT_STORAGE_PATH = r"G:\Badminton\Test\1"
 
 # 地址
 ADDRESS = "0.0.0.0"
@@ -110,7 +110,7 @@ def main() -> None:
 
     # 控制控制器
     controlController = ControlController(view, CHARSET)
-    # 开始监听，并生成控制
+    # 启动 TCP，开启监听并生成控制
     watchListen = TCPMLinkListen(WATCH_TCP_PORT, ADDRESS, controlController.setWatchControl)
     watchListen.startListen()
     phoneListen = TCPMLinkListen(PHONE_TCP_PORT, ADDRESS, controlController.setPhoneControl)

@@ -9,10 +9,10 @@ import io
     @author chen
 """
 
-# csv_file = "VIDEO.csv"
-csv_file = 'G:\\Badminton\\测试数据\\TEST\\Man_Low_BackhandTransition_LeiYang_1_1_VIDEO2.csv'
+csv_file = "VIDEO.csv"
+# csv_file = 'G:\\Badminton\\测试数据\\TEST\\Man_Low_BackhandTransition_LeiYang_1_1_VIDEO2.csv'
 valueLocal = 4
-avi_file = "output2.avi"
+avi_file = "output3.avi"
 
 frames = []  # 这里应该是你的图像帧列表，每个元素都是一个numpy.ndarray
 
@@ -33,7 +33,7 @@ with open(csv_file, newline= "", encoding= "utf-8") as csvfile:
 
 # 定义视频编码器和创建VideoWriter对象
 # 例如，使用XVID编码器，输出视频的分辨率为(640, 480)，帧率为20fps
-out = cv2.VideoWriter(avi_file, cv2.VideoWriter_fourcc(*'XVID'), 20.0, (640, 480))
+out = cv2.VideoWriter(avi_file, cv2.VideoWriter.fourcc(*'XVID'), 20.0, (640, 480))
 
 # 将每一帧图像写入视频
 for frame in frames:

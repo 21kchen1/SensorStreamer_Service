@@ -14,7 +14,7 @@ from Service.Link.TCPMLinkListen import TCPMLinkListen
 class WatchControl(Control):
     NONE_LIMIT = 10
 
-    def __init__(self, conn: socket, offCallback, charsets: str) -> None:
+    def __init__(self, conn: socket.socket, offCallback, charsets: str) -> None:
         super().__init__(conn, offCallback, charsets, self.NONE_LIMIT)
         # 传感器控制信息
         self.sensorControl = None
