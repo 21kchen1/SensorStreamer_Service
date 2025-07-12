@@ -27,7 +27,7 @@ class UDPBroadcast:
         Args:
             port (int): 广播端口
         """
-        self.host = "255.255.255.255"
+        self.host = "192.168.16.255"
         self.port = port
         # 广播 socket
         self.socket = None
@@ -43,7 +43,7 @@ class UDPBroadcast:
                 # 广播 utf-8 编码
                 self.socket.sendto(message.encode(), (self.host, self.port))
                 # 间隔 3 秒
-                # print(message)
+                print(f"sendto: {(self.host, self.port)} \n message: { message }")
                 time.sleep(3)
         finally:
             # 出现异常 直接停止
@@ -88,6 +88,7 @@ class UDPBroadcast:
         """
         # 获取本机 ip
         localIP = TCPMLinkListen.getWLANIP()
-        message = str(BroadcastSocketPDU(localIP, tcpPort, udpPort).__dict__)
+        # 转换为字典字符串格式
+        message = str(vars(BroadcastSocketPDU(localIP, tcpPort, udpPort)))
         # 开始广播
         self.start(message)

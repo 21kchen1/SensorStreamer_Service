@@ -93,7 +93,6 @@ class TCPMLinkListen(Link):
             self.serviceSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.serviceSocket.bind((self.address, self.port))
             self.serviceSocket.listen()
-        # logging.info(f"Listening on { socket.gethostbyname(socket.gethostname()) } : { self.port }")
         logging.info(f"Listening on { self.getWLANIP() } : { self.port }")
         threading.Thread(target= self.__tryLink).start()
 
