@@ -22,7 +22,7 @@ class TCPLink(Link):
         # 线程锁
         self.serviceLock = threading.Lock()
         self.clientLock = threading.Lock()
-        # 当已经连接时，进入阻塞
+        # 当已经连接时，进入阻塞，出现异常或终止连接时，解除阻塞
         self.linkingBlock = threading.Condition()
 
         # 连接标志

@@ -19,10 +19,10 @@ class Link:
         @return send 结果
     """
     def send(self, data: str, encode: str) -> bool:
-        pass
+        return False
 
     """
         @return rece 数据，地址
     """
     def rece(self, bufSize = 1024) -> tuple:
-        pass
+        return ()

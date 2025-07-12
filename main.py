@@ -12,6 +12,7 @@ from Model.Data.PictureData import PictureData
 from Model.Data.RotationVectorData import RotationVectorData
 from Model.Data.VideoData import VideoData
 from Service.DataDeal.DataShower import DataShower
+from Service.Link.UDPBroadcast import UDPBroadcast
 from View.View import View
 from Controller.ControlController import ControlController
 from Model.SQLModel.RecordItem import RecordItem
@@ -48,6 +49,9 @@ WATCH_TCP_PORT = 5006
 WATCH_UDP_PORT = 5005
 PHONE_TCP_PORT = 5008
 PHONE_UDP_PORT = 5007
+# 广播端口
+WATCH_BROADCAST_PORT = 8005
+PHONE_BROADCAST_PORT = 8006
 # 编码
 CHARSET = "utf-8"
 # 日志设置
@@ -107,6 +111,12 @@ def main() -> None:
     # 时间控制器
     timeController = TimeController(view)
     timeController.setStartSlot()
+
+    # 嵌套字广播
+    watchBroadcast = UDPBroadcast(WATCH_BROADCAST_PORT)
+    watchBroadcast.broadcastSocket(WATCH_TCP_PORT, WATCH_UDP_PORT)
+    phoneBroadcast = UDPBroadcast(PHONE_BROADCAST_PORT)
+    phoneBroadcast.broadcastSocket(PHONE_TCP_PORT, PHONE_UDP_PORT)
 
     # 控制控制器
     controlController = ControlController(view, CHARSET)

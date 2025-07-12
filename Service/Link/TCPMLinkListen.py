@@ -65,7 +65,8 @@ class TCPMLinkListen(Link):
     """
         查询设备当前的无线局域网适配器 WLAN 的 IPv4 地址
     """
-    def getWLANIP(self):
+    @staticmethod
+    def getWLANIP():
         try:
             testSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             # 不需要真正发送数据，所以使用一个不存在的地址
